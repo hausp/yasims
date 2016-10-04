@@ -15,8 +15,6 @@ TESTDIR  :=tests
 DEPDIR   :=.deps
 MAKEDIR  :=$(BINDIR) $(SRCDIR) $(HDRDIR)
 # Compiler Flags
-LDLIBS   :=`pkg-config --libs gtk+-3.0` -static-libgcc -static-libstdc++\
- -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic
 LDLIBS   :=`pkg-config --libs gtk+-3.0`
 LDFLAGS  :=
 CXXFLAGS :=-std=c++14 -Wall `pkg-config --cflags --libs gtk+-3.0` 
