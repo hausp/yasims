@@ -4,30 +4,8 @@
 ###############################################################################
 
 ################################## VARIABLES ##################################
-# Operational System
-ARCH     :=$(shell uname)
-# Directories
-SRCDIR   :=src
-HDRDIR   :=include
-OBJDIR   :=build
-BINDIR   :=bin
-TESTDIR  :=tests
-DEPDIR   :=.deps
-MAKEDIR  :=$(BINDIR) $(SRCDIR) $(HDRDIR)
-
-ifeq ($(ARCH), windows)
-CXX      :=x86_64-w64-mingw32-g++
-LDLIBS   :=`pkg-config --libs gtk+-3.0` -static-libgcc -static-libstdc++\
- -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic
-EXEC     :=$(BINDIR)/execute_me.exe
-else
-LDLIBS   :=`pkg-config --libs gtk+-3.0`
-EXEC     :=$(BINDIR)/execute_me
-endif
-
-LDFLAGS  :=
-CXXFLAGS :=-std=c++14 -Wall `pkg-config --cflags --libs gtk+-3.0` 
-INCLUDE  :=-I$(HDRDIR)
+CONFIG   :=config.make
+-include $(CONFIG)
 # MaKefile eXtension variables
 MKXFILES :=$(wildcard *.mkx)
 MKXCLEAN :=$(patsubst %.mkx,clean_%,$(MKXFILES))
@@ -35,7 +13,6 @@ MKXCLEAN :=$(patsubst %.mkx,clean_%,$(MKXFILES))
 SRC      :=$(shell find $(SRCDIR) -name '*.cpp')
 DEP      :=$(patsubst %.cpp,$(DEPDIR)/%.d,$(SRC))
 OBJ      :=$(patsubst %.cpp,$(OBJDIR)/%.o,$(SRC))
-MAIN     :=main
 # Test files
 PUREOBJ  :=$(filter-out $(OBJDIR)/$(SRCDIR)/$(MAIN).o,$(OBJ))
 TSRC     :=$(shell find $(TESTDIR) -name '*.cpp' 2> /dev/null)
@@ -51,21 +28,11 @@ TCALL    :=$(patsubst %.cpp,%,$(notdir $(TMAIN)))
 ################################# MAIN RULES ##################################
 all: makedir $(EXEC)
 
-win_install:
-	cp external/libraties/windows/* bin/
-	cp *.ui bin/
-
 -include $(MKXFILES)
 
 $(EXEC): $(OBJ)
 	@echo "[linking] $@"
 	@$(CXX) $(OBJ) -o $@ $(LDLIBS) $(LDFLAGS)
-
-
-ifeq ($(ARCH), windows)
-$(EXEC): export PKG_CONFIG_PATH:=/opt/crosstools/gtk_deps/lib/pkgconfig
-$(OBJ): export PKG_CONFIG_PATH:=/opt/crosstools/gtk_deps/lib/pkgconfig
-endif
 
 $(OBJDIR)/%.o: %.cpp
 	@echo "[  $(CXX)  ] $< -> .o"
