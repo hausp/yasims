@@ -9,7 +9,7 @@ Interface::Interface() {
 }
 
 void Interface::build() {
-    builder = gtk_builder_new_from_file("view_simpl.ui");
+    builder = gtk_builder_new_from_file("../res/view_simpl.ui");
     window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
     // list = GTK_TREE_VIEW(gtk_builder_get_object(builder, "grammar_list"));
     // grammar = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "grammar_view"));

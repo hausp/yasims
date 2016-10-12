@@ -30,6 +30,7 @@
 
 # Extras
 bin/
+YASIMS/
 .deps/
 external/
 *~
