@@ -73,8 +73,8 @@
                 <property name="spacing">3</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkButton" id="button1">
-                    <property name="label" translatable="yes">button</property>
+                  <object class="GtkButton" id="start_button">
+                    <property name="label" translatable="yes">start</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -86,8 +86,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button2">
-                    <property name="label" translatable="yes">button</property>
+                  <object class="GtkButton" id="pause_button">
+                    <property name="label" translatable="yes">pause</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -99,8 +99,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button3">
-                    <property name="label" translatable="yes">button</property>
+                  <object class="GtkButton" id="stop_button">
+                    <property name="label" translatable="yes">stop</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -164,17 +164,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="placeholder_button">
-                    <property name="label" translatable="yes">button</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
+                  <placeholder/>
                 </child>
               </object>
               <packing>

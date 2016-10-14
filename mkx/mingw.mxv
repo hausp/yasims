@@ -18,10 +18,14 @@
 ################################## VARIABLES ##################################
 ifeq ($(OSNAME), Windows)
     CXX      :=mingw++
-    LDLIBS   :=-static-libgcc -static-libstdc++\
+    #LDLIBS   :=-static-libgcc -static-libstdc++\
                -Wl,-Bstatic -lstdc++ -lpthread -lm -Wl,-Bdynamic $(LDLIBS)
+    CXXFLAGS :=-Wall $$(x86_64-w64-mingw32-pkg-config --cflags gtk+-3.0)
+    LDLIBS   :=-static-libgcc -static-libstdc++\
+               -Wl,-Bstatic -lstdc++ -lpthread -lm -Wl,-Bdynamic\
+               $$(x86_64-w64-mingw32-pkg-config --libs gtk+-3.0)
     CXXPRINT :="$(CXX)"
     CXX      += -mwindows
     EXEC     :=$(EXEC).exe
-    EXPDIR   :=~/archy/
 endif
+EXPDIR   :=~/archy/
