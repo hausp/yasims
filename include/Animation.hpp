@@ -13,8 +13,6 @@ class Animation {
     void start();
     void stop();
     void join();
-
-    bool configure(GtkWidget*);
  private:
     Cairo cairo;
     std::thread thread;

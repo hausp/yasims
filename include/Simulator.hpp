@@ -12,9 +12,6 @@ class Simulator {
     void start();
     void pause();
     void stop();
-
-    bool configure_animation(GtkWidget*);
-
  private:
     bool execute = false;
     std::thread thread;

@@ -2,12 +2,11 @@
    and Marleson Graf<aszdrick@gmail.com> [2016] */
 
 #include "core/Context.hpp"
+#include "wrapper/Signal.hpp"
 #include <iostream>
 
-void Context::activate() {
-    gui.activate();
-    // Called when g_application_run do its stuff
-    // Can be used to initialize other shits
+Context::Context() {
+    aw::Signal<Context>::set_receiver(*this);
 }
 
 int Context::run(int argc, char** argv) {
@@ -29,8 +28,4 @@ void Context::stop() {
 void Context::close() {
     sim.destroy();
     gui.destroy();
-}
-
-bool Context::configure_animation(GtkWidget* widget) {
-    return sim.configure_animation(widget);
 }

@@ -21,7 +21,3 @@ void Simulator::destroy() {
     std::cout << "[sim] destroy" << std::endl;
     animation.stop();
 }
-
-bool Simulator::configure_animation(GtkWidget* widget) {
-    return animation.configure(widget);
-}

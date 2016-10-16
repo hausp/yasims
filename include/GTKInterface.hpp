@@ -11,6 +11,8 @@
 
 class GTKInterface {
  public:
+    enum class Instance { UNIQUE };
+
     GTKInterface();
 
     void activate();

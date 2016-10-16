@@ -5,12 +5,15 @@
 #define CONTEXT_HPP
 
 #include <thread>
-#include "Animation.hpp"
 #include "GTKInterface.hpp"
 #include "Simulator.hpp"
 
 class Context {
  public:
+    enum class Instance { UNIQUE };
+
+    Context();
+
     int run(int, char**);
 
     void activate();
@@ -18,9 +21,6 @@ class Context {
     void pause();
     void start();
     void stop();
-
-    bool configure_animation(GtkWidget*);
-
  private:
     Simulator sim;
     GTKInterface gui;

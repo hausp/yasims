@@ -2,14 +2,30 @@
    and Vinicius Freitas<vinicius.mctf@grad.ufsc.br> [2016] */
 
 #include "GTKInterface.hpp"
-#include "core/signals.hpp"
+#include "core/Context.hpp"
+#include "wrapper/Cairo.hpp"
+#include "wrapper/Signal.hpp"
+#include <iostream>
+
+template<typename R, typename... Args>
+using SigContext = aw::Signal<Context>::function<R(Args...)>;
+
+template<typename R, typename... Args>
+using SigCairo = aw::Signal<Cairo>::function<R(Args...)>;
+
+template<typename R, typename... Args>
+using SigGTKInterface = aw::Signal<GTKInterface>::function<R(Args...)>;
+
+// template<typename C>
+// using Middle = typename aw::Signal<C>::function;
 
 GTKInterface::GTKInterface()
 : application(gtk_application_new("ufsc.yasims", G_APPLICATION_FLAGS_NONE)) {
+    aw::Signal<GTKInterface>::set_receiver(*this);
     g_signal_connect(
         application,
         "activate",
-        G_CALLBACK(signals::activate),
+        G_CALLBACK(SigGTKInterface<void>::callback<&GTKInterface::activate>),
         nullptr
     );
 }
@@ -25,17 +41,17 @@ void GTKInterface::activate() {
     g_signal_connect(
         window,
         "delete-event",
-        G_CALLBACK(signals::close),
+        G_CALLBACK(SigContext<void>::callback<&Context::close>),
         nullptr
     );
     
     connect_buttons();
-
     
     g_signal_connect(
         canvas,
         "configure-event",
-        G_CALLBACK(signals::configure_animation),
+        (GCallback)(SigCairo<bool, GtkWidget*, GdkEventConfigure*, gpointer>
+            ::callback<&Cairo::update>),
         nullptr
     );
 
@@ -47,9 +63,26 @@ void GTKInterface::connect_buttons() {
     auto start = GTK_BUTTON(gtk_builder_get_object(builder, "start_button"));
     auto stop = GTK_BUTTON(gtk_builder_get_object(builder, "stop_button"));
 
-    g_signal_connect(pause, "clicked", G_CALLBACK(signals::pause), nullptr);
-    g_signal_connect(start, "clicked", G_CALLBACK(signals::start), nullptr);
-    g_signal_connect(stop, "clicked", G_CALLBACK(signals::stop), nullptr);
+    g_signal_connect(
+        pause,
+        "clicked",
+        G_CALLBACK(SigContext<void>::callback<&Context::pause>),
+        nullptr
+    );
+    
+    g_signal_connect(
+        start,
+        "clicked",
+        G_CALLBACK(SigContext<void>::callback<&Context::start>),
+        nullptr
+    );
+
+    g_signal_connect(
+        stop,
+        "clicked",
+        G_CALLBACK(SigContext<void>::callback<&Context::stop>),
+        nullptr
+    );
 }
 
 void GTKInterface::destroy() {

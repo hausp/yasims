@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include "Animation.hpp"
-#include "core/signals.hpp"
+#include "utils.hpp"
 #include <gtk/gtk.h>
 
 void Animation::stop() {
@@ -26,21 +26,26 @@ void Animation::start() {
 }
 
 void Animation::run() {
+    static int x = 0, y = 0;
     while (animate) {
-        std::cout << "animating..." << std::endl;
+        if (cairo.done()) {
+            cairo.move_to(x, y);
+            y = (y + 30) % 630;
+            if (y == 0) {
+                x = (x + 20) % 820;
+                if (x == 0) {
+                    break;
+                }
+            }
+            cairo.line_to(x, y);
+            cairo.stroke();
+            cairo.draw_request();
+        } else {
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        }
     }
-}
-
-void Animation::draw() {
-    
 }
 
 void Animation::join() {
     thread.join();
-}
-
-bool Animation::configure(GtkWidget* widget) {
-    std::cout << "configure" << std::endl;
-    cairo.update(widget);
-    return true;
 }

@@ -1,5 +1,24 @@
 
 #include "wrapper/Cairo.hpp"
+#include "wrapper/Signal.hpp"
+#include "utils.hpp"
+#include <iostream>
+
+namespace {
+    struct DrawCallback {
+        static bool callback(GtkWidget* w, cairo_t* cr, gpointer c) {
+            return static_cast<Cairo*>(c)->draw(cr);
+        }
+    };
+}
+
+Cairo::Cairo() {
+    aw::Signal<Cairo>::set_receiver(*this);
+}
+
+Cairo::~Cairo() {
+    destroy();
+}
 
 void Cairo::clear() {
     cairo_set_source_rgb(cr, 1, 1, 1);
@@ -12,13 +31,14 @@ void Cairo::close_path() {
 }
 
 void Cairo::destroy() {
-    if (surface) cairo_surface_destroy(surface);
-    if (cr) cairo_destroy(cr);
+    cairo_destroy(cr);
 }
 
 bool Cairo::draw(cairo_t* _cr) {
+    std::lock_guard<std::mutex> lock(mutex);
     cairo_set_source_surface(_cr, surface, 0, 0);
     cairo_paint(_cr);
+    _done = true;
     return false;
 }
 
@@ -57,9 +77,9 @@ void Cairo::stroke_preserve() {
     cairo_stroke_preserve(cr);
 }
 
-bool Cairo::update(GtkWidget* widget) {
-    if (surface) cairo_surface_destroy(surface);
-    if (cr) cairo_destroy(cr);
+bool Cairo::update(GtkWidget* widget, GdkEventConfigure*, gpointer) {
+    cairo_surface_destroy(surface);
+    cairo_destroy(cr);
 
     surface = gdk_window_create_similar_surface(
         gtk_widget_get_window(widget),
@@ -72,5 +92,38 @@ bool Cairo::update(GtkWidget* widget) {
 
     clear();
 
+    if (drawing_area != widget) {
+        set_callbacks(widget);
+    }
+
     return true;
+}
+
+void Cairo::set_callbacks(GtkWidget* widget) {
+    if (drawing_area) {
+        g_signal_handler_disconnect(widget, handler_id);
+    }
+
+    drawing_area = widget;
+
+    handler_id = g_signal_connect(
+        widget,
+        "draw", 
+        G_CALLBACK(&DrawCallback::callback),
+        static_cast<gpointer>(this)
+    );
+}
+
+bool Cairo::request() {
+    gtk_widget_queue_draw(drawing_area);
+    return false;
+}
+
+void Cairo::draw_request() {
+    _done = false;
+    g_idle_add(
+        (GSourceFunc)
+            (aw::Signal<Cairo>::function<bool()>::callback<&Cairo::request>),
+        nullptr
+    );
 }
