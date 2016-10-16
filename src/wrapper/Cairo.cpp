@@ -35,7 +35,8 @@ void Cairo::destroy() {
 }
 
 bool Cairo::draw(cairo_t* _cr) {
-    std::lock_guard<std::mutex> lock(mutex);
+    // std::lock_guard<std::mutex> lock(mutex);
+    std::cout << "[Cairo] draw" << std::endl;
     cairo_set_source_surface(_cr, surface, 0, 0);
     cairo_paint(_cr);
     _done = true;

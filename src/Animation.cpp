@@ -20,15 +20,22 @@ void Animation::pause() {
 
 void Animation::start() {
     if (!animate) {
+        std::cout << "[Animation] start" << std::endl;
+        animate = true;
         thread = std::thread(&Animation::run, this);
     }
-    animate = true;
+     std::cout << "[Animation] end of start" << std::endl;
 }
 
 void Animation::run() {
+    std::cout << "[Animation] run" << std::endl;
+    // Sanity sleep
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     static int x = 0, y = 0;
     while (animate) {
+        std::cout << "[Animation] animate loop" << std::endl;
         if (cairo.done()) {
+            std::cout << "[Animation] cairo done" << std::endl;
             cairo.move_to(x, y);
             y = (y + 30) % 630;
             if (y == 0) {

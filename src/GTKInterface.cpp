@@ -7,6 +7,14 @@
 #include "wrapper/Signal.hpp"
 #include <iostream>
 
+namespace {
+    bool shit() {
+        std::cout << "GTK main loop" << std::endl;
+        return true;
+    }
+}
+
+
 template<typename R, typename... Args>
 using SigContext = aw::Signal<Context>::function<R(Args...)>;
 
@@ -52,6 +60,14 @@ void GTKInterface::activate() {
         "configure-event",
         (GCallback)(SigCairo<bool, GtkWidget*, GdkEventConfigure*, gpointer>
             ::callback<&Cairo::update>),
+        nullptr
+    );
+
+    g_timeout_add_full(
+        G_PRIORITY_HIGH,
+        30,
+        (GSourceFunc)(&shit),
+        nullptr,
         nullptr
     );
 

@@ -5,6 +5,7 @@
 void Simulator::start() {
     std::cout << "[sim] start" << std::endl;
     animation.start();
+    std::cout << "[sim] end of start" << std::endl;
 }
 
 void Simulator::pause() {

@@ -51,7 +51,7 @@ class Cairo {
 };
 
 inline bool Cairo::done() {
-    std::lock_guard<std::mutex> lock(mutex);
+    // std::lock_guard<std::mutex> lock(mutex);
     return _done;
 }
 

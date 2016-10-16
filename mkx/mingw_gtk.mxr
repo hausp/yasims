@@ -19,8 +19,8 @@
 .PHONY: win_pack export set_external
 
 ifeq ($(OSNAME), Windows)
-    $(EXEC): export PKG_CONFIG_PATH:=/opt/crosstools/gtk_win32/lib/pkgconfig
-    $(OBJ): export PKG_CONFIG_PATH:=/opt/crosstools/gtk_win32/lib/pkgconfig
+    #$(EXEC): export PKG_CONFIG_PATH:=/opt/crosstools/gtk_win32/lib/pkgconfig
+    #$(OBJ): export PKG_CONFIG_PATH:=/opt/crosstools/gtk_win32/lib/pkgconfig
 endif
 
 win_pack: new_dir=$(APP_NAME)
