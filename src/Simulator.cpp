@@ -1,24 +1,41 @@
 
 #include "Simulator.hpp"
+#include "random/Function.hpp"
 #include <iostream>
 
+Simulator::Simulator():
+ // TODO: remove 0.5 hardcoded
+ generator(dist::expo(1, 0.5)) { }
+
 void Simulator::start() {
-    std::cout << "[sim] start" << std::endl;
     animation.start();
-    std::cout << "[sim] end of start" << std::endl;
 }
 
 void Simulator::pause() {
-    std::cout << "[sim] pause" << std::endl;
     animation.pause();
 }
 
 void Simulator::stop() {
-    std::cout << "[sim] stop" << std::endl;
     animation.stop();
 }
 
 void Simulator::destroy() {
-    std::cout << "[sim] destroy" << std::endl;
     animation.stop();
+}
+
+void Simulator::run() {
+
+}
+
+void Simulator::generate_input(double last_time) {
+    auto event = generator.generate(
+        last_time,
+        [this](const Message& message, double time) {
+            generate_input(time);
+            // MAYBE TODO: use condition_variable to wait
+            while(animate && !animation.ready(&message));
+        }
+    );
+
+    events.push(event);
 }

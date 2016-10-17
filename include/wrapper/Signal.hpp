@@ -23,19 +23,6 @@ namespace aw {
             }
         };
 
-        // template <class R, class... Args, call<R, Args...> Mf>
-        // R test(Args&&... args) {
-        //     return (receiver->*Mf)(std::forward<Args>(args)...);
-        // }
-
-        // template <class F, F> struct funct;
-
-        // template <class R, class... Args, call<R, Args...> Mf>
-        // struct funct<call<R, Args...>, Mf> {
-        //     static R callback(Args&&... args) {
-        //         return (receiver->*Mf)(std::forward<Args>(args)...);
-        //     }
-        // };
      private:
         static Receiver* receiver;
     };

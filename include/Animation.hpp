@@ -5,6 +5,7 @@
 #include <gtk/gtk.h>
 #include <thread>
 #include "wrapper/Cairo.hpp"
+#include "Message.hpp"
 
 class Animation {
  public:
@@ -13,6 +14,8 @@ class Animation {
     void start();
     void stop();
     void join();
+
+    bool ready(const Message *) const;
  private:
     Cairo cairo;
     std::thread thread;

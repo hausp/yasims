@@ -56,3 +56,7 @@ void Animation::run() {
 void Animation::join() {
     thread.join();
 }
+
+bool Animation::ready(const Message* index) const {
+    return true;
+}
