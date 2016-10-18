@@ -13,6 +13,8 @@ namespace dist {
      public:
         template<typename... Args>
         Function(int, Args&&...);
+        template<typename... Args>
+        Function(Args&&...);
         T operator()();
      private:
         Fn function;

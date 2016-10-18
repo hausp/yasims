@@ -4,8 +4,8 @@
 #include <iostream>
 
 Simulator::Simulator():
- // TODO: remove 1 and 0.5 hardcoded
- generator(dist::expo(1, 0.5)),
+ // TODO: remove 0.5 hardcoded
+ generator(dist::expo(0.5)),
  thread(&Simulator::run, this) { }
 
 Simulator::~Simulator() {
