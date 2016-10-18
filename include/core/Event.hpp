@@ -7,21 +7,23 @@
 
 class Event {
  public:
+    using Action = std::function<void(const Message&, double)>;
+
     Event(double, const Message&,
-        std::function<void(const Message&, double)>&&);
+        Action&&);
     void consume() const;
     bool operator<(const Event&) const; 
 
  private:
     double time;
     Message message;
-    std::function<void(const Message&, double)> action;
+    Action action;
 };
 
-inline Event::Event(double time,
-                    const Message& message,
-                    std::function<void(const Message&, double)>&& fn):
-time(time), message(message), action(std::move(fn)) { }
+inline Event::Event(double time, const Message& message, Action&& fn):
+ time(time),
+ message(message),
+ action(std::move(fn)) { }
 
 inline void Event::consume() const {
     action(message, time);

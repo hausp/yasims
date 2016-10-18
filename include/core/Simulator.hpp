@@ -11,7 +11,8 @@
 
 #include "animation/Animation.hpp"
 #include "Event.hpp"
-#include "Generator.hpp"
+#include "EventFactory.hpp"
+#include "MessageFactory.hpp"
 
 class Simulator {
     using EventQueue = std::priority_queue<Event, std::deque<Event>>;
@@ -24,11 +25,16 @@ class Simulator {
     void stop();
 
     void run();
-    void generate_input(double);
+    void generate_input();
  private:
     EventQueue events;
-    Generator generator;
     Animation animation;
+    MessageFactory message_factory;
+    EventFactory local;
+    EventFactory remote;
+    double current_time = 0;
+
+    // Thread related attributes
     std::mutex mutex;
     std::condition_variable cv;
     std::thread thread;

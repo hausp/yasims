@@ -26,6 +26,9 @@ namespace dist {
     // Exponential distribution alias
     using expo = Function<std::exponential_distribution<>>;
 
+    template<typename T = double>
+    using funct = std::function<T()>;
+
     /// Struct ByType
     // Translates dist::Type specifications to its std equivalents
     // in compilation time

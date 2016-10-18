@@ -4,8 +4,8 @@
 #include <iostream>
 
 Simulator::Simulator():
- // TODO: remove 0.5 hardcoded
- generator(dist::expo(0.5)),
+ local(message_factory, dist::expo(0.6)),
+ remote(message_factory, dist::expo(0.5)),
  thread(&Simulator::run, this) { }
 
 Simulator::~Simulator() {
@@ -56,15 +56,17 @@ void Simulator::run() {
     }
 }
 
-void Simulator::generate_input(double last_time) {
-    auto event = generator.generate(
-        last_time,
-        [this](const Message& message, double time) {
-            generate_input(time);
-            // MAYBE TODO: use condition_variable to wait
-            // while(animate && !animation.ready(&message));
-        }
-    );
+void Simulator::generate_input() {
+    auto event_action = [this](const Message& message, double time) {
+        current_time = time;
+        generate_input();
+        // MAYBE TODO: use condition_variable to wait
+        // while(animate && !animation.ready(&message));
+    };
 
+    auto event = local.create(current_time, event_action);
+    events.push(event);
+
+    event = remote.create(current_time, event_action);
     events.push(event);
 }
