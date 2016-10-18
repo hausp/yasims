@@ -6,7 +6,8 @@
 Simulator::Simulator():
  arrival_times{{
     {Address::LOCAL, dist::expo(0.6)},
-    {Address::REMOTE, dist::expo(0.5)}}},
+    {Address::REMOTE, dist::expo(0.5)}
+ }},
  thread{&Simulator::run, this} { }
 
 Simulator::~Simulator() {

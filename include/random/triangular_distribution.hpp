@@ -9,7 +9,7 @@ namespace dist {
     struct triangular_distribution {
         template<typename Generator>
         T operator()(Generator&) const;
-     private:
+
         T lower_limit;
         T upper_limit;
         T mode;

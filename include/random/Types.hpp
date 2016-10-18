@@ -75,4 +75,13 @@ namespace dist {
     }
 }
 
+namespace std {
+    template<>
+    struct hash<dist::Type> {
+        inline size_t operator()(dist::Type type) const {
+            return hash<int>()(static_cast<int>(type));
+        }
+    };
+}
+
 #endif /* DIST_TYPES_HPP */
