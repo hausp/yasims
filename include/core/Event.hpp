@@ -5,32 +5,17 @@
 
 #include "Message.hpp"
 
-class Event {
- public:
+struct Event {
     using Action = std::function<void(const Message&, double)>;
 
-    Event(double, const Message&,
-        Action&&);
-    void consume() const;
-    bool operator<(const Event&) const; 
-
- private:
     double time;
     Message message;
-    Action action;
+    Action pre_action;
+    Action pos_action;
 };
 
-inline Event::Event(double time, const Message& message, Action&& fn):
- time(time),
- message(message),
- action(std::move(fn)) { }
-
-inline void Event::consume() const {
-    action(message, time);
-}
-
-inline bool Event::operator<(const Event& rhs) const {
-    return time < rhs.time;
+inline bool operator<(const Event& lhs, const Event& rhs) {
+    return lhs.time < rhs.time;
 }
 
 #endif /* EVENT_HPP */

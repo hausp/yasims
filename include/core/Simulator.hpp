@@ -11,7 +11,7 @@
 
 #include "animation/Animation.hpp"
 #include "Event.hpp"
-#include "EventFactory.hpp"
+#include "TimeGenerator.hpp"
 #include "MessageFactory.hpp"
 
 class Simulator {
@@ -25,13 +25,13 @@ class Simulator {
     void stop();
 
     void run();
-    void generate_input();
+    void setup();
+    void reset();
  private:
     EventQueue events;
     Animation animation;
-    MessageFactory message_factory;
-    EventFactory local;
-    EventFactory remote;
+    TimeGenerator arrival_times;
+    Factory<Message> message_factory;
     double current_time = 0;
 
     // Thread related attributes
@@ -41,6 +41,12 @@ class Simulator {
     bool animate = false;
     bool execute = false;
     bool survive = true;
+
+    void create_arrival_event(Address);
+    void create_reception_event(const Message&);
+    void create_processing_event(const Message&);
+    void create_postpone_event(const Message&);
+    void create_exit_event(const Message&);
 };
 
 #endif /* SIMULATOR_HPP */

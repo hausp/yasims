@@ -4,9 +4,10 @@
 #include <iostream>
 
 Simulator::Simulator():
- local(message_factory, dist::expo(0.6)),
- remote(message_factory, dist::expo(0.5)),
- thread(&Simulator::run, this) { }
+ arrival_times{{
+    {Address::LOCAL, dist::expo(0.6)},
+    {Address::REMOTE, dist::expo(0.5)}}},
+ thread{&Simulator::run, this} { }
 
 Simulator::~Simulator() {
     survive = false;
@@ -25,6 +26,7 @@ void Simulator::start(bool a) {
 
     std::lock_guard<std::mutex> guard{mutex};
     execute = true;
+    setup();
     cv.notify_all();
 }
 
@@ -39,6 +41,8 @@ void Simulator::stop() {
     if (!execute) return;
     if (animate) animation.stop();
 
+    reset();
+    setup();
     execute = false;
 }
 
@@ -52,21 +56,107 @@ void Simulator::run() {
 
         while (execute && survive) {
             std::cout << "[Simulator] executing" << std::endl;
+            auto e = events.top();
+            e.pre_action(e.message, e.time);
+            // animation.wait_for(e.message().from)
+            e.pos_action(e.message, e.time);
+
+            events.pop();
+            execute = !events.empty();
         }
     }
 }
 
-void Simulator::generate_input() {
-    auto event_action = [this](const Message& message, double time) {
-        current_time = time;
-        generate_input();
-        // MAYBE TODO: use condition_variable to wait
-        // while(animate && !animation.ready(&message));
+void Simulator::setup() {
+    if (events.empty()) {
+        create_arrival_event(Address::LOCAL);
+        create_arrival_event(Address::REMOTE);
+    }
+}
+
+void Simulator::reset() {
+    auto cleaner = EventQueue{};
+    events.swap(cleaner);
+    // TODO: animation
+}
+
+void Simulator::create_arrival_event(Address addr) {
+    auto event = Event{
+        current_time + arrival_times.generate(addr),
+        message_factory.create(addr),
+        [this](const Message& message, double time) {
+            current_time = time;
+            create_arrival_event(message.from);
+        },
+        [this](const Message& message, double time) {
+            create_reception_event(message);
+        }
     };
-
-    auto event = local.create(current_time, event_action);
     events.push(event);
+}
 
-    event = remote.create(current_time, event_action);
+void Simulator::create_reception_event(const Message& message) {
+    auto placeholder = 0;
+    auto event = Event{
+        current_time + placeholder,
+        message,
+        [this](const Message& message, double time) {
+            current_time = time;
+            // TODO
+        },
+        [this](const Message& message, double time) {
+            // TODO
+        }
+    };
     events.push(event);
+}
+
+void Simulator::create_processing_event(const Message& message) {
+    auto placeholder = 0;
+    auto event = Event{
+        // TODO
+        current_time + placeholder,
+        message,
+        [this](const Message& message, double time) {
+            current_time = time;
+            // TODO
+        },
+        [this](const Message& message, double time) {
+            // TODO
+        }
+    };
+    events.push(event);
+}
+
+void Simulator::create_postpone_event(const Message& message) {
+    auto placeholder = 0;
+    auto event = Event{
+        // TODO
+        current_time + placeholder,
+        message,
+        [this](const Message& message, double time) {
+            current_time = time;
+            // TODO
+        },
+        [this](const Message& message, double time) {
+            // TODO
+        }
+    };
+    events.push(event);
+}
+
+void Simulator::create_exit_event(const Message& message) {
+    auto placeholder = 0;
+    auto event = Event{
+        current_time + placeholder,
+        message,
+        [this](const Message& message, double time) {
+            current_time = time;
+            // TODO
+        },
+        [this](const Message& message, double time) {
+            // TODO
+        }
+    };
+    events.push(event); 
 }

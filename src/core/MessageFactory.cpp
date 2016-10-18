@@ -1,7 +1,7 @@
 
 #include "core/MessageFactory.hpp"
 
-Message MessageFactory::create() const {
+Message Factory<Message>::create(const Address& addr) const {
     // TODO
     return Message();
 }

@@ -15,7 +15,7 @@ int Context::run(int argc, char** argv) {
 
 void Context::start() {
     std::cout << "[Context] start" << std::endl;
-    sim.start();
+    sim.start(true);
     std::cout << "[Context] end of start" << std::endl;
 }
 

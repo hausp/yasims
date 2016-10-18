@@ -15,6 +15,7 @@ enum class Status {
 };
 
 struct Message {
+    using Type = Address;
     Status curr_status;
     Address from;
     Address to;

@@ -3,11 +3,13 @@
 #define MESSAGE_FACTORY_HPP
 
 #include <functional>
+#include "Factory.hpp"
 #include "Message.hpp"
 
-class MessageFactory {
+template<>
+class Factory<Message> {
  public:
-    Message create() const;
+    Message create(const Address&) const;
  private:
     // TODO
 };

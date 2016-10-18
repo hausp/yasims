@@ -31,7 +31,7 @@ void Animation::stop() {
 
 bool Animation::run() {
     if (cairo.drawed()) {
-        animating = update();
+        animating = animating && update();
         cairo.queue_draw();
     }
     return animating;
