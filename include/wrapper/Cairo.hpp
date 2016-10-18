@@ -4,7 +4,6 @@
 
 #include <gtk/gtk.h>
 #include <list>
-#include <mutex>
 
 class Cairo {
     struct area {
@@ -32,27 +31,23 @@ class Cairo {
     void set_color(double, double, double, double = 1);
     void stroke();
     void stroke_preserve();
+    void queue_draw();
     bool update(GtkWidget*, GdkEventConfigure*, gpointer);
-    void set_callbacks(GtkWidget*);
-
-    bool request();
-    void draw_request();
-
-    bool done();
+    bool drawed();
 
  private:
     GtkWidget* drawing_area = nullptr;
     cairo_t* cr = nullptr;
     cairo_surface_t*  surface = nullptr;
     gint handler_id;
-    bool _done = true;
-    std::mutex mutex;
+    bool _drawed = true;
 
+    void set_callbacks(GtkWidget*);
 };
 
-inline bool Cairo::done() {
-    // std::lock_guard<std::mutex> lock(mutex);
-    return _done;
+inline bool Cairo::drawed() {
+    return _drawed;
 }
+
 
 #endif /* WRAPPER_CAIRO_HPP */

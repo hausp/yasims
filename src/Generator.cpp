@@ -1,6 +1,5 @@
 
-
-#include "Generator.hpp"
+#include "core/Generator.hpp"
 
 Event Generator::generate(double time,
     std::function<void(const Message&, double)>&& fn) const {

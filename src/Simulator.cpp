@@ -1,11 +1,15 @@
 
-#include "Simulator.hpp"
+#include "core/Simulator.hpp"
 #include "random/Function.hpp"
 #include <iostream>
 
 Simulator::Simulator():
  // TODO: remove 0.5 hardcoded
  generator(dist::expo(1, 0.5)) { }
+
+Simulator::~Simulator() {
+
+}
 
 void Simulator::start() {
     animation.start();
@@ -16,10 +20,6 @@ void Simulator::pause() {
 }
 
 void Simulator::stop() {
-    animation.stop();
-}
-
-void Simulator::destroy() {
     animation.stop();
 }
 

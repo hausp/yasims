@@ -6,7 +6,7 @@
 #include <queue>
 #include <deque>
 
-#include "Animation.hpp"
+#include "animation/Animation.hpp"
 #include "Event.hpp"
 #include "Generator.hpp"
 
@@ -14,8 +14,8 @@ class Simulator {
     using EventQueue = std::priority_queue<Event, std::deque<Event>>;
  public:
     Simulator();
+    ~Simulator();
 
-    void destroy();
     void start();
     void pause();
     void stop();

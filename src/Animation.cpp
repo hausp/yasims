@@ -1,60 +1,56 @@
 
 #include <iostream>
-#include "Animation.hpp"
-#include "utils.hpp"
-#include <gtk/gtk.h>
+#include "animation/Animation.hpp"
+#include "wrapper/Signal.hpp"
 
-void Animation::stop() {
-    animate = false;
-    if (thread.joinable()) {
-        thread.join();
+Animation::Animation() {
+    aw::Signal<Animation>::set_receiver(*this);
+}
+
+void Animation::start() {
+    if (!animating) {
+        animating = true;
+        g_idle_add_full(
+            G_PRIORITY_HIGH_IDLE + 25,
+            (GSourceFunc)
+                (aw::Signal<Animation>::function<bool()>
+                    ::callback<&Animation::run>),
+            nullptr,
+            nullptr
+        );
     }
 }
 
 void Animation::pause() {
-    animate = false;
-    if (thread.joinable()) {
-        thread.join();
-    }
+    animating = false;
 }
 
-void Animation::start() {
-    if (!animate) {
-        std::cout << "[Animation] start" << std::endl;
-        animate = true;
-        thread = std::thread(&Animation::run, this);
-    }
-     std::cout << "[Animation] end of start" << std::endl;
+void Animation::stop() {
+    animating = false;
 }
 
-void Animation::run() {
-    std::cout << "[Animation] run" << std::endl;
-    // Sanity sleep
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+bool Animation::run() {
+    if (cairo.drawed()) {
+        animating = update();
+        cairo.queue_draw();
+    }
+    return animating;
+}
+
+
+bool Animation::update() {
     static int x = 0, y = 0;
-    while (animate) {
-        std::cout << "[Animation] animate loop" << std::endl;
-        if (cairo.done()) {
-            std::cout << "[Animation] cairo done" << std::endl;
-            cairo.move_to(x, y);
-            y = (y + 30) % 630;
-            if (y == 0) {
-                x = (x + 20) % 820;
-                if (x == 0) {
-                    break;
-                }
-            }
-            cairo.line_to(x, y);
-            cairo.stroke();
-            cairo.draw_request();
-        } else {
-            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    cairo.move_to(x, y);
+    y = (y + 30) % 630;
+    if (y == 0) {
+        x = (x + 20) % 820;
+        if (x == 0) {
+            return false;
         }
     }
-}
-
-void Animation::join() {
-    thread.join();
+    cairo.line_to(x, y);
+    cairo.stroke();
+    return true;
 }
 
 bool Animation::ready(const Message* index) const {

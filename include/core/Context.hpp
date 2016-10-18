@@ -5,7 +5,7 @@
 #define CONTEXT_HPP
 
 #include <thread>
-#include "GTKInterface.hpp"
+#include "interface/GTKInterface.hpp"
 #include "Simulator.hpp"
 
 class Context {

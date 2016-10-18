@@ -28,6 +28,6 @@ void Context::stop() {
 }
 
 void Context::close() {
-    sim.destroy();
+    std::cout << "hello darkness" << std::endl;
     gui.destroy();
 }

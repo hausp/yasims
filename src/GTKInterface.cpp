@@ -1,7 +1,7 @@
 /* created by Marleson Graf<aszdrick@gmail.com>
    and Vinicius Freitas<vinicius.mctf@grad.ufsc.br> [2016] */
 
-#include "GTKInterface.hpp"
+#include "interface/GTKInterface.hpp"
 #include "core/Context.hpp"
 #include "wrapper/Cairo.hpp"
 #include "wrapper/Signal.hpp"

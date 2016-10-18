@@ -1,7 +1,6 @@
 
 #include "wrapper/Cairo.hpp"
 #include "wrapper/Signal.hpp"
-#include "utils.hpp"
 #include <iostream>
 
 namespace {
@@ -35,11 +34,9 @@ void Cairo::destroy() {
 }
 
 bool Cairo::draw(cairo_t* _cr) {
-    // std::lock_guard<std::mutex> lock(mutex);
-    std::cout << "[Cairo] draw" << std::endl;
     cairo_set_source_surface(_cr, surface, 0, 0);
     cairo_paint(_cr);
-    _done = true;
+    _drawed = true;
     return false;
 }
 
@@ -115,16 +112,7 @@ void Cairo::set_callbacks(GtkWidget* widget) {
     );
 }
 
-bool Cairo::request() {
+void Cairo::queue_draw() {
+    _drawed = false;
     gtk_widget_queue_draw(drawing_area);
-    return false;
-}
-
-void Cairo::draw_request() {
-    _done = false;
-    g_idle_add(
-        (GSourceFunc)
-            (aw::Signal<Cairo>::function<bool()>::callback<&Cairo::request>),
-        nullptr
-    );
 }
