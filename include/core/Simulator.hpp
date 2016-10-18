@@ -3,8 +3,11 @@
 #ifndef SIMULATOR_HPP
 #define SIMULATOR_HPP
 
+#include <condition_variable>
 #include <queue>
 #include <deque>
+#include <thread>
+#include <mutex>
 
 #include "animation/Animation.hpp"
 #include "Event.hpp"
@@ -16,7 +19,7 @@ class Simulator {
     Simulator();
     ~Simulator();
 
-    void start();
+    void start(bool = false);
     void pause();
     void stop();
 
@@ -25,10 +28,13 @@ class Simulator {
  private:
     EventQueue events;
     Generator generator;
-    bool execute = false;
-    std::thread thread;
     Animation animation;
-    bool animate;
+    std::mutex mutex;
+    std::condition_variable cv;
+    std::thread thread;
+    bool animate = false;
+    bool execute = false;
+    bool survive = true;
 };
 
 #endif /* SIMULATOR_HPP */

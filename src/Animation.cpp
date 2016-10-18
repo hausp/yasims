@@ -52,7 +52,3 @@ bool Animation::update() {
     cairo.stroke();
     return true;
 }
-
-bool Animation::ready(const Message* index) const {
-    return true;
-}
