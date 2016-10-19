@@ -97,18 +97,21 @@ void smail::Simulator::reset() {
 
 void smail::Simulator::arrival_event(size_t index) {
     // Produce message and its arrival event
-    auto event = spawners[index].produce(current_time, seed);
-
+    auto event = spawners[index].produce(clock, seed);
     // Set arrival event pre_action (before animation)
     event.pre_action = [this, index](double time) {
-        current_time = time;
+        // Update simulation clock
+        clock = time;
+        // Creates next arrival event
         arrival_event(index);
     };
-
     // Set arrival event pos_action (after animation)
     event.pos_action = [this, index](double time) {
+        // Dispatch a message from the spawner
         auto msg = spawners[index].dispatch();
+        // Classify this message (choose its status)
         classifier.classify(msg, seed);
+        // Send message to reception and create a new reception event
         reception_event(std::move(msg));
     };
 

@@ -34,7 +34,10 @@ namespace smail {
         Animation animation;
         std::array<MessageProducer, 2> spawners;
         MessageClassifier classifier;
-        double current_time = 0;
+        ProcessingCenter reception;
+        ProcessingCenter local_center;
+        ProcessingCenter remote_center;
+        double clock = 0;
         int seed = 0;
 
         // Thread related attributes

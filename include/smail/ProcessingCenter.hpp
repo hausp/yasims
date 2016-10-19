@@ -5,14 +5,14 @@
 #include "Types.hpp"
 
 namespace smail {
-    struct resource {
-
-    };
-
     class ProcessingCenter {
      public:
+        ProcessingCenter(size_t);
 
+        void receive(Message);
+        Message dispatch(double);
      private:
+        size_t capacity;
         MsgQueue allocated;
         MsgQueue waiting_queue;
     };
