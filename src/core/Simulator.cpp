@@ -5,17 +5,63 @@
 
 Simulator::Simulator():
  arrival_times{{
-    {Address::LOCAL, dist::expo<>(0.6)},
-    {Address::REMOTE, dist::expo<>(0.5)}
+    {Address::LOCAL,
+     dist::expo<>{seed, 0.6}},
+    {Address::REMOTE,
+     dist::expo<>{seed, 0.5}}
  }},
- /*reception_times {{}
-    
-
- },
- processing_times {
-    {AdAdSt{Address::LOCAL, Address::LOCAL, Status::SUCCESS}, dist::norm(0.55,0.5)}
-
- },*/
+ reception_times{{
+    {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
+     dist::cons<>{0.12}},
+    {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
+     dist::cons<>{0.12}},
+    {{Address::LOCAL, Address::LOCAL, Status::POSTPONED},
+     dist::cons<>{0.12}},
+    {{Address::LOCAL, Address::REMOTE, Status::SUCCESS},
+     dist::cons<>{0.12}},
+    {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
+     dist::cons<>{0.12}},
+    {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::LOCAL, Status::POSTPONED},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::REMOTE, Status::SUCCESS},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::REMOTE, Status::FAILURE},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::REMOTE, Status::POSTPONED},
+     dist::cons<>{0.12}}
+ }},
+ processing_times{{
+    {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
+     dist::cons<>{0.12}},
+    {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
+     dist::cons<>{0.12}},
+    {{Address::LOCAL, Address::LOCAL, Status::POSTPONED},
+     dist::cons<>{0.12}},
+    {{Address::LOCAL, Address::REMOTE, Status::SUCCESS},
+     dist::cons<>{0.12}},
+    {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
+     dist::cons<>{0.12}},
+    {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::LOCAL, Status::POSTPONED},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::REMOTE, Status::SUCCESS},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::REMOTE, Status::FAILURE},
+     dist::cons<>{0.12}},
+    {{Address::REMOTE, Address::REMOTE, Status::POSTPONED},
+     dist::cons<>{0.12}}
+ }},
  thread{&Simulator::run, this} { }
 
 Simulator::~Simulator() {
@@ -128,7 +174,7 @@ void Simulator::create_processing_event(const Message& message) {
         message,
         [this](const Message& message, double time) {
             current_time = time;
-            switch(message.curr_status) {
+            switch(message.status) {
                 case Status::POSTPONED:
                     create_postpone_event(message);
                     break;

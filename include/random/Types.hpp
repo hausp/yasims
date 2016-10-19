@@ -4,9 +4,7 @@
 
 #include <random>
 
-#include "constant_distribution.hpp"
-#include "discrete_distribution.hpp"
-#include "triangular_distribution.hpp"
+#include "Distribution.hpp"
 
 namespace dist {
     template<typename, typename = double>

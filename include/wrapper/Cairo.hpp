@@ -5,6 +5,13 @@
 #include <gtk/gtk.h>
 #include <list>
 
+struct Color {
+    int r;
+    int g;
+    int b;
+    int a;
+};
+
 class Cairo {
     struct area {
         int x;
@@ -28,7 +35,8 @@ class Cairo {
     void move_to(double, double);
     void point(double, double);
     void rectangle(double, double, double, double);
-    void set_color(double, double, double, double = 1);
+    void set_color(double, double, double, double = 255);
+    void set_color(Color);
     void stroke();
     void stroke_preserve();
     void queue_draw();

@@ -28,19 +28,14 @@ class Simulator {
     void setup();
     void reset();
  private:
-    // Used for processing times
-    struct AdAdSt{
-        Address from;
-        Address to;
-        Status status;
-    };
     EventQueue events;
     Animation animation;
     TimeGenerator<Address> arrival_times;
-    //std::unordered_map<std::pair<Address,Address>, double> reception_times;
-    //TimeGenerator<AdAdSt> processing_times;
+    TimeGenerator<Message> reception_times;
+    TimeGenerator<Message> processing_times;
     Factory<Message> message_factory;
     double current_time = 0;
+    int seed = 0;
 
     // Thread related attributes
     std::mutex mutex;

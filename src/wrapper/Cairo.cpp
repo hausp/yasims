@@ -64,7 +64,11 @@ void Cairo::rectangle(double x, double y, double l, double h) {
 }
 
 void Cairo::set_color(double r, double g, double b, double a) {
-    cairo_set_source_rgba(cr, r / 255, g / 255, b / 255, a);
+    cairo_set_source_rgba(cr, r / 255, g / 255, b / 255, a / 255);
+}
+
+void Cairo::set_color(Color c) {
+    cairo_set_source_rgba(cr, c.r / 255, c.g / 255, c.b / 255, c.a / 255);
 }
 
 void Cairo::stroke() {
