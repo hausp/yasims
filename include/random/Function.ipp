@@ -18,3 +18,16 @@ T dist::Function<Fn,T>::operator()() {
     std::mt19937_64 gen{seed};
     return function(gen);
 }
+
+template<typename T>
+dist::Function<dist::constant_distribution<T>, T>::Function(int, T value):
+    function{value} { }
+
+template<typename T>
+dist::Function<dist::constant_distribution<T>, T>::Function(T value):
+    function{value} { }
+
+template<typename T>
+constexpr T dist::Function<dist::constant_distribution<T>, T>::operator()() {
+    return function.value;
+}

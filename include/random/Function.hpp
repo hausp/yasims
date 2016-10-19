@@ -9,7 +9,7 @@ namespace dist {
     // Struct to store all information needed to call
     // the desired distribution
     template<typename Fn, typename T>
-    struct Function {
+    class Function {
      public:
         template<typename... Args>
         Function(int, Args&&...);
@@ -19,6 +19,16 @@ namespace dist {
      private:
         Fn function;
         int seed;
+    };
+
+    template<typename T>
+    class Function<constant_distribution<T>, T> {
+     public:
+        Function(int, T); // For compatibility purposes
+        Function(T);
+        constexpr T operator()();
+     private:
+        constant_distribution<T> function;
     };
 }
 

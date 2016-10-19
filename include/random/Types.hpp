@@ -3,12 +3,14 @@
 #define DIST_TYPES_HPP
 
 #include <random>
-#include "triangular_distribution.hpp"
+
+#include "constant_distribution.hpp"
 #include "discrete_distribution.hpp"
+#include "triangular_distribution.hpp"
 
 namespace dist {
     template<typename, typename = double>
-    struct Function;
+    class Function;
 
     // Types of random distribution functions
     enum class Type {
@@ -16,20 +18,30 @@ namespace dist {
         UNIF,   // Uniform distribution
         TRIA,   // Triangular distribution
         EXPO,   // Exponential distribution
+        DISC,   // Discrete distribution
+        CONS,   // Constant distribution
     };
 
     // Normal distribution alias
-    using norm = Function<std::normal_distribution<>>;
+    template<typename T = double>
+    using norm = Function<std::normal_distribution<T>, T>;
     // Uniform distribution alias
-    using unif = Function<std::uniform_real_distribution<>>;
+    template<typename T = double>
+    using unif = Function<std::uniform_real_distribution<T>, T>;
     // Triangular distribution alias
-    using tria = Function<dist::triangular_distribution<>>;
+    template<typename T = double>
+    using tria = Function<dist::triangular_distribution<T>, T>;
     // Exponential distribution alias
-    using expo = Function<std::exponential_distribution<>>;
-
-    template<typename T>
+    template<typename T = double>
+    using expo = Function<std::exponential_distribution<T>, T>;
+    // Discrete distribution alias
+    template<typename T = double>
     using disc = Function<dist::discrete_distribution<T>, T>;
+    // Constant distribution alias
+    template<typename T = double>
+    using cons = Function<dist::constant_distribution<T>, T>;
 
+    // std::function encapsulation alias
     template<typename T = double>
     using funct = std::function<T()>;
 
@@ -63,18 +75,34 @@ namespace dist {
         using function = Function<std::exponential_distribution<T>, T>;
     };
 
+    /// Discrete distribution specialization
+    template<typename T>
+    struct ByType<Type::DISC, T> {
+        using function = Function<dist::discrete_distribution<T>, T>;
+    };
+
+    /// Discrete distribution specialization
+    template<typename T>
+    struct ByType<Type::CONS, T> {
+        using function = Function<dist::constant_distribution<T>, T>;
+    };
+
     // Translates Type to function in running time
     template<typename T = double, typename... Args>
-    std::function<T()> type_to_function(const Type& type, Args&&... args) {
+    funct<T> type_to_function(const Type& type, Args&&... args) {
         switch(type) {
             case Type::NORM:
-                return norm(std::forward<Args>(args)...);
+                return norm<T>(std::forward<Args>(args)...);
             case Type::UNIF:
-                return unif(std::forward<Args>(args)...);
+                return unif<T>(std::forward<Args>(args)...);
             case Type::TRIA:
-                return tria(std::forward<Args>(args)...);
+                return tria<T>(std::forward<Args>(args)...);
             case Type::EXPO:
-                return expo(std::forward<Args>(args)...);
+                return expo<T>(std::forward<Args>(args)...);
+            case Type::DISC:
+                return disc<T>(std::forward<Args>(args)...);
+            case Type::CONS:
+                return cons<T>(std::forward<Args>(args)...);
         }
     }
 }
