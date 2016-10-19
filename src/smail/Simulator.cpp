@@ -127,7 +127,9 @@ void smail::Simulator::arrival_event(size_t index) {
 }
 
 void smail::Simulator::reception_event(Message msg) {
+    // Send message to reception and get ready event
     auto event = reception.receive(std::move(msg));
+    // Set ready event action
     event.action = [this](double time) {
         // Update simulation clock
         clock = time;
@@ -144,7 +146,30 @@ void smail::Simulator::reception_event(Message msg) {
 }
 
 void smail::Simulator::processing_event(Message msg) {
-    // TODO
+    // Get index for the corresponding center
+    auto index = static_cast<size_t>(msg.to);
+    // Send message to center and get ready event
+    auto event = centers[index].receive(std::move(msg));
+    // Set ready event action
+    event.action = [this, index](double time) {
+        // Update simulation clock
+        clock = time;
+        // Get dispatched message
+        Message msg;
+        bool dispatched;
+        std::tie(msg, dispatched) = centers[index].dispatch();
+        // temporary assert
+        assert(dispatched);
+        // Check if has been postponed
+        if (msg.status != Status::POSTPONED) {
+            // If not, send message to exit
+            exit_event(std::move(msg));
+        } else {
+            // Otherwise, send to postponed treatment
+            postpone_event(std::move(msg));
+        }
+    };
+    events.push(std::move(event));
 }
 
 void smail::Simulator::postpone_event(Message msg) {
