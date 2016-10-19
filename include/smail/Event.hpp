@@ -6,7 +6,7 @@
 
 namespace smail {
     struct Event {
-        using Action = std::function<void(const Message&, double)>;
+        using Action = std::function<void(double)>;
 
         double time;
         Message message;

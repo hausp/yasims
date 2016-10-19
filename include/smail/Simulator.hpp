@@ -12,8 +12,8 @@
 
 #include "Event.hpp"
 #include "MessageConsumer.hpp"
+#include "MessageClassifier.hpp"
 #include "MessageProducer.hpp"
-#include "StatusDefiner.hpp"
 
 namespace smail {
     class Simulator {
@@ -32,11 +32,8 @@ namespace smail {
      private:
         EventQueue events;
         Animation animation;
-        MessageProducer local;
-        MessageProducer remote;
-        StatusDefiner local_status;
-        StatusDefiner remote_status;
-        // MessageFactory message_factory;
+        std::array<MessageProducer, 2> spawners;
+        MessageClassifier classifier;
         double current_time = 0;
         int seed = 0;
 
@@ -48,11 +45,11 @@ namespace smail {
         bool execute = false;
         bool survive = true;
 
-        void create_arrival_event(Address);
-        void create_reception_event(const Message&);
-        void create_processing_event(const Message&);
-        void create_postpone_event(const Message&);
-        void create_exit_event(const Message&);
+        void arrival_event(size_t);
+        void create_reception_event();
+        void create_processing_event();
+        void create_postpone_event();
+        void create_exit_event();
     };
 }
 

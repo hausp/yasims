@@ -17,17 +17,18 @@ namespace smail {
         static const dist::disc<Address> L_DESTINATION;
         static const dist::disc<Address> R_DESTINATION;
 
+        static const AWMap L_STATUS_WEIGHTS;
+        static const AWMap R_STATUS_WEIGHTS;
+
         static const dist::funct<> L_ARRIVAL_TIMES;
         static const dist::funct<> R_ARRIVAL_TIMES;
-
-        static const AWMap local_status_weights;
-        static const AWMap remote_status_weights;
         
-        static const MFMap local_reception_times;
-        static const MFMap remote_reception_times;
+        static const MFMap L_PROCESSING_TIMES;
+        static const MFMap R_PROCESSING_TIMES;
+        
+        static const MFMap L_RECEPTION_TIMES;
+        static const MFMap R_RECEPTION_TIMES;
 
-        static const MFMap local_processing_times;
-        static const MFMap remote_processing_times;
     };
 }
 

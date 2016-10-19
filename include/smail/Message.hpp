@@ -5,16 +5,16 @@
 #include <functional>
 
 namespace smail {
-    enum class Address {
-        LOCAL,
-        REMOTE,
+    enum class Address : unsigned {
+        LOCAL = 0,
+        REMOTE = 1,
     };
 
-    enum class Status {
-        SUCCESS,
-        FAILURE,
-        POSTPONED,
-        UNDEFINED,
+    enum class Status : unsigned {
+        SUCCESS = 0,
+        FAILURE = 1,
+        POSTPONED = 2,
+        UNDEFINED = 3,
     };
 
     struct Message {

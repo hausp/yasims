@@ -5,10 +5,22 @@
 #include <iostream>
 
 smail::Simulator::Simulator():
- local{Address::LOCAL, Default::L_ARRIVAL_TIMES, Default::L_DESTINATION},
- remote{Address::REMOTE, Default::R_ARRIVAL_TIMES, Default::R_DESTINATION},
- local_status{Default::local_status_weights},
- remote_status{Default::remote_status_weights},
+ spawners{
+    MessageProducer{
+        Address::LOCAL,
+        Default::L_ARRIVAL_TIMES,
+        Default::L_DESTINATION
+    },
+    MessageProducer{
+        Address::REMOTE,
+        Default::R_ARRIVAL_TIMES,
+        Default::R_DESTINATION
+    }
+ },
+ classifier{
+    Default::L_STATUS_WEIGHTS,
+    Default::R_STATUS_WEIGHTS,
+ },
  thread{&smail::Simulator::run, this} { }
 
 smail::Simulator::~Simulator() {
@@ -59,9 +71,9 @@ void smail::Simulator::run() {
         while (execute && survive) {
             std::cout << "[Simulator] executing" << std::endl;
             auto e = events.top();
-            e.pre_action(e.message, e.time);
+            e.pre_action(e.time);
             // animation.wait_for(e.message().from)
-            e.pos_action(e.message, e.time);
+            e.pos_action(e.time);
 
             events.pop();
             execute = !events.empty();
@@ -71,8 +83,8 @@ void smail::Simulator::run() {
 
 void smail::Simulator::setup() {
     if (events.empty()) {
-        create_arrival_event(Address::LOCAL);
-        create_arrival_event(Address::REMOTE);
+        arrival_event(static_cast<size_t>(Address::LOCAL));
+        arrival_event(static_cast<size_t>(Address::REMOTE));
     }
 }
 
@@ -82,92 +94,33 @@ void smail::Simulator::reset() {
     // TODO: animation
 }
 
-void smail::Simulator::create_arrival_event(Address addr) {
-    auto event = Event{
-        // current_time + arrival_times.generate(addr),
-        current_time + 666,
-        // message_factory.create(addr),
-        Message(),
-        [this](const Message& message, double time) {
-            current_time = time;
-            create_arrival_event(message.from);
-        },
-        [this](const Message& message, double time) {
-            create_reception_event(message);
-        }
+void smail::Simulator::arrival_event(size_t index) {
+    auto event = spawners[index].produce(current_time, seed);
+    event.pre_action = [this, index](double time) {
+        current_time = time;
+        arrival_event(index);
+    };
+    event.pos_action = [this, index](double time) {
+        // auto message = spawners[index].top();
+        // classifier.classify(message);
+        // reception_event(message);
+        // create_reception_event();
     };
     events.push(event);
 }
 
-void smail::Simulator::create_reception_event(const Message& message) {
-    auto placeholder = 0;
-    auto event = Event{
-        current_time + placeholder,
-        message,
-        [this](const Message& message, double time) {
-            current_time = time;
-            
-        },
-        [this](const Message& message, double time) {
-            create_processing_event(message);
-        }
-    };
-    events.push(event);
+void smail::Simulator::create_reception_event() {
+
 }
 
-void smail::Simulator::create_processing_event(const Message& message) {
-    auto placeholder = 0;
-    auto event = Event{
-        // TODO
-        current_time + placeholder,
-        message,
-        [this](const Message& message, double time) {
-            current_time = time;
-            switch(message.status) {
-                case Status::POSTPONED:
-                    create_postpone_event(message);
-                    break;
-                default: // Covers both success and failure.
-                    create_exit_event(message);
-                    break;
-            }
-        },
-        [this](const Message& message, double time) {
-            // TODO
-        }
-    };
-    events.push(event);
+void smail::Simulator::create_processing_event() {
+
 }
 
-void smail::Simulator::create_postpone_event(const Message& message) {
-    auto placeholder = 0;
-    auto event = Event{
-        // TODO
-        current_time + placeholder,
-        message,
-        [this](const Message& message, double time) {
-            current_time = time;
-            // TODO
-        },
-        [this](const Message& message, double time) {
-            // TODO
-        }
-    };
-    events.push(event);
+void smail::Simulator::create_postpone_event() {
+
 }
 
-void smail::Simulator::create_exit_event(const Message& message) {
-    auto placeholder = 0;
-    auto event = Event{
-        current_time + placeholder,
-        message,
-        [this](const Message& message, double time) {
-            current_time = time;
-            // TODO
-        },
-        [this](const Message& message, double time) {
-            // TODO
-        }
-    };
-    events.push(event); 
+void smail::Simulator::create_exit_event() {
+   
 }
