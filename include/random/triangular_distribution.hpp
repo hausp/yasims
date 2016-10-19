@@ -10,9 +10,9 @@ namespace dist {
         template<typename Generator>
         T operator()(Generator&) const;
 
-        T lower_limit;
-        T upper_limit;
-        T mode;
+        T a; // lower_limit;
+        T b; // mode;
+        T c; // upper_limit;
     };
 }
 

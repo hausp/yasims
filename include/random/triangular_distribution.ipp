@@ -1,13 +1,13 @@
+#include <cmath>
 
 template<typename T>
 template<typename Generator>
 T dist::triangular_distribution<T>::operator()(Generator& gen) const {
     T r = gen();
-    if (r > (mode - lower_limit)/(upper_limit - lower_limit) ) {
-    	r = upper_limit - ((1 - r)*(upper_limit - mode)*(upper_limit - lower_limit))^(0.5);
+    if (r > (b - a)/(c - a) ) {
+    	r = c - std::sqrt((1 - r)*(c - b)*(c - a));
     } else {
-    	r = lower_limit + (r*(mode - lower_limit)*(upper_limit - lower_limit))^(0.5);
+    	r = a + std::sqrt(r*(b - a)*(c - a));
     }
-
     return r;
 }
