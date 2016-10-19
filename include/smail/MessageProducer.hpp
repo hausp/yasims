@@ -8,49 +8,38 @@
 
 namespace smail {
     class MessageProducer {
-        using ADMap = std::unordered_map<Address, dist::disc<Status>>;
      public:
-        MessageProducer(Address, dist::funct<>, AWMap);
+        MessageProducer(Address, dist::funct<>, dist::disc<Address>);
         void set_arrival_time(dist::funct<>);
-        void set_status_disc(Address, Weights);
-        Event produce();
+        Event produce(double = 0, unsigned = 0);
      private:
         MsgQueue incoming_messages;
         Address from;
         dist::funct<> arrival_time;
-        ADMap status_disc;
+        dist::disc<Address> destination;
     };
 }
 
 inline smail::MessageProducer::MessageProducer(Address from,
-                                               dist::funct<> fn,
-                                               AWMap weights):
+                                               dist::funct<> arrival,
+                                               dist::disc<Address> dest):
     from{from},
-    arrival_time {std::move(fn)},
-    status_disc {
-        {Address::LOCAL,
-        {std::vector<Status>{Status::SUCCESS, Status::FAILURE, Status::POSTPONED},
-         std::move(weights[Address::LOCAL])}},
-        {Address::REMOTE,
-        {std::vector<Status>{Status::SUCCESS, Status::FAILURE, Status::POSTPONED},
-         std::move(weights[Address::REMOTE])}}} { }
+    arrival_time {std::move(arrival)},
+    destination{std::move(dest)} { }
 
 inline void smail::MessageProducer::set_arrival_time(dist::funct<> fn) {
     arrival_time = std::move(fn);
 }
 
-inline void smail::MessageProducer::set_status_disc(Address addr, Weights weights) {
-    status_disc[addr] = {
-        std::vector<Status>{Status::SUCCESS, Status::FAILURE, Status::POSTPONED},
-        std::move(weights)
-    };
-}
-
-inline smail::Event smail::MessageProducer::produce() {
-    auto message = Message {
-        from
-    };
-    return Event();
+inline smail::Event smail::MessageProducer::produce(double time, unsigned seed) {
+    auto inbound_time = time + arrival_time(seed);
+    incoming_messages.emplace(Message{
+        from,
+        destination(seed),
+        Status::UNDEFINED,
+        inbound_time
+    });
+    return Event{inbound_time};
 }
 
 #endif /* SMAIL_MESSAGE_PRODUCER_HPP */

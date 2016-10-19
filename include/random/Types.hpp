@@ -41,7 +41,7 @@ namespace dist {
 
     // std::function encapsulation alias
     template<typename T = double>
-    using funct = std::function<T()>;
+    using funct = std::function<T(double)>;
 
     /// Struct ByType
     // Translates dist::Type specifications to its std equivalents

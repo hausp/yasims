@@ -5,20 +5,25 @@
 #include "Types.hpp"
 
 namespace dist {
-    /// Struct Function
-    // Struct to store all information needed to call
-    // the desired distribution
     template<typename Fn, typename T>
     struct Function {
         template<typename... Args>
-        constexpr Function(unsigned, Args...);
-        template<typename... Args>
         constexpr Function(Args...);
         T operator()(unsigned);
-        T operator()();
 
         Fn function;
-        unsigned seed;
+    };
+
+    template<typename T>
+    struct Function<discrete_distribution<T>, T> {
+        using VList = std::initializer_list<T>;
+        using WList = std::initializer_list<double>;
+
+        constexpr explicit Function();
+        constexpr Function(VList, WList);
+        T operator()(unsigned);
+
+        discrete_distribution<T> function;
     };
 
     template<typename T>

@@ -14,6 +14,7 @@ namespace smail {
         SUCCESS,
         FAILURE,
         POSTPONED,
+        UNDEFINED,
     };
 
     struct Message {
@@ -23,13 +24,13 @@ namespace smail {
         Address to;
         Status status;
 
-        double arrival_time = 0;
+        double inbound_time = 0;
         double in_system_time = 0;
     };
 
 
     inline bool operator<(const Message& lhs, const Message& rhs) {
-        return lhs.arrival_time < rhs.arrival_time;
+        return lhs.inbound_time < rhs.inbound_time;
     }
 
     inline bool operator==(const Message& lhs, const Message& rhs) {

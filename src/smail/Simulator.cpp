@@ -5,16 +5,10 @@
 #include <iostream>
 
 smail::Simulator::Simulator():
- local {
-    Address::LOCAL,
-    Default::local_arrival_time,
-    Default::local_status_weights
- },
- remote {
-    Address::REMOTE,
-    Default::remote_arrival_time,
-    Default::remote_status_weights
- },
+ local{Address::LOCAL, Default::L_ARRIVAL_TIMES, Default::L_DESTINATION},
+ remote{Address::REMOTE, Default::R_ARRIVAL_TIMES, Default::R_DESTINATION},
+ local_status{Default::local_status_weights},
+ remote_status{Default::remote_status_weights},
  thread{&smail::Simulator::run, this} { }
 
 smail::Simulator::~Simulator() {

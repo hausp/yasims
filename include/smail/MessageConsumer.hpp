@@ -9,7 +9,6 @@ namespace smail {
      public:
         void consume(const Message&) const;
      private:
-
     };
 }
 

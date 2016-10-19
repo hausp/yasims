@@ -1,14 +1,17 @@
 
 #include "smail/Default.hpp"
 
-std::random_device smail::Default::rd;
+const dist::disc<smail::Address> smail::Default::L_DESTINATION = {
+    {Address::LOCAL, Address::REMOTE},
+    {1.0, 1.0}
+};
+const dist::disc<smail::Address> smail::Default::R_DESTINATION = {
+    {Address::LOCAL, Address::REMOTE},
+    {1.0, 1.0}
+};
 
-const dist::funct<>
-smail::Default::local_arrival_time = dist::expo<>{Default::rd(), 0.6};
-
-const dist::funct<>
-smail::Default::remote_arrival_time = dist::expo<>{Default::rd(), 0.5};
-
+const dist::funct<> smail::Default::L_ARRIVAL_TIMES = dist::expo<>{0.6};
+const dist::funct<> smail::Default::R_ARRIVAL_TIMES = dist::expo<>{0.5};
 
 const smail::AWMap smail::Default::local_status_weights = {
     {Address::LOCAL, {1.0, 1.0, 1.0}},

@@ -13,6 +13,7 @@
 #include "Event.hpp"
 #include "MessageConsumer.hpp"
 #include "MessageProducer.hpp"
+#include "StatusDefiner.hpp"
 
 namespace smail {
     class Simulator {
@@ -33,6 +34,8 @@ namespace smail {
         Animation animation;
         MessageProducer local;
         MessageProducer remote;
+        StatusDefiner local_status;
+        StatusDefiner remote_status;
         // MessageFactory message_factory;
         double current_time = 0;
         int seed = 0;
