@@ -9,9 +9,7 @@ namespace smail {
         using Action = std::function<void(double)>;
 
         double time;
-        Message message;
-        Action pre_action;
-        Action pos_action;
+        Action action;
     };
 
     inline bool operator<(const Event& lhs, const Event& rhs) {

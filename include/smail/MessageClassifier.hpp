@@ -11,7 +11,7 @@ namespace smail {
         MessageClassifier(AWMap, AWMap);
 
         void set_weights(Address, Address, Weights);
-        void classify(Message&, double);
+        void classify(Message&);
      private:
         DistArray status_disc;
 
@@ -24,22 +24,22 @@ namespace smail {
 
     inline MessageClassifier::MessageClassifier(AWMap lweights, AWMap rweights):
      status_disc {
-        dist::disc<Status>(
+        dist::disc<Status>{
             {Status::SUCCESS, Status::FAILURE, Status::POSTPONED},
             std::move(lweights[Address::LOCAL])
-        ),
-        dist::disc<Status>(
+        },
+        dist::disc<Status>{
             {Status::SUCCESS, Status::FAILURE, Status::POSTPONED},
             std::move(lweights[Address::REMOTE])
-        ),
-        dist::disc<Status>(
+        },
+        dist::disc<Status>{
             {Status::SUCCESS, Status::FAILURE, Status::POSTPONED},
             std::move(rweights[Address::LOCAL])
-        ),
-        dist::disc<Status>(
+        },
+        dist::disc<Status>{
             {Status::SUCCESS, Status::FAILURE, Status::POSTPONED},
             std::move(rweights[Address::REMOTE])
-        )
+        }
     } { }
 
 
@@ -50,8 +50,8 @@ namespace smail {
         };
     }
 
-    inline void MessageClassifier::classify(Message& msg, double seed) { 
-        msg.status = status_disc[to_index(msg.from, msg.to)](seed);
+    inline void MessageClassifier::classify(Message& msg) { 
+        msg.status = status_disc[to_index(msg.from, msg.to)]();
     }
 }
 

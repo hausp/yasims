@@ -7,6 +7,7 @@
 
 namespace smail {
     struct Message;
+    struct Event;
 
     enum class Address : unsigned {
         LOCAL = 0,

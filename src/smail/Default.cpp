@@ -1,6 +1,8 @@
 
 #include "smail/Default.hpp"
 
+std::random_device smail::Default::RD;
+
 const dist::disc<smail::Address> smail::Default::L_DESTINATION = {
     {Address::LOCAL, Address::REMOTE},
     {0.667, 0.333}
@@ -23,7 +25,7 @@ const smail::AWMap smail::Default::R_STATUS_WEIGHTS = {
     {Address::REMOTE, {0.90, 0.01, 0.09}}
 };
 
-const smail::MFMap smail::Default::L_RECEPTION_TIMES = {
+const smail::MFMap smail::Default::RECEPTION_TIMES = {
     {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
      dist::cons<>{0.12}},
     {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
@@ -35,10 +37,7 @@ const smail::MFMap smail::Default::L_RECEPTION_TIMES = {
     {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
      dist::cons<>{0.13}},
     {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
-     dist::cons<>{0.15}}
-};
-
-const smail::MFMap smail::Default::R_RECEPTION_TIMES = {
+     dist::cons<>{0.15}},
     {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
      dist::cons<>{0.12}},
     {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
@@ -55,29 +54,30 @@ const smail::MFMap smail::Default::R_RECEPTION_TIMES = {
 
 const smail::MFMap smail::Default::L_PROCESSING_TIMES = {
     {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
-     dist::norm<>{0.55, 0.05}},
+     dist::norm<>{RD(), 0.55, 0.05}},
     {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
-     dist::tria<>{0.02, 0.05, 0.12}},
+     dist::tria<>{RD(), 0.02, 0.05, 0.12}},
     {{Address::LOCAL, Address::LOCAL, Status::POSTPONED},
-     dist::unif<>{0.06, 0.15}},
+     dist::unif<>{RD(), 0.06, 0.15}},
     {{Address::LOCAL, Address::REMOTE, Status::SUCCESS},
-     dist::norm<>{0.65, 0.04}},
+     dist::norm<>{RD(), 0.65, 0.04}},
     {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
-     dist::unif<>{0.16, 0.25}},
+     dist::unif<>{RD(), 0.16, 0.25}},
     {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
-     dist::tria<>{0.05, 0.07, 0.10}}
+     dist::tria<>{RD(), 0.05, 0.07, 0.10}}
 };
+
 const smail::MFMap smail::Default::R_PROCESSING_TIMES = {
     {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
-     dist::unif<>{0.03, 0.11}},
+     dist::unif<>{RD(), 0.03, 0.11}},
     {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
-     dist::norm<>{0.46, 0.05}},
+     dist::norm<>{RD(), 0.46, 0.05}},
     {{Address::REMOTE, Address::LOCAL, Status::POSTPONED},
-     dist::norm<>{0.72, 0.09}},
+     dist::norm<>{RD(), 0.72, 0.09}},
     {{Address::REMOTE, Address::REMOTE, Status::SUCCESS},
-     dist::unif<>{0.09, 0.18}},
+     dist::unif<>{RD(), 0.09, 0.18}},
     {{Address::REMOTE, Address::REMOTE, Status::FAILURE},
-     dist::tria<>{0.08, 0.15, 0.22}},
+     dist::tria<>{RD(), 0.08, 0.15, 0.22}},
     {{Address::REMOTE, Address::REMOTE, Status::POSTPONED},
-     dist::norm<>{0.63, 0.04}}
+     dist::norm<>{RD(), 0.63, 0.04}}
 };

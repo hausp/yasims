@@ -3,6 +3,7 @@
 #define DIST_TYPES_HPP
 
 #include <random>
+#include <functional>
 
 #include "Distribution.hpp"
 
@@ -41,7 +42,7 @@ namespace dist {
 
     // std::function encapsulation alias
     template<typename T = double>
-    using funct = std::function<T(double)>;
+    using funct = std::function<T()>;
 
     /// Struct ByType
     // Translates dist::Type specifications to its std equivalents

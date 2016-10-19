@@ -6,7 +6,7 @@
 
 namespace dist {
     /// Constant function
-    template<typename T>
+    template<typename T = double>
     struct constant_distribution {
         T value;
     };

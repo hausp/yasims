@@ -13,13 +13,13 @@ namespace smail {
         Address to;
         Status status;
 
-        double inbound_time = 0;
+        double current_time = 0;
         double in_system_time = 0;
     };
 
 
     inline bool operator<(const Message& lhs, const Message& rhs) {
-        return lhs.inbound_time < rhs.inbound_time;
+        return lhs.current_time < rhs.current_time;
     }
 
     inline bool operator==(const Message& lhs, const Message& rhs) {

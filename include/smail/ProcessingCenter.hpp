@@ -2,19 +2,23 @@
 #ifndef SMAIL_PROCESSING_CENTER_HPP
 #define SMAIL_PROCESSING_CENTER_HPP
 
+#include <queue>
+#include <set>
 #include "Types.hpp"
+#include "Message.hpp"
 
 namespace smail {
     class ProcessingCenter {
      public:
-        ProcessingCenter(size_t);
+        ProcessingCenter(MFMap, size_t = 1);
 
-        void receive(Message);
-        Message dispatch(double);
+        Event receive(Message);
+        std::pair<Message, bool> dispatch();
      private:
         size_t capacity;
-        MsgQueue allocated;
-        MsgQueue waiting_queue;
+        std::set<Message> allocated;
+        std::queue<Message> waiting_queue;
+        MFMap processing_times;
     };
 }
 

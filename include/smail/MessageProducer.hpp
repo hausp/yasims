@@ -11,7 +11,7 @@ namespace smail {
      public:
         MessageProducer(Address, dist::funct<>, dist::disc<Address>);
         void set_arrival_time(dist::funct<>);
-        Event produce(double = 0, unsigned = 0);
+        Event produce(double = 0);
         Message dispatch();
      private:
         MsgQueue incoming_messages;
@@ -36,11 +36,11 @@ namespace smail {
         return message;
     }
 
-    inline Event MessageProducer::produce(double time, unsigned seed) {
-        auto inbound_time = time + arrival_time(seed);
+    inline Event MessageProducer::produce(double time) {
+        auto inbound_time = time + arrival_time();
         incoming_messages.emplace(Message{
             from,
-            destination(seed),
+            destination(),
             Status::UNDEFINED,
             inbound_time
         });

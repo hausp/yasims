@@ -35,10 +35,9 @@ namespace smail {
         std::array<MessageProducer, 2> spawners;
         MessageClassifier classifier;
         ProcessingCenter reception;
-        ProcessingCenter local_center;
-        ProcessingCenter remote_center;
+        std::array<ProcessingCenter, 2> centers;
+        // MessageConsumer dispatcher;
         double clock = 0;
-        int seed = 0;
 
         // Thread related attributes
         std::mutex mutex;
@@ -50,9 +49,9 @@ namespace smail {
 
         void arrival_event(size_t);
         void reception_event(Message);
-        void processing_event();
-        void postpone_event();
-        void exit_event();
+        void processing_event(Message);
+        void postpone_event(Message);
+        void exit_event(Message);
     };
 }
 

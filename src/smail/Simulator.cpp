@@ -1,7 +1,9 @@
 
+#include <cassert>
 #include "smail/Default.hpp"
 #include "smail/Simulator.hpp"
 #include "random/Function.hpp"
+
 #include <iostream>
 
 smail::Simulator::Simulator():
@@ -20,6 +22,19 @@ smail::Simulator::Simulator():
  classifier{
     Default::L_STATUS_WEIGHTS,
     Default::R_STATUS_WEIGHTS,
+ },
+ reception{
+    Default::RECEPTION_TIMES
+ },
+ centers {
+    ProcessingCenter{
+        Default::L_PROCESSING_TIMES,
+        Default::LOCAL_CENTER_CAPACITY
+    },
+    ProcessingCenter{
+        Default::L_PROCESSING_TIMES,
+        Default::REMOTE_CENTER_CAPACITY
+    }
  },
  thread{&smail::Simulator::run, this} { }
 
@@ -72,10 +87,7 @@ void smail::Simulator::run() {
         while (execute && survive) {
             std::cout << "[Simulator] executing" << std::endl;
             auto e = events.top();
-            e.pre_action(e.time);
-            // animation.wait_for(e.message().from)
-            e.pos_action(e.time);
-
+            e.action(e.time);
             events.pop();
             execute = !events.empty();
         }
@@ -97,39 +109,48 @@ void smail::Simulator::reset() {
 
 void smail::Simulator::arrival_event(size_t index) {
     // Produce message and its arrival event
-    auto event = spawners[index].produce(clock, seed);
-    // Set arrival event pre_action (before animation)
-    event.pre_action = [this, index](double time) {
+    auto event = spawners[index].produce(clock);
+    // Set arrival event action
+    event.action = [this, index](double time) {
         // Update simulation clock
         clock = time;
         // Creates next arrival event
         arrival_event(index);
-    };
-    // Set arrival event pos_action (after animation)
-    event.pos_action = [this, index](double time) {
         // Dispatch a message from the spawner
         auto msg = spawners[index].dispatch();
         // Classify this message (choose its status)
-        classifier.classify(msg, seed);
-        // Send message to reception and create a new reception event
+        classifier.classify(msg);
+        // Send message to reception
         reception_event(std::move(msg));
     };
-
-    events.push(event);
+    events.push(std::move(event));
 }
 
 void smail::Simulator::reception_event(Message msg) {
+    auto event = reception.receive(std::move(msg));
+    event.action = [this](double time) {
+        // Update simulation clock
+        clock = time;
+        // Get dispatched message
+        Message msg;
+        bool dispatched;
+        std::tie(msg, dispatched) = reception.dispatch();
+        // temporary assert
+        assert(dispatched);
+        // Send message to processing centers
+        processing_event(std::move(msg));
+    };
+    events.push(std::move(event));
+}
+
+void smail::Simulator::processing_event(Message msg) {
     // TODO
 }
 
-void smail::Simulator::processing_event() {
+void smail::Simulator::postpone_event(Message msg) {
     // TODO
 }
 
-void smail::Simulator::postpone_event() {
-    // TODO
-}
-
-void smail::Simulator::exit_event() {
+void smail::Simulator::exit_event(Message msg) {
     // TODO
 }
