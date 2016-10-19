@@ -11,9 +11,9 @@ namespace dist {
     template<typename Fn, typename T>
     struct Function {
         template<typename... Args>
-        Function(int, Args&&...);
+        constexpr Function(int, Args&&...);
         template<typename... Args>
-        Function(Args&&...);
+        constexpr Function(Args&&...);
         T operator()();
 
         Fn function;
@@ -22,8 +22,8 @@ namespace dist {
 
     template<typename T>
     struct Function<constant_distribution<T>, T> {
-        Function(int, T); // For compatibility purposes
-        Function(T);
+        constexpr Function(int, T); // For compatibility purposes
+        constexpr Function(T);
         constexpr T operator()();
 
         constant_distribution<T> function;

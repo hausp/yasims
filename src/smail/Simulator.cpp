@@ -1,70 +1,16 @@
 
-#include "core/Simulator.hpp"
+#include "smail/Default.hpp"
+#include "smail/Simulator.hpp"
 #include "random/Function.hpp"
 #include <iostream>
 
-Simulator::Simulator():
- arrival_times{{
-    {Address::LOCAL,
-     dist::expo<>{seed, 0.6}},
-    {Address::REMOTE,
-     dist::expo<>{seed, 0.5}}
- }},
- reception_times{{
-    {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
-     dist::cons<>{0.12}},
-    {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
-     dist::cons<>{0.12}},
-    {{Address::LOCAL, Address::LOCAL, Status::POSTPONED},
-     dist::cons<>{0.12}},
-    {{Address::LOCAL, Address::REMOTE, Status::SUCCESS},
-     dist::cons<>{0.12}},
-    {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
-     dist::cons<>{0.12}},
-    {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::LOCAL, Status::POSTPONED},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::REMOTE, Status::SUCCESS},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::REMOTE, Status::FAILURE},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::REMOTE, Status::POSTPONED},
-     dist::cons<>{0.12}}
- }},
- processing_times{{
-    {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
-     dist::cons<>{0.12}},
-    {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
-     dist::cons<>{0.12}},
-    {{Address::LOCAL, Address::LOCAL, Status::POSTPONED},
-     dist::cons<>{0.12}},
-    {{Address::LOCAL, Address::REMOTE, Status::SUCCESS},
-     dist::cons<>{0.12}},
-    {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
-     dist::cons<>{0.12}},
-    {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::LOCAL, Status::POSTPONED},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::REMOTE, Status::SUCCESS},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::REMOTE, Status::FAILURE},
-     dist::cons<>{0.12}},
-    {{Address::REMOTE, Address::REMOTE, Status::POSTPONED},
-     dist::cons<>{0.12}}
- }},
- thread{&Simulator::run, this} { }
+smail::Simulator::Simulator():
+ arrival_times{smail::Default::arrival_times},
+ reception_times{smail::Default::reception_times},
+ processing_times{smail::Default::processing_times},
+ thread{&smail::Simulator::run, this} { }
 
-Simulator::~Simulator() {
+smail::Simulator::~Simulator() {
     survive = false;
     cv.notify_all();
 
@@ -73,7 +19,7 @@ Simulator::~Simulator() {
     }
 }
 
-void Simulator::start(bool a) {
+void smail::Simulator::start(bool a) {
     if (execute) return;
     animate = a;
 
@@ -85,14 +31,14 @@ void Simulator::start(bool a) {
     cv.notify_all();
 }
 
-void Simulator::pause() {
+void smail::Simulator::pause() {
     if (!execute) return;
     if (animate) animation.pause();
 
     execute = false;
 }
 
-void Simulator::stop() {
+void smail::Simulator::stop() {
     if (!execute) return;
     if (animate) animation.stop();
 
@@ -101,7 +47,7 @@ void Simulator::stop() {
     execute = false;
 }
 
-void Simulator::run() {
+void smail::Simulator::run() {
     while (survive) {
         std::unique_lock<std::mutex> permission{mutex};
         cv.wait(permission, [this] {
@@ -122,23 +68,24 @@ void Simulator::run() {
     }
 }
 
-void Simulator::setup() {
+void smail::Simulator::setup() {
     if (events.empty()) {
         create_arrival_event(Address::LOCAL);
         create_arrival_event(Address::REMOTE);
     }
 }
 
-void Simulator::reset() {
+void smail::Simulator::reset() {
     auto cleaner = EventQueue{};
     events.swap(cleaner);
     // TODO: animation
 }
 
-void Simulator::create_arrival_event(Address addr) {
+void smail::Simulator::create_arrival_event(Address addr) {
     auto event = Event{
         current_time + arrival_times.generate(addr),
-        message_factory.create(addr),
+        // message_factory.create(addr),
+        Message(),
         [this](const Message& message, double time) {
             current_time = time;
             create_arrival_event(message.from);
@@ -150,7 +97,7 @@ void Simulator::create_arrival_event(Address addr) {
     events.push(event);
 }
 
-void Simulator::create_reception_event(const Message& message) {
+void smail::Simulator::create_reception_event(const Message& message) {
     auto placeholder = 0;
     auto event = Event{
         current_time + placeholder,
@@ -166,7 +113,7 @@ void Simulator::create_reception_event(const Message& message) {
     events.push(event);
 }
 
-void Simulator::create_processing_event(const Message& message) {
+void smail::Simulator::create_processing_event(const Message& message) {
     auto placeholder = 0;
     auto event = Event{
         // TODO
@@ -190,7 +137,7 @@ void Simulator::create_processing_event(const Message& message) {
     events.push(event);
 }
 
-void Simulator::create_postpone_event(const Message& message) {
+void smail::Simulator::create_postpone_event(const Message& message) {
     auto placeholder = 0;
     auto event = Event{
         // TODO
@@ -207,7 +154,7 @@ void Simulator::create_postpone_event(const Message& message) {
     events.push(event);
 }
 
-void Simulator::create_exit_event(const Message& message) {
+void smail::Simulator::create_exit_event(const Message& message) {
     auto placeholder = 0;
     auto event = Event{
         current_time + placeholder,

@@ -6,7 +6,7 @@
 
 #include <thread>
 #include "interface/GTKInterface.hpp"
-#include "Simulator.hpp"
+#include "smail/Simulator.hpp"
 
 class Context {
  public:
@@ -22,7 +22,7 @@ class Context {
     void start();
     void stop();
  private:
-    Simulator sim;
+    smail::Simulator sim;
     GTKInterface gui;
 };
 

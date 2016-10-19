@@ -1,13 +1,13 @@
 
 template<typename Fn, typename T>
 template<typename... Args>
-dist::Function<Fn,T>::Function(int seed, Args&&... args):
+constexpr dist::Function<Fn,T>::Function(int seed, Args&&... args):
  function{std::forward<Args>(args)...},
  seed{seed} { }
 
 template<typename Fn, typename T>
 template<typename... Args>
-dist::Function<Fn,T>::Function(Args&&... args):
+constexpr dist::Function<Fn,T>::Function(Args&&... args):
  function{std::forward<Args>(args)...} {
     std::random_device rd;
     seed = rd();
@@ -20,11 +20,11 @@ T dist::Function<Fn,T>::operator()() {
 }
 
 template<typename T>
-dist::Function<dist::constant_distribution<T>, T>::Function(int, T value):
+constexpr dist::Function<dist::constant_distribution<T>, T>::Function(int, T value):
     function{value} { }
 
 template<typename T>
-dist::Function<dist::constant_distribution<T>, T>::Function(T value):
+constexpr dist::Function<dist::constant_distribution<T>, T>::Function(T value):
     function{value} { }
 
 template<typename T>

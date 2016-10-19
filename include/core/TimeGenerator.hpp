@@ -1,6 +1,6 @@
 
-#ifndef EVENT_FACTORY_HPP
-#define EVENT_FACTORY_HPP
+#ifndef TIME_GENERATOR_HPP
+#define TIME_GENERATOR_HPP
 
 #include <functional>
 #include <unordered_map>
@@ -9,16 +9,16 @@
 
 template<typename T>
 class TimeGenerator {
-    using AddrMap = std::unordered_map<T, dist::funct<>>;
+    using Map = std::unordered_map<T, dist::funct<>>;
  public:
-    TimeGenerator(AddrMap);
+    TimeGenerator(Map);
     double generate(const T&) const;
  private:
-    AddrMap times;
+    Map times;
 };
 
 template<typename T>
-inline TimeGenerator<T>::TimeGenerator(AddrMap times):
+inline TimeGenerator<T>::TimeGenerator(Map times):
     times{std::move(times)} {}
 
 template<typename T>
@@ -26,4 +26,4 @@ inline double TimeGenerator<T>::generate(const T& addr) const {
     return times.at(addr)();
 }
 
-#endif /* EVENT_FACTORY_HPP */
+#endif /* TIME_GENERATOR_HPP */
