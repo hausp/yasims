@@ -22,7 +22,15 @@ namespace smail {
         Address from;
         Address to;
         Status status;
+
+        double arrival_time = 0;
+        double in_system_time = 0;
     };
+
+
+    inline bool operator<(const Message& lhs, const Message& rhs) {
+        return lhs.arrival_time < rhs.arrival_time;
+    }
 
     inline bool operator==(const Message& lhs, const Message& rhs) {
         return lhs.from == rhs.from 

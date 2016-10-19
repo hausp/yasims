@@ -5,9 +5,16 @@
 #include <iostream>
 
 smail::Simulator::Simulator():
- arrival_times{smail::Default::arrival_times},
- reception_times{smail::Default::reception_times},
- processing_times{smail::Default::processing_times},
+ local {
+    Address::LOCAL,
+    Default::local_arrival_time,
+    Default::local_status_weights
+ },
+ remote {
+    Address::REMOTE,
+    Default::remote_arrival_time,
+    Default::remote_status_weights
+ },
  thread{&smail::Simulator::run, this} { }
 
 smail::Simulator::~Simulator() {
@@ -83,7 +90,8 @@ void smail::Simulator::reset() {
 
 void smail::Simulator::create_arrival_event(Address addr) {
     auto event = Event{
-        current_time + arrival_times.generate(addr),
+        // current_time + arrival_times.generate(addr),
+        current_time + 666,
         // message_factory.create(addr),
         Message(),
         [this](const Message& message, double time) {

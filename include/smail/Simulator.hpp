@@ -1,5 +1,4 @@
 
-
 #ifndef SMAIL_SIMULATOR_HPP
 #define SMAIL_SIMULATOR_HPP
 
@@ -10,11 +9,10 @@
 #include <mutex>
 
 #include "animation/Animation.hpp"
-#include "core/TimeGenerator.hpp"
 
 #include "Event.hpp"
-#include "EventConsumer.hpp"
-#include "EventProducer.hpp"
+#include "MessageConsumer.hpp"
+#include "MessageProducer.hpp"
 
 namespace smail {
     class Simulator {
@@ -33,9 +31,8 @@ namespace smail {
      private:
         EventQueue events;
         Animation animation;
-        TimeGenerator<Address> arrival_times;
-        TimeGenerator<Message> reception_times;
-        TimeGenerator<Message> processing_times;
+        MessageProducer local;
+        MessageProducer remote;
         // MessageFactory message_factory;
         double current_time = 0;
         int seed = 0;

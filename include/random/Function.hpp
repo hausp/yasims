@@ -11,20 +11,20 @@ namespace dist {
     template<typename Fn, typename T>
     struct Function {
         template<typename... Args>
-        constexpr Function(int, Args&&...);
+        constexpr Function(unsigned, Args...);
         template<typename... Args>
-        constexpr Function(Args&&...);
+        constexpr Function(Args...);
+        T operator()(unsigned);
         T operator()();
 
         Fn function;
-        int seed;
+        unsigned seed;
     };
 
     template<typename T>
     struct Function<constant_distribution<T>, T> {
-        constexpr Function(int, T); // For compatibility purposes
         constexpr Function(T);
-        constexpr T operator()();
+        constexpr T operator()(unsigned = 0);
 
         constant_distribution<T> function;
     };
