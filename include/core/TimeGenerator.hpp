@@ -7,19 +7,22 @@
 
 #include "random/Function.hpp"
 
+template<typename T>
 class TimeGenerator {
-    using AddrMap = std::unordered_map<Address, dist::funct<>>;
+    using AddrMap = std::unordered_map<T, dist::funct<>>;
  public:
     TimeGenerator(AddrMap);
-    double generate(const Address&) const;
+    double generate(const T&) const;
  private:
     AddrMap times;
 };
 
-inline TimeGenerator::TimeGenerator(AddrMap times):
+template<typename T>
+inline TimeGenerator<T>::TimeGenerator(AddrMap times):
     times{std::move(times)} {}
 
-inline double TimeGenerator::generate(const Address& addr) const {
+template<typename T>
+inline double TimeGenerator<T>::generate(const T& addr) const {
     return times.at(addr)();
 }
 

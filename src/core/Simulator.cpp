@@ -5,9 +5,17 @@
 
 Simulator::Simulator():
  arrival_times{{
-    {Address::LOCAL, dist::expo(0.6)},
-    {Address::REMOTE, dist::expo(0.5)}
+    {Address::LOCAL, dist::expo<>(0.6)},
+    {Address::REMOTE, dist::expo<>(0.5)}
  }},
+ /*reception_times {{}
+    
+
+ },
+ processing_times {
+    {AdAdSt{Address::LOCAL, Address::LOCAL, Status::SUCCESS}, dist::norm(0.55,0.5)}
+
+ },*/
  thread{&Simulator::run, this} { }
 
 Simulator::~Simulator() {
@@ -103,10 +111,10 @@ void Simulator::create_reception_event(const Message& message) {
         message,
         [this](const Message& message, double time) {
             current_time = time;
-            // TODO
+            
         },
         [this](const Message& message, double time) {
-            // TODO
+            create_processing_event(message);
         }
     };
     events.push(event);
@@ -120,7 +128,14 @@ void Simulator::create_processing_event(const Message& message) {
         message,
         [this](const Message& message, double time) {
             current_time = time;
-            // TODO
+            switch(message.curr_status) {
+                case Status::POSTPONED:
+                    create_postpone_event(message);
+                    break;
+                default: // Covers both success and failure.
+                    create_exit_event(message);
+                    break;
+            }
         },
         [this](const Message& message, double time) {
             // TODO
