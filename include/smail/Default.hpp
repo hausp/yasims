@@ -14,6 +14,7 @@ namespace smail {
 
         static constexpr size_t LOCAL_CENTER_CAPACITY = 20;
         static constexpr size_t REMOTE_CENTER_CAPACITY = 20;
+        static constexpr double TIME_OUT = 0.3;
 
         static const dist::disc<Address> L_DESTINATION;
         static const dist::disc<Address> R_DESTINATION;

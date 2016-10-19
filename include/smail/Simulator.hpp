@@ -14,6 +14,7 @@
 #include "MessageConsumer.hpp"
 #include "MessageProducer.hpp"
 #include "ProcessingCenter.hpp"
+#include "Default.hpp"
 
 namespace smail {
     class Simulator {
@@ -38,6 +39,7 @@ namespace smail {
         std::array<ProcessingCenter, 2> centers;
         // MessageConsumer dispatcher;
         double clock = 0;
+        double message_timeout = Default::TIME_OUT;
 
         // Thread related attributes
         std::mutex mutex;

@@ -1,6 +1,7 @@
 
 #include "smail/ProcessingCenter.hpp"
 #include "smail/Event.hpp"
+#include <iostream>
 
 smail::ProcessingCenter::ProcessingCenter(MFMap times, size_t capacity):
  capacity{capacity},

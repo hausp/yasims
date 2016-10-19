@@ -1,6 +1,5 @@
 
 #include <cassert>
-#include "smail/Default.hpp"
 #include "smail/Simulator.hpp"
 #include "random/Function.hpp"
 
@@ -32,7 +31,7 @@ smail::Simulator::Simulator():
         Default::LOCAL_CENTER_CAPACITY
     },
     ProcessingCenter{
-        Default::L_PROCESSING_TIMES,
+        Default::R_PROCESSING_TIMES,
         Default::REMOTE_CENTER_CAPACITY
     }
  },
@@ -67,23 +66,28 @@ void smail::Simulator::pause() {
 }
 
 void smail::Simulator::stop() {
+    // If not executing, nothing to be done
     if (!execute) return;
+    // Stop animation, if any
     if (animate) animation.stop();
-
-    reset();
-    setup();
-
+    // Sinalize to stop executing
     execute = false;
+    // Reset state of simulator
+    reset();
+    // Recriate initial stimulus
+    setup();
 }
 
 void smail::Simulator::run() {
     while (survive) {
         std::unique_lock<std::mutex> permission{mutex};
+        // Synchronizing operations, to keep thread suspended
+        // when paused and stoped
         cv.wait(permission, [this] {
             return !survive || execute;
         });
         permission.unlock();
-
+        // execution loop
         while (execute && survive) {
             // Get next event
             auto e = events.top();
@@ -100,23 +104,27 @@ void smail::Simulator::run() {
 }
 
 void smail::Simulator::setup() {
+    // If there is no event
     if (events.empty()) {
+        // Give the initial stimulus, one local arrive and one remote
         arrival_event(static_cast<size_t>(Address::LOCAL));
         arrival_event(static_cast<size_t>(Address::REMOTE));
     }
 }
 
 void smail::Simulator::reset() {
+    // A brand new EventQueue to replace older one
     auto cleaner = EventQueue{};
     events.swap(cleaner);
     // TODO: animation
 }
 
 void smail::Simulator::arrival_event(size_t index) {
+    std::cout << "Arrival event" << std::endl;
     // Produce message and its arrival event
     auto event = spawners[index].produce(clock);
     // Set arrival event action
-    event.action = [this, index]() {
+    event.action = [this, index] {
         // Creates next arrival event
         arrival_event(index);
         // Dispatch a message from the spawner
@@ -130,10 +138,11 @@ void smail::Simulator::arrival_event(size_t index) {
 }
 
 void smail::Simulator::reception_event(Message msg) {
+    std::cout << "Reception event" << std::endl;
     // Send message to reception and get ready event
     auto event = reception.receive(std::move(msg));
     // Set ready event action
-    event.action = [this]() {
+    event.action = [this] {
         // Get dispatched message
         Message msg;
         bool dispatched;
@@ -147,12 +156,14 @@ void smail::Simulator::reception_event(Message msg) {
 }
 
 void smail::Simulator::processing_event(Message msg) {
+    std::cout << "Processing event" << std::endl;
     // Get index for the corresponding center
-    auto index = static_cast<size_t>(msg.to);
+    auto index = static_cast<size_t>(msg.from);
+    std::cout << "index: " << index << std::endl;
     // Send message to center and get ready event
     auto event = centers[index].receive(std::move(msg));
     // Set ready event action
-    event.action = [this, index]() {
+    event.action = [this, index] {
         // Get dispatched message
         Message msg;
         bool dispatched;
@@ -164,7 +175,7 @@ void smail::Simulator::processing_event(Message msg) {
             // If not, send message to exit
             exit_event(std::move(msg));
         } else {
-            // Otherwise, send to postponed treatment
+            // Otherwise, send to postpone treatment
             postpone_event(std::move(msg));
         }
     };
@@ -172,9 +183,16 @@ void smail::Simulator::processing_event(Message msg) {
 }
 
 void smail::Simulator::postpone_event(Message msg) {
-    // TODO
+    std::cout << "Postpone event" << std::endl;
+    if (msg.in_system_time >= message_timeout) {
+        msg.status = Status::FAILURE;
+        exit_event(std::move(msg));
+    } else {
+        // TODO
+    }
 }
 
 void smail::Simulator::exit_event(Message msg) {
+    std::cout << "Exit event" << std::endl;
     // TODO
 }
