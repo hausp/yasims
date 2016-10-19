@@ -85,11 +85,16 @@ void smail::Simulator::run() {
         permission.unlock();
 
         while (execute && survive) {
-            std::cout << "[Simulator] executing" << std::endl;
+            // Get next event
             auto e = events.top();
-            e.action(e.time);
+            // Update simulation clock
+            clock = e.time;
+            // Execute event action
+            e.action();
+            // Remove event
             events.pop();
-            execute = !events.empty();
+            // Update execute control variable
+            execute = execute && !events.empty();
         }
     }
 }
@@ -111,9 +116,7 @@ void smail::Simulator::arrival_event(size_t index) {
     // Produce message and its arrival event
     auto event = spawners[index].produce(clock);
     // Set arrival event action
-    event.action = [this, index](double time) {
-        // Update simulation clock
-        clock = time;
+    event.action = [this, index]() {
         // Creates next arrival event
         arrival_event(index);
         // Dispatch a message from the spawner
@@ -130,9 +133,7 @@ void smail::Simulator::reception_event(Message msg) {
     // Send message to reception and get ready event
     auto event = reception.receive(std::move(msg));
     // Set ready event action
-    event.action = [this](double time) {
-        // Update simulation clock
-        clock = time;
+    event.action = [this]() {
         // Get dispatched message
         Message msg;
         bool dispatched;
@@ -151,9 +152,7 @@ void smail::Simulator::processing_event(Message msg) {
     // Send message to center and get ready event
     auto event = centers[index].receive(std::move(msg));
     // Set ready event action
-    event.action = [this, index](double time) {
-        // Update simulation clock
-        clock = time;
+    event.action = [this, index]() {
         // Get dispatched message
         Message msg;
         bool dispatched;
