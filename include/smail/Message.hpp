@@ -3,20 +3,9 @@
 #define SMAIL_MESSAGE_HPP
 
 #include <functional>
+#include "Types.hpp"
 
 namespace smail {
-    enum class Address : unsigned {
-        LOCAL = 0,
-        REMOTE = 1,
-    };
-
-    enum class Status : unsigned {
-        SUCCESS = 0,
-        FAILURE = 1,
-        POSTPONED = 2,
-        UNDEFINED = 3,
-    };
-
     struct Message {
         using Type = Address;
 

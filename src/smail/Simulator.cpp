@@ -57,6 +57,7 @@ void smail::Simulator::stop() {
 
     reset();
     setup();
+
     execute = false;
 }
 
@@ -95,32 +96,37 @@ void smail::Simulator::reset() {
 }
 
 void smail::Simulator::arrival_event(size_t index) {
+    // Produce message and its arrival event
     auto event = spawners[index].produce(current_time, seed);
+
+    // Set arrival event pre_action (before animation)
     event.pre_action = [this, index](double time) {
         current_time = time;
         arrival_event(index);
     };
+
+    // Set arrival event pos_action (after animation)
     event.pos_action = [this, index](double time) {
-        // auto message = spawners[index].top();
-        // classifier.classify(message);
-        // reception_event(message);
-        // create_reception_event();
+        auto msg = spawners[index].dispatch();
+        classifier.classify(msg, seed);
+        reception_event(std::move(msg));
     };
+
     events.push(event);
 }
 
-void smail::Simulator::create_reception_event() {
-
+void smail::Simulator::reception_event(Message msg) {
+    // TODO
 }
 
-void smail::Simulator::create_processing_event() {
-
+void smail::Simulator::processing_event() {
+    // TODO
 }
 
-void smail::Simulator::create_postpone_event() {
-
+void smail::Simulator::postpone_event() {
+    // TODO
 }
 
-void smail::Simulator::create_exit_event() {
-   
+void smail::Simulator::exit_event() {
+    // TODO
 }

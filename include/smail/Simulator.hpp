@@ -9,11 +9,11 @@
 #include <mutex>
 
 #include "animation/Animation.hpp"
-
 #include "Event.hpp"
-#include "MessageConsumer.hpp"
 #include "MessageClassifier.hpp"
+#include "MessageConsumer.hpp"
 #include "MessageProducer.hpp"
+#include "ProcessingCenter.hpp"
 
 namespace smail {
     class Simulator {
@@ -46,10 +46,10 @@ namespace smail {
         bool survive = true;
 
         void arrival_event(size_t);
-        void create_reception_event();
-        void create_processing_event();
-        void create_postpone_event();
-        void create_exit_event();
+        void reception_event(Message);
+        void processing_event();
+        void postpone_event();
+        void exit_event();
     };
 }
 

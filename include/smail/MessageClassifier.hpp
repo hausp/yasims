@@ -2,7 +2,7 @@
 #ifndef SMAIL_MESSAGE_CLASSIFIER_HPP
 #define SMAIL_MESSAGE_CLASSIFIER_HPP
 
-#include "Default.hpp"
+#include "Types.hpp"
 
 namespace smail {
     class MessageClassifier {
