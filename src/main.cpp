@@ -6,7 +6,5 @@
 
 int main(int argc, char** argv) {
     Context context;
-    auto shit = context.run(argc, argv);
-    std::cout << "my old friend" << std::endl;
-    return shit;
+    return context.run(argc, argv);
 }

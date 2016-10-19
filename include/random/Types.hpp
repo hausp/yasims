@@ -4,6 +4,7 @@
 
 #include <random>
 #include "triangular_distribution.hpp"
+#include "discrete_distribution.hpp"
 
 namespace dist {
     template<typename, typename = double>
@@ -25,6 +26,9 @@ namespace dist {
     using tria = Function<dist::triangular_distribution<>>;
     // Exponential distribution alias
     using expo = Function<std::exponential_distribution<>>;
+
+    template<typename T>
+    using disc = Function<dist::discrete_distribution<T>, T>;
 
     template<typename T = double>
     using funct = std::function<T()>;
