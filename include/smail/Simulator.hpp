@@ -35,7 +35,7 @@ namespace smail {
         MessageClassifier classifier;
         ProcessingCenter reception;
         std::array<ProcessingCenter, 2> centers;
-        // MessageConsumer dispatcher;
+        MessageConsumer consumer;
         double message_timeout = Default::TIME_OUT;
         double clock = 0;
 

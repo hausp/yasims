@@ -3,6 +3,7 @@
 #define SMAIL_MESSAGE_HPP
 
 #include <functional>
+#include <ostream>
 #include "Types.hpp"
 
 namespace smail {
@@ -26,6 +27,11 @@ namespace smail {
         return lhs.from == rhs.from 
             && lhs.from == rhs.from 
             && lhs.status == lhs.status;
+    }
+
+    inline std::ostream& operator<<(std::ostream& out, const Message& msg) {
+        return out << to_string(msg.from)
+                << "->" << to_string(msg.to) << ": " << to_string(msg.status);
     }
 }
 

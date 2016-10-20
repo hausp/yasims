@@ -25,7 +25,7 @@ smail::Event smail::ProcessingCenter::receive(Message msg) {
             new_time = last.current_time;
         }
         new_time += processing_time;
-        auto diff = msg.current_time - new_time;
+        auto diff = new_time - msg.current_time;
         msg.current_time = new_time;
         msg.in_system_time += diff;
         waiting_queue.push(std::move(msg));

@@ -3,6 +3,7 @@
 #define SMAIL_TYPES_HPP
 
 #include <unordered_map>
+#include <queue>
 #include "random/Function.hpp"
 
 namespace smail {

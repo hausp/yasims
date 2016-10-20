@@ -93,6 +93,7 @@ void smail::Simulator::stop() {
     // Sinalize to stop executing
     execute = false;
     stopped = true;
+    consumer.reveal_info();
 }
 
 void smail::Simulator::run() {
@@ -158,6 +159,7 @@ void smail::Simulator::reset() {
     // TODO: animation
     reception.reset();
     classifier.reset();
+    consumer.reset();
 
     for (auto& spawner : spawners) {
         spawner.reset();
@@ -254,5 +256,5 @@ void smail::Simulator::postpone_event(Message msg) {
 
 void smail::Simulator::exit_event(Message msg) {
     std::cout << "Exit event" << std::endl;
-    // TODO
+    consumer.consume(msg);
 }
