@@ -89,6 +89,7 @@ void smail::Simulator::run() {
         permission.unlock();
         // execution loop
         while (execute && survive) {
+            std::cout << "------------------------------------" << std::endl;
             // Get next event
             auto e = events.top();
             // Update simulation clock

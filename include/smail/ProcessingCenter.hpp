@@ -16,7 +16,7 @@ namespace smail {
         std::pair<Message, bool> dispatch();
      private:
         size_t capacity;
-        std::set<Message> allocated;
+        MsgQueue allocated;
         std::queue<Message> waiting_queue;
         MFMap processing_times;
     };

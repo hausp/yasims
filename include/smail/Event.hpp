@@ -12,8 +12,8 @@ namespace smail {
         Action action;
     };
 
-    inline bool operator<(const Event& lhs, const Event& rhs) {
-        return lhs.time < rhs.time;
+    inline bool operator>(const Event& lhs, const Event& rhs) {
+        return lhs.time > rhs.time;
     }
 }
 

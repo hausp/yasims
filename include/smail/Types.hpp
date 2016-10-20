@@ -21,7 +21,8 @@ namespace smail {
         UNDEFINED = 3,
     };
 
-    using MsgQueue = std::priority_queue<Message, std::deque<Message>>;
+    using MsgQueue = std::priority_queue<Message,
+        std::deque<Message>, std::greater<Message>>;
     using Weights = std::initializer_list<double>;
     using AWMap = std::unordered_map<Address, Weights>;
     using MFMap = std::unordered_map<Message, dist::funct<>>;

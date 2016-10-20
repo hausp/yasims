@@ -11,11 +11,11 @@ smail::Event smail::ProcessingCenter::receive(Message msg) {
     auto processing_time = processing_times.at(msg)();
     if (allocated.size() < capacity) {
         msg.current_time += processing_time;
-        allocated.insert(std::move(msg));   
+        allocated.emplace(std::move(msg));   
     } else {
         if (waiting_queue.empty()) {
             // Get nearest to end message
-            auto a = *allocated.begin();
+            auto a = allocated.top();
             msg.current_time = a.current_time + processing_time;
         } else {
             // Get the last of queue
@@ -32,12 +32,11 @@ std::pair<smail::Message, bool> smail::ProcessingCenter::dispatch() {
         return {Message{}, false};
     }
 
-    auto msg_it = allocated.begin();
-    auto msg = *msg_it;
-    allocated.erase(msg_it);
+    auto msg = allocated.top();
+    allocated.pop();
 
     if (!waiting_queue.empty()) {
-        allocated.insert(std::move(waiting_queue.front()));
+        allocated.emplace(std::move(waiting_queue.front()));
         waiting_queue.pop(); 
     }
 

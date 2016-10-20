@@ -18,8 +18,8 @@ namespace smail {
     };
 
 
-    inline bool operator<(const Message& lhs, const Message& rhs) {
-        return lhs.current_time < rhs.current_time;
+    inline bool operator>(const Message& lhs, const Message& rhs) {
+        return lhs.current_time > rhs.current_time;
     }
 
     inline bool operator==(const Message& lhs, const Message& rhs) {

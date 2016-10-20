@@ -18,7 +18,8 @@
 
 namespace smail {
     class Simulator {
-        using EventQueue = std::priority_queue<Event, std::deque<Event>>;
+        using EventQueue = std::priority_queue<Event,
+            std::deque<Event>, std::greater<Event>>;
      public:
         Simulator();
         ~Simulator();
