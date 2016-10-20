@@ -35,6 +35,30 @@ namespace smail {
     using Weights = std::initializer_list<double>;
     using AWMap = std::unordered_map<Address, Weights>;
     using MFMap = std::unordered_map<Message, dist::funct<>>;
+
+    inline std::string to_string(const Address& addr) {
+        switch(addr) {
+            case Address::LOCAL:
+                return "local";
+            case Address::REMOTE:
+                return "remote";
+            default:
+                return "";
+        }
+    }
+
+    inline std::string to_string(const Status& st) {
+        switch(st) {
+            case Status::SUCCESS:
+                return "success";
+            case Status::FAILURE:
+                return "failure";
+            case Status::POSTPONED:
+                return "postpone";
+            default:
+                return "";
+        }
+    }
 }
 
 #endif /* SMAIL_TYPES_HPP */

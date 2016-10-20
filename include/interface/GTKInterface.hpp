@@ -7,13 +7,8 @@
 #include <gtk/gtk.h>
 #include <memory>
 #include <utility>
-#include <string>
 
-struct RawConfig {
-    std::array<std::string, 2> local_traffic;
-    std::array<std::string, 2> remote_traffic;
-
-};
+#include "Configuration.hpp"
 
 class GTKInterface {
  public:
@@ -32,8 +27,8 @@ class GTKInterface {
  private:
     GtkApplication* application;
     GtkBuilder* builder;
-    GtkWidget* config_window;
     GtkWidget* window;
+    Configuration config;
 
     void connect_buttons();
 };

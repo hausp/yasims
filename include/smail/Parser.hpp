@@ -6,13 +6,6 @@
 #include <string>
 #include "random/Types.hpp"
 
-// NORM,   // Normal distribution
-// UNIF,   // Uniform distribution
-// TRIA,   // Triangular distribution
-// EXPO,   // Exponential distribution
-// DISC,   // Discrete distribution
-// CONS,   // Constant distribution
-
 namespace parser {
     struct Match {
         dist::Type type;
@@ -101,4 +94,4 @@ namespace parser {
 
 }
 
-#endif
+#endif /* PARSER_HPP */

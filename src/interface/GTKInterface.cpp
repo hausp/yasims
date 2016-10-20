@@ -30,7 +30,9 @@ GTKInterface::GTKInterface()
 void GTKInterface::activate() {
     builder = gtk_builder_new_from_file("../res/view_simpl.ui");
     window = GTK_WIDGET(gtk_builder_get_object(builder, "main-window"));
-    config_window = GTK_WIDGET(gtk_builder_get_object(builder, "config-window"));
+    config = Configuration{
+        GTK_WIDGET(gtk_builder_get_object(builder, "config-window"))
+    };
     auto raw_canvas = gtk_builder_get_object(builder, "animation_area");
     auto canvas = GTK_DRAWING_AREA(raw_canvas);
 
@@ -50,6 +52,13 @@ void GTKInterface::activate() {
         "configure-event",
         (GCallback)(SigCairo<bool, GtkWidget*, GdkEventConfigure*, gpointer>
             ::callback<&Cairo::update>),
+        nullptr
+    );
+
+    g_signal_connect(
+        application,
+        "activate",
+        G_CALLBACK(SigGTKInterface<void>::callback<&GTKInterface::activate>),
         nullptr
     );
 
@@ -116,7 +125,9 @@ void GTKInterface::destroy() {
 
 
 RawConfig GTKInterface::show_configuration_window() {
+    
 
+    return RawConfig{};
 }
 
 void GTKInterface::show_message(GtkMessageType type, GtkButtonsType buttons,
