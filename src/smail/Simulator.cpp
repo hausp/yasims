@@ -64,8 +64,9 @@ void smail::Simulator::start(bool anima) {
 
 void smail::Simulator::pause() {
     if (!execute) return;
-    if (animate) animation.pause();
 
+    if (animate) animation.pause();
+    
     execute = false;
 }
 
@@ -198,10 +199,15 @@ void smail::Simulator::processing_event(Message msg) {
 void smail::Simulator::postpone_event(Message msg) {
     std::cout << "Postpone event" << std::endl;
     if (msg.in_system_time >= message_timeout) {
+        // Timeout = FAILURE
         msg.status = Status::FAILURE;
+        // Send message to exit
         exit_event(std::move(msg));
     } else {
-        // TODO
+        // Reclassify the message
+        classifier.classify(msg);
+        // Resend to processing centers
+        processing_event(std::move(msg));
     }
 }
 
