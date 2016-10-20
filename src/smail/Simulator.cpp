@@ -94,8 +94,8 @@ void smail::Simulator::run() {
             std::cout << "------------------------------------" << std::endl;
             // Get next event
             auto e = events.top();
-            // Update simulation clock
-            clock = e.time;
+            // Update simulation clock and statistics
+            update(e.time);
             // Execute event action
             e.action();
             // Remove event
@@ -105,6 +105,18 @@ void smail::Simulator::run() {
             execute = execute && !stopped;
         }
     }
+}
+
+void smail::Simulator::update(double new_time) {
+    auto occupation = reception.occupation();
+    for (auto& center : centers) {
+        occupation += center.occupation();
+    }
+    if (!system_occupation.count(occupation)) {
+        system_occupation[occupation] = 0;    
+    }
+    system_occupation[occupation] += (new_time - clock);
+    clock = new_time;
 }
 
 void smail::Simulator::setup() {

@@ -39,8 +39,11 @@ namespace smail {
         ProcessingCenter reception;
         std::array<ProcessingCenter, 2> centers;
         // MessageConsumer dispatcher;
-        double clock = 0;
         double message_timeout = Default::TIME_OUT;
+        double clock = 0;
+
+        // Statistics
+        std::unordered_map<unsigned, double> system_occupation;
 
         // Thread related attributes
         std::mutex mutex;
@@ -51,6 +54,7 @@ namespace smail {
         bool stopped = false;
         bool survive = true;
 
+        void update(double);
         void arrival_event(size_t);
         void reception_event(Message);
         void processing_event(Message);
