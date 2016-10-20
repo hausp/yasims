@@ -33,7 +33,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <child>
-              <object class="GtkGrid">
+              <object class="GtkGrid" id="traffic-grid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="margin_left">10</property>
@@ -44,7 +44,7 @@
                 <property name="column_spacing">15</property>
                 <property name="column_homogeneous">True</property>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="dir-label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Direções</property>
@@ -56,7 +56,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="proportions-label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Proporções</property>
@@ -68,7 +68,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="ll-dir-label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Local -&gt; Local</property>
@@ -82,7 +82,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry">
+                  <object class="GtkEntry" id="ll-percent-entry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="max_length">6</property>
@@ -97,7 +97,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="lr-dir-label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Local -&gt; Remoto</property>
@@ -111,7 +111,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="rl-dir-label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Remoto -&gt; Local</property>
@@ -125,7 +125,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry">
+                  <object class="GtkEntry" id="lr-percent-entry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="max_length">6</property>
@@ -140,7 +140,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry">
+                  <object class="GtkEntry" id="rl-percent-entry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="max_length">6</property>
@@ -155,7 +155,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="rr-dir-label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Remoto -&gt; Remoto</property>
@@ -169,7 +169,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry">
+                  <object class="GtkEntry" id="rr-percent-entry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="max_length">6</property>
@@ -184,7 +184,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSeparator">
+                  <object class="GtkSeparator" id="dumb-separator">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -195,13 +195,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkGrid">
+                  <object class="GtkGrid" id="dist-grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="row_spacing">10</property>
                     <property name="column_spacing">15</property>
                     <child>
-                      <object class="GtkSeparator">
+                      <object class="GtkSeparator" id="brother-of-dumb-separator">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -212,7 +212,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="distributions-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Distribuições</property>
@@ -224,7 +224,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="success-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Sucesso</property>
@@ -235,7 +235,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="failure-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Falha</property>
@@ -246,7 +246,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="postpone-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Adiamento</property>
@@ -257,7 +257,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="ll-dist-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Local -&gt; Local</property>
@@ -270,7 +270,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="lr-dist-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Local -&gt; Remoto</property>
@@ -283,7 +283,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="rl-dist-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Remoto -&gt; Local</property>
@@ -296,7 +296,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="rr-dist-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Remoto -&gt; Remoto</property>
@@ -309,7 +309,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="lls-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -319,7 +319,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="llf-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -329,7 +329,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="llp-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -339,7 +339,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="lrs-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -349,7 +349,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="lrf-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -359,7 +359,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="lrp-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -369,7 +369,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="rls-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -379,7 +379,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="rlf-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -389,7 +389,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="rlp-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -399,7 +399,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="rrs-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -409,7 +409,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="rrf-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -419,7 +419,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="rrp-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -437,13 +437,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkGrid">
+                  <object class="GtkGrid" id="genfun-grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="row_spacing">10</property>
                     <property name="column_homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="genfun-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Funções geradoras de tráfego</property>
@@ -454,7 +454,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="local-gen-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Geração de tráfego local</property>
@@ -466,7 +466,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="local-gen-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -477,7 +477,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="remote-gen-label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Geração de tráfego remoto</property>
@@ -489,7 +489,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="remote-gen-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -500,7 +500,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSeparator">
+                      <object class="GtkSeparator" id="idiot-separator">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -982,7 +982,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="done_button">
+          <object class="GtkButton" id="done-button">
             <property name="label" translatable="yes">Done</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>

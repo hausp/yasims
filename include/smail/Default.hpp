@@ -7,6 +7,7 @@
 #include "Message.hpp"
 #include "random/Function.hpp"
 #include "Types.hpp"
+#include "Parser.hpp"
 
 namespace smail {
     struct Default {

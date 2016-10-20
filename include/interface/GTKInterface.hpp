@@ -9,6 +9,12 @@
 #include <utility>
 #include <string>
 
+struct RawConfig {
+    std::array<std::string, 2> local_traffic;
+    std::array<std::string, 2> remote_traffic;
+
+};
+
 class GTKInterface {
  public:
     enum class Instance { UNIQUE };
@@ -18,6 +24,7 @@ class GTKInterface {
     void activate();
     void destroy();
     
+    RawConfig show_configuration_window();
     void show_message(GtkMessageType, GtkButtonsType, const std::string&,
                  const std::string&, const std::string&) const;
 
@@ -25,6 +32,7 @@ class GTKInterface {
  private:
     GtkApplication* application;
     GtkBuilder* builder;
+    GtkWidget* config_window;
     GtkWidget* window;
 
     void connect_buttons();

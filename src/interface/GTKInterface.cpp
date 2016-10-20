@@ -16,9 +16,6 @@ using SigCairo = aw::Signal<Cairo>::function<R(Args...)>;
 template<typename R, typename... Args>
 using SigGTKInterface = aw::Signal<GTKInterface>::function<R(Args...)>;
 
-// template<typename C>
-// using Middle = typename aw::Signal<C>::function;
-
 GTKInterface::GTKInterface()
 : application(gtk_application_new("ufsc.yasims", G_APPLICATION_FLAGS_NONE)) {
     aw::Signal<GTKInterface>::set_receiver(*this);
@@ -32,7 +29,8 @@ GTKInterface::GTKInterface()
 
 void GTKInterface::activate() {
     builder = gtk_builder_new_from_file("../res/view_simpl.ui");
-    window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
+    window = GTK_WIDGET(gtk_builder_get_object(builder, "main-window"));
+    config_window = GTK_WIDGET(gtk_builder_get_object(builder, "config-window"));
     auto raw_canvas = gtk_builder_get_object(builder, "animation_area");
     auto canvas = GTK_DRAWING_AREA(raw_canvas);
 
@@ -114,6 +112,11 @@ void GTKInterface::destroy() {
     g_application_quit(G_APPLICATION(application));
     g_object_unref(application);
     g_object_unref(window);
+}
+
+
+RawConfig GTKInterface::show_configuration_window() {
+
 }
 
 void GTKInterface::show_message(GtkMessageType type, GtkButtonsType buttons,
