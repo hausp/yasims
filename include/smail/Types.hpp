@@ -8,6 +8,15 @@
 namespace smail {
     struct Message;
     struct Event;
+    struct Counters {
+        unsigned messages_in_system;
+        unsigned local_local_messages;
+        unsigned local_remote_messages;
+        unsigned remote_local_messages;
+        unsigned remote_remote_messages;
+        unsigned total_finished_messages;
+        double mean_message_time_in_system;        
+    };
 
     enum class Address : unsigned {
         LOCAL = 0,
