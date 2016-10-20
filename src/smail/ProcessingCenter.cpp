@@ -42,3 +42,10 @@ std::pair<smail::Message, bool> smail::ProcessingCenter::dispatch() {
 
     return {std::move(msg), true};
 }
+
+void smail::ProcessingCenter::reset() {
+    auto wcleaner = std::queue<Message>{};
+    auto acleaner = MsgQueue{};
+    waiting_queue.swap(wcleaner);
+    allocated.swap(acleaner);
+}

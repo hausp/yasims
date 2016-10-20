@@ -13,6 +13,7 @@ namespace smail {
         void set_arrival_time(dist::funct<>);
         Event produce(double = 0);
         Message dispatch();
+        void reset();
      private:
         MsgQueue incoming_messages;
         Address from;
@@ -45,6 +46,11 @@ namespace smail {
             inbound_time
         });
         return Event{inbound_time};
+    }
+
+    inline void MessageProducer::reset() {
+        auto cleaner = MsgQueue{};
+        incoming_messages.swap(cleaner);
     }
 }
 

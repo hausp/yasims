@@ -48,6 +48,7 @@ namespace smail {
         std::thread thread;
         bool animate = false;
         bool execute = false;
+        bool stopped = false;
         bool survive = true;
 
         void arrival_event(size_t);

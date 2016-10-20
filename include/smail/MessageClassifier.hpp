@@ -12,6 +12,7 @@ namespace smail {
 
         void set_weights(Address, Address, Weights);
         void classify(Message&);
+        void reset();
      private:
         DistArray status_disc;
 
@@ -52,6 +53,10 @@ namespace smail {
 
     inline void MessageClassifier::classify(Message& msg) { 
         msg.status = status_disc[to_index(msg.from, msg.to)]();
+    }
+
+    inline void MessageClassifier::reset() {
+
     }
 }
 

@@ -46,15 +46,19 @@ smail::Simulator::~Simulator() {
     }
 }
 
-void smail::Simulator::start(bool a) {
+void smail::Simulator::start(bool anima) {
     if (execute) return;
-    animate = a;
-
-    if (animate) animation.start();
-
+    
     std::lock_guard<std::mutex> guard{mutex};
-    execute = true;
+    
+    animate = anima;
+    
+    if (animate) animation.start();
+    if (stopped) reset();
+    
     setup();
+    execute = true;
+    
     cv.notify_all();
 }
 
@@ -72,10 +76,7 @@ void smail::Simulator::stop() {
     if (animate) animation.stop();
     // Sinalize to stop executing
     execute = false;
-    // Reset state of simulator
-    reset();
-    // Recriate initial stimulus
-    setup();
+    stopped = true;
 }
 
 void smail::Simulator::run() {
@@ -99,7 +100,8 @@ void smail::Simulator::run() {
             // Remove event
             events.pop();
             // Update execute control variable
-            execute = execute && !events.empty();
+            stopped = events.empty();
+            execute = execute && !stopped;
         }
     }
 }
@@ -118,6 +120,16 @@ void smail::Simulator::reset() {
     auto cleaner = EventQueue{};
     events.swap(cleaner);
     // TODO: animation
+    reception.reset();
+    classifier.reset();
+
+    for (auto& spawner : spawners) {
+        spawner.reset();
+    }
+
+    for (auto& center : centers) {
+        center.reset();
+    }
 }
 
 void smail::Simulator::arrival_event(size_t index) {

@@ -14,6 +14,7 @@ namespace smail {
 
         Event receive(Message);
         std::pair<Message, bool> dispatch();
+        void reset();
      private:
         size_t capacity;
         MsgQueue allocated;
