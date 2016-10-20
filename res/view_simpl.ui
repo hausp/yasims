@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.16.1 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
   <object class="GtkImage" id="fast-forward-image">
@@ -11,11 +11,6 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="pixbuf">pause.png</property>
-  </object>
-  <object class="GtkSizeGroup" id="sizegroup1">
-    <widgets>
-      <widget name="configs"/>
-    </widgets>
   </object>
   <object class="GtkAdjustment" id="speed_adjust">
     <property name="upper">100</property>
@@ -275,6 +270,118 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <child>
+              <object class="GtkGrid" id="global-box">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">10</property>
+                <property name="margin_right">10</property>
+                <property name="margin_top">10</property>
+                <property name="margin_bottom">10</property>
+                <property name="row_spacing">15</property>
+                <property name="column_spacing">20</property>
+                <child>
+                  <object class="GtkEntry" id="seed-entry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="seed-label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Semente para geração
+de variáveis aleatórias</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="time-label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Tempo de simulação</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="timeout-label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Tempo de permanência
+máximo para mensagens</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="sim-time-entry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="timeout-entry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="time-warn-label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Tempo representado em segundos</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">3</property>
+                    <property name="width">2</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="global-title">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Global</property>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkGrid" id="traffic-grid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -293,6 +400,7 @@
                     <property name="left_attach">0</property>
                     <property name="top_attach">0</property>
                     <property name="width">2</property>
+                    <property name="height">1</property>
                   </packing>
                 </child>
                 <child>
@@ -305,6 +413,7 @@
                     <property name="left_attach">2</property>
                     <property name="top_attach">0</property>
                     <property name="width">2</property>
+                    <property name="height">1</property>
                   </packing>
                 </child>
                 <child>
@@ -327,7 +436,6 @@
                     <property name="can_focus">True</property>
                     <property name="max_length">6</property>
                     <property name="width_chars">6</property>
-                    <property name="max_width_chars">6</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -370,7 +478,6 @@
                     <property name="can_focus">True</property>
                     <property name="max_length">6</property>
                     <property name="width_chars">6</property>
-                    <property name="max_width_chars">6</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -385,7 +492,6 @@
                     <property name="can_focus">True</property>
                     <property name="max_length">6</property>
                     <property name="width_chars">6</property>
-                    <property name="max_width_chars">6</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -414,7 +520,6 @@
                     <property name="can_focus">True</property>
                     <property name="max_length">6</property>
                     <property name="width_chars">6</property>
-                    <property name="max_width_chars">6</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -432,6 +537,7 @@
                     <property name="left_attach">0</property>
                     <property name="top_attach">9</property>
                     <property name="width">9</property>
+                    <property name="height">1</property>
                   </packing>
                 </child>
                 <child>
@@ -449,6 +555,7 @@
                         <property name="left_attach">0</property>
                         <property name="top_attach">1</property>
                         <property name="width">5</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -461,6 +568,7 @@
                         <property name="left_attach">0</property>
                         <property name="top_attach">0</property>
                         <property name="width">2</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -472,6 +580,8 @@
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="top_attach">0</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -483,6 +593,8 @@
                       <packing>
                         <property name="left_attach">3</property>
                         <property name="top_attach">0</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -494,6 +606,8 @@
                       <packing>
                         <property name="left_attach">4</property>
                         <property name="top_attach">0</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -507,6 +621,7 @@
                         <property name="left_attach">0</property>
                         <property name="top_attach">2</property>
                         <property name="width">2</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -520,6 +635,7 @@
                         <property name="left_attach">0</property>
                         <property name="top_attach">3</property>
                         <property name="width">2</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -533,6 +649,7 @@
                         <property name="left_attach">0</property>
                         <property name="top_attach">4</property>
                         <property name="width">2</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -546,6 +663,7 @@
                         <property name="left_attach">0</property>
                         <property name="top_attach">5</property>
                         <property name="width">2</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -556,6 +674,8 @@
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="top_attach">2</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -566,6 +686,8 @@
                       <packing>
                         <property name="left_attach">3</property>
                         <property name="top_attach">2</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -576,6 +698,8 @@
                       <packing>
                         <property name="left_attach">4</property>
                         <property name="top_attach">2</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -586,6 +710,8 @@
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="top_attach">3</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -596,6 +722,8 @@
                       <packing>
                         <property name="left_attach">3</property>
                         <property name="top_attach">3</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -606,6 +734,8 @@
                       <packing>
                         <property name="left_attach">4</property>
                         <property name="top_attach">3</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -616,6 +746,8 @@
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="top_attach">4</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -626,6 +758,8 @@
                       <packing>
                         <property name="left_attach">3</property>
                         <property name="top_attach">4</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -636,6 +770,8 @@
                       <packing>
                         <property name="left_attach">4</property>
                         <property name="top_attach">4</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -646,6 +782,8 @@
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="top_attach">5</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -656,6 +794,8 @@
                       <packing>
                         <property name="left_attach">3</property>
                         <property name="top_attach">5</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -666,6 +806,8 @@
                       <packing>
                         <property name="left_attach">4</property>
                         <property name="top_attach">5</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                   </object>
@@ -691,6 +833,8 @@
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">0</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -702,6 +846,7 @@
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">2</property>
+                        <property name="width">1</property>
                         <property name="height">2</property>
                       </packing>
                     </child>
@@ -713,6 +858,7 @@
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">4</property>
+                        <property name="width">1</property>
                         <property name="height">2</property>
                       </packing>
                     </child>
@@ -725,6 +871,7 @@
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">6</property>
+                        <property name="width">1</property>
                         <property name="height">2</property>
                       </packing>
                     </child>
@@ -736,6 +883,7 @@
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">8</property>
+                        <property name="width">1</property>
                         <property name="height">2</property>
                       </packing>
                     </child>
@@ -747,6 +895,8 @@
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">1</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                   </object>
@@ -758,14 +908,18 @@
                   </packing>
                 </child>
               </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
             </child>
             <child type="tab">
-              <object class="GtkLabel" id="volume_title">
+              <object class="GtkLabel" id="volume-title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Tráfego</property>
               </object>
               <packing>
+                <property name="position">1</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -796,6 +950,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">0</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -807,6 +963,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">0</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -818,6 +976,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">0</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -829,6 +989,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">1</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -840,6 +1002,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">2</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -851,6 +1015,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">3</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -862,6 +1028,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">4</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -873,6 +1041,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">5</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -884,6 +1054,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">6</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -895,6 +1067,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">7</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -906,6 +1080,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">8</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -917,6 +1093,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">9</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -928,6 +1106,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">10</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -939,6 +1119,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">11</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -950,6 +1132,8 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">12</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -960,6 +1144,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">1</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -970,6 +1156,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">2</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -980,6 +1168,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">3</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -990,6 +1180,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">4</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1000,6 +1192,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">5</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1010,6 +1204,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">6</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1020,6 +1216,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">7</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1030,6 +1228,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">8</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1040,6 +1240,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">9</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1050,6 +1252,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">10</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1060,6 +1264,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">11</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1070,6 +1276,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">12</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1080,6 +1288,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">2</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1090,6 +1300,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">1</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1100,6 +1312,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">3</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1110,6 +1324,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">4</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1120,6 +1336,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">5</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1130,6 +1348,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">6</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1140,6 +1360,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">7</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1150,6 +1372,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">8</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1160,6 +1384,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">9</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1170,6 +1396,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">10</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1180,6 +1408,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">11</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
@@ -1190,6 +1420,8 @@
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="top_attach">12</property>
+                            <property name="width">1</property>
+                            <property name="height">1</property>
                           </packing>
                         </child>
                       </object>
@@ -1198,17 +1430,17 @@
                 </child>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child type="tab">
-              <object class="GtkLabel" id="processing_title">
+              <object class="GtkLabel" id="processing-title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Recepção e processamento</property>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -1235,5 +1467,10 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkSizeGroup" id="sizegroup1">
+    <widgets>
+      <widget name="configs"/>
+    </widgets>
   </object>
 </interface>
