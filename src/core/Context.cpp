@@ -13,10 +13,24 @@ int Context::run(int argc, char** argv) {
     return g_application_run(gui(), argc, argv);
 }
 
+void Context::configure() {
+    // TODO
+}
+
+void Context::summary() {
+    // TODO
+}
+
 void Context::start() {
-    std::cout << "[Context] start" << std::endl;
     sim.start(true);
-    std::cout << "[Context] end of start" << std::endl;
+}
+
+void Context::fast_forward() {
+    sim.start(false);
+}
+
+void Context::step() {
+    sim.step();
 }
 
 void Context::pause() {
@@ -28,6 +42,5 @@ void Context::stop() {
 }
 
 void Context::close() {
-    std::cout << "hello darkness" << std::endl;
     gui.destroy();
 }

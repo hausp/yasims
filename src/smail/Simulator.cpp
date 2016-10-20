@@ -48,18 +48,33 @@ smail::Simulator::~Simulator() {
 
 void smail::Simulator::start(bool anima) {
     if (execute) return;
-    
-    std::lock_guard<std::mutex> guard{mutex};
-    
-    animate = anima;
-    
-    if (animate) animation.start();
     if (stopped) reset();
+
+    setup();
+
+    execute = true;
+    animate = anima;  
+
+    if (animate) {
+        animation.start();
+        // g_timeout_add_full(
+
+        // );
+
+    } else {
+        std::lock_guard<std::mutex> guard{mutex};        
+        cv.notify_all();
+    }
+}
+
+void smail::Simulator::step() {
+    if (execute) return;
+    if (stopped) reset();
+    animate = true;
     
     setup();
-    execute = true;
-    
-    cv.notify_all();
+
+    simulate();
 }
 
 void smail::Simulator::pause() {
@@ -85,26 +100,34 @@ void smail::Simulator::run() {
         std::unique_lock<std::mutex> permission{mutex};
         // Synchronizing operations, to keep thread suspended
         // when paused and stoped
-        cv.wait(permission, [this] {
-            return !survive || execute;
-        });
+        cv.wait(permission, [this] { return !survive || execute; });
         permission.unlock();
         // execution loop
         while (execute && survive) {
-            std::cout << "------------------------------------" << std::endl;
-            // Get next event
-            auto e = events.top();
-            // Update simulation clock and statistics
-            update(e.time);
-            // Execute event action
-            e.action();
-            // Remove event
-            events.pop();
-            // Update execute control variable
-            stopped = events.empty();
-            execute = execute && !stopped;
+            simulate();
         }
     }
+}
+
+// For animations, better be in gtk's thread
+void smail::Simulator::gtk_run() {
+    // TODO
+}
+
+void smail::Simulator::simulate() { 
+    std::cout << "------------------------------------" << std::endl;
+    // Get next event
+    auto e = events.top();
+    // Update simulation clock and statistics
+    update(e.time); // NOTICE: if e.action() fails this will pass equal times
+    // Execute event action and check if successful
+    if (e.action()) {
+        // Successful events are removed
+        events.pop();
+    }
+    // Update execute control variable
+    stopped = events.empty();
+    execute = execute && !stopped;
 }
 
 void smail::Simulator::update(double new_time) {
@@ -159,6 +182,8 @@ void smail::Simulator::arrival_event(size_t index) {
         classifier.classify(msg);
         // Send message to reception
         reception_event(std::move(msg));
+        // TODO
+        return true;
     };
     events.push(std::move(event));
 }
@@ -177,6 +202,8 @@ void smail::Simulator::reception_event(Message msg) {
         assert(dispatched);
         // Send message to processing centers
         processing_event(std::move(msg));
+        // TODO
+        return true;
     };
     events.push(std::move(event));
 }
@@ -204,6 +231,8 @@ void smail::Simulator::processing_event(Message msg) {
             // Otherwise, send to postpone treatment
             postpone_event(std::move(msg));
         }
+        // TODO
+        return true;
     };
     events.push(std::move(event));
 }

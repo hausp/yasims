@@ -25,12 +25,9 @@ namespace smail {
         ~Simulator();
 
         void start(bool = false);
+        void step();
         void pause();
         void stop();
-
-        void run();
-        void setup();
-        void reset();
      private:
         EventQueue events;
         Animation animation;
@@ -54,6 +51,15 @@ namespace smail {
         bool stopped = false;
         bool survive = true;
 
+        // Running methods, first one with particular thread,
+        // latter one with gtk's thread
+        void run();
+        void gtk_run();
+
+        // Auxiliar methods
+        void setup();
+        void reset();
+        void simulate();
         void update(double);
         void arrival_event(size_t);
         void reception_event(Message);

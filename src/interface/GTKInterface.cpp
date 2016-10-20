@@ -59,27 +59,52 @@ void GTKInterface::activate() {
 }
 
 void GTKInterface::connect_buttons() {
-    auto pause = GTK_BUTTON(gtk_builder_get_object(builder, "pause_button"));
-    auto start = GTK_BUTTON(gtk_builder_get_object(builder, "start_button"));
-    auto stop = GTK_BUTTON(gtk_builder_get_object(builder, "stop_button"));
+    auto config = GTK_BUTTON(gtk_builder_get_object(builder, "configure-button"));
+    auto summary = GTK_BUTTON(gtk_builder_get_object(builder, "summary-button"));
+    auto start = GTK_BUTTON(gtk_builder_get_object(builder, "start-button"));
+    auto fast = GTK_BUTTON(gtk_builder_get_object(builder, "fast-forward-button"));
+    auto step = GTK_BUTTON(gtk_builder_get_object(builder, "step-button"));
+    auto stop = GTK_BUTTON(gtk_builder_get_object(builder, "stop-button"));
+    auto pause = GTK_BUTTON(gtk_builder_get_object(builder, "pause-button"));
 
     g_signal_connect(
-        pause,
-        "clicked",
-        G_CALLBACK(SigContext<void>::callback<&Context::pause>),
+        config, "clicked",
+        G_CALLBACK(SigContext<void>::callback<&Context::configure>),
         nullptr
     );
-    
+
     g_signal_connect(
-        start,
-        "clicked",
+        summary, "clicked",
+        G_CALLBACK(SigContext<void>::callback<&Context::summary>),
+        nullptr
+    );
+
+    g_signal_connect(
+        start, "clicked",
         G_CALLBACK(SigContext<void>::callback<&Context::start>),
         nullptr
     );
 
     g_signal_connect(
-        stop,
-        "clicked",
+        fast, "clicked",
+        G_CALLBACK(SigContext<void>::callback<&Context::fast_forward>),
+        nullptr
+    );
+
+    g_signal_connect(
+        step, "clicked",
+        G_CALLBACK(SigContext<void>::callback<&Context::step>),
+        nullptr
+    );
+
+    g_signal_connect(
+        pause, "clicked",
+        G_CALLBACK(SigContext<void>::callback<&Context::pause>),
+        nullptr
+    );
+
+    g_signal_connect(
+        stop, "clicked",
         G_CALLBACK(SigContext<void>::callback<&Context::stop>),
         nullptr
     );

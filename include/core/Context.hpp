@@ -18,8 +18,14 @@ class Context {
 
     void activate();
     void close();
-    void pause();
+
+    void configure();
+    void summary();
+
     void start();
+    void fast_forward();
+    void step();
+    void pause();
     void stop();
  private:
     smail::Simulator sim;
