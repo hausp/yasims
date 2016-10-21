@@ -59,10 +59,9 @@ namespace smail {
         std::condition_variable cv;
         std::thread thread;
         unsigned gtk_handler;
-        bool animate = false;
         bool execute = false;
         bool stopped = false;
-        bool survive = true;        
+        bool survive = true;       
 
         // Running methods, first one with particular thread,
         // latter one with gtk's thread

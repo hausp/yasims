@@ -38,6 +38,7 @@ smail::Simulator::~Simulator() {
 }
 
 void smail::Simulator::start(bool animate) {
+    if (execute) return;
     if (stopped) reset();
 
     setup();
@@ -53,6 +54,7 @@ void smail::Simulator::start(bool animate) {
 }
 
 void smail::Simulator::step() {
+    if (execute) return;
     if (stopped) reset();
     animate = true;
     
@@ -66,6 +68,7 @@ void smail::Simulator::pause() {
 }
 
 void smail::Simulator::stop() {
+    if (!execute) return;
     // Sinalize to stop executing
     execute = false;
     stopped = true;
@@ -91,8 +94,9 @@ void smail::Simulator::run() {
 
 // For animations, better be in gtk's thread
 bool smail::Simulator::gtk_run() {
-    step();
-    return true;
+    simulate();
+    // TODO: update screen
+    return execute;
 }
 
 void smail::Simulator::simulate() { 
