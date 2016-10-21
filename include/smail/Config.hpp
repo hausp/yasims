@@ -30,7 +30,7 @@ namespace smail {
             Default::R_PROCESSING_TIMES
         };
 
-        void synchronize_seed();
+        void synchronize();
     };
 }
 

@@ -19,7 +19,7 @@ class GTKInterface {
     void activate();
     void destroy();
 
-    RawConfig raw_config();    
+    parser::RawConfig raw_config();    
     void update_active_buttons(bool);
 
     int show_configuration_dialog();

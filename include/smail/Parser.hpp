@@ -4,6 +4,7 @@
 
 #include <regex>
 #include <string>
+#include "Config.hpp"
 #include "random/Types.hpp"
 #include "Default.hpp"
 
@@ -14,6 +15,23 @@ namespace parser {
     };
 
     using Result = std::pair<Match, bool>;
+
+    struct RawConfig {
+        using MMMap = std::unordered_map<smail::Message, parser::Match>;
+
+        parser::Match seed;
+        parser::Match sim_time;
+        parser::Match timeout;
+        std::array<parser::Match, 2> center_sizes;
+        std::array<parser::Match, 2> generations;
+        std::array<parser::Match, 2> local_proportions;
+        std::array<parser::Match, 2> remote_proportions;
+        MMMap local_weights;
+        MMMap remote_weights;
+        MMMap reception_times;
+        MMMap local_processing_times;
+        MMMap remote_processing_times;
+    };
 
     template<dist::Type T>
     struct Regex;
@@ -114,6 +132,10 @@ namespace parser {
         return matched;
     }
 
+    inline smail::Config lapidate(RawConfig config) {
+
+        return smail::Config{};
+    }
 }
 
 #endif /* PARSER_HPP */

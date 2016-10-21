@@ -10,23 +10,6 @@
 #include "smail/Parser.hpp"
 #include "smail/Message.hpp"
 
-struct RawConfig {
-    using MMMap = std::unordered_map<smail::Message, parser::Match>;
-
-    parser::Match seed;
-    parser::Match sim_time;
-    parser::Match timeout;
-    std::array<parser::Match, 2> center_sizes;
-    std::array<parser::Match, 2> generations;
-    std::array<parser::Match, 2> local_proportions;
-    std::array<parser::Match, 2> remote_proportions;
-    MMMap local_weights;
-    MMMap remote_weights;
-    MMMap reception_times;
-    MMMap local_processing_times;
-    MMMap remote_processing_times;
-};
-
 class Configuration {
     using MEMap = std::unordered_map<smail::Message, GtkEntry*>;
     using MSMap = std::unordered_map<smail::Message, std::string>;
@@ -37,7 +20,7 @@ class Configuration {
     Configuration(GtkBuilder*);
 
     int run();
-    RawConfig extract() const;
+    parser::RawConfig extract() const;
  private:
     GtkWidget* dialog;
 
@@ -67,7 +50,7 @@ class Configuration {
     MSMap local_processing_times_str;
     MSMap remote_processing_times_str;
 
-    RawConfig last_config;
+    parser::RawConfig last_config;
 
     static const smail::Message llsm;
     static const smail::Message llfm;
@@ -87,7 +70,7 @@ class Configuration {
     bool validate_input();
 };
 
-inline RawConfig Configuration::extract() const {
+inline parser::RawConfig Configuration::extract() const {
     return last_config;
 }
 

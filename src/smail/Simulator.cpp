@@ -142,6 +142,7 @@ void smail::Simulator::setup() {
 }
 
 void smail::Simulator::reset() {
+    config.synchronize();
     // A brand new EventQueue to replace older one
     auto cleaner = EventQueue{};
     events.swap(cleaner);
@@ -316,4 +317,9 @@ void smail::Simulator::update_speed(double d) {
         g_source_remove(gtk_handler);
         launch_gtk_function();
     }
+}
+
+void smail::Simulator::update_config(Config c) {
+    config = std::move(c);
+    config.synchronize();
 }

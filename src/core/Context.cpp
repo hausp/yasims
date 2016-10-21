@@ -16,6 +16,7 @@ int Context::run(int argc, char** argv) {
 void Context::configure() {
     if (gui.show_configuration_dialog()) {
         auto raw = gui.raw_config();
+        sim.update_config(parser::lapidate(std::move(raw)));
     }
 }
 

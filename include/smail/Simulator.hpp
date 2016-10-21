@@ -33,6 +33,7 @@ namespace smail {
         void stop();
 
         void update_speed(double);
+        void update_config(Config);
      private:
         Config config;
         EventQueue events;

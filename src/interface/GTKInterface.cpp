@@ -141,8 +141,8 @@ int GTKInterface::show_configuration_dialog() {
     return configuration.run();
 }
 
-RawConfig GTKInterface::raw_config() {
-    return configuration.extract();
+parser::RawConfig GTKInterface::raw_config() {
+    return std::move(configuration.extract());
 }
 
 void GTKInterface::error_message(GtkWidget* parent) {
