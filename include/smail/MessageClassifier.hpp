@@ -52,7 +52,7 @@ namespace smail {
     }
 
     inline void MessageClassifier::classify(Message& msg) { 
-        msg.status = status_disc[to_index(msg.from, msg.to)]();
+        msg.status = status_disc[to_index(msg.from, msg.to)](false);
     }
 
     inline void MessageClassifier::reset() {

@@ -7,33 +7,22 @@
 
 smail::Simulator::Simulator():
  spawners{
-    MessageProducer{
-        Address::LOCAL,
-        Default::L_ARRIVAL_TIMES,
-        Default::L_DESTINATION
-    },
-    MessageProducer{
-        Address::REMOTE,
-        Default::R_ARRIVAL_TIMES,
-        Default::R_DESTINATION
-    }
+    MessageProducer{Address::LOCAL, config.arrival_times[0],
+        config.destinations[0]},
+    MessageProducer{Address::REMOTE, config.arrival_times[0],
+        config.destinations[1]}
  },
- classifier{
-    Default::L_STATUS_WEIGHTS,
-    Default::R_STATUS_WEIGHTS,
- },
- reception{
-    Default::RECEPTION_TIMES
- },
+ classifier{config.status_weights[0], config.status_weights[1]},
+ reception{config.reception_times},
  centers {
     ProcessingCenter{
-        Default::L_PROCESSING_TIMES,
-        Default::LOCAL_CENTER_CAPACITY
+        config.processing_times[0],
+        config.center_capacities[0]
     },
     ProcessingCenter{
-        Default::R_PROCESSING_TIMES,
-        Default::REMOTE_CENTER_CAPACITY
-    }
+        config.processing_times[1],
+        config.center_capacities[1]
+    },
  },
  thread{&smail::Simulator::run, this} { }
 
@@ -257,7 +246,7 @@ void smail::Simulator::processing_event(Message msg) {
 
 void smail::Simulator::postpone_event(Message msg) {
     std::cout << "Postpone event" << std::endl;
-    if (msg.in_system_time >= message_timeout) {
+    if (msg.in_system_time >= config.timeout) {
         // Timeout = FAILURE
         msg.status = Status::FAILURE;
         // Send message to exit

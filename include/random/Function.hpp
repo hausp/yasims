@@ -12,7 +12,7 @@ namespace dist {
         template<typename... Args>
         constexpr Function(unsigned, Args...);
         
-        T operator()();
+        T operator()(bool);
 
         Fn function;
         std::mt19937_64 gen;
@@ -27,7 +27,7 @@ namespace dist {
         constexpr Function(VList, WList);
         constexpr Function(unsigned, VList, WList);
 
-        T operator()();
+        T operator()(bool);
 
         discrete_distribution<T> function;
         std::mt19937_64 gen;
@@ -36,7 +36,7 @@ namespace dist {
     template<typename T>
     struct Function<constant_distribution<T>, T> {
         constexpr Function(T);
-        constexpr T operator()();
+        constexpr T operator()(bool);
 
         constant_distribution<T> function;
     };

@@ -11,13 +11,24 @@
 #include "smail/Message.hpp"
 
 struct RawConfig {
-    std::array<std::string, 2> local_traffic;
-    std::array<std::string, 2> remote_traffic;
-    // TODO
+    using MMMap = std::unordered_map<smail::Message, parser::Match>;
+
+    parser::Match seed;
+    parser::Match sim_time;
+    parser::Match timeout;
+    std::array<parser::Match, 2> center_sizes;
+    std::array<parser::Match, 2> generations;
+    std::array<parser::Match, 2> local_proportions;
+    std::array<parser::Match, 2> remote_proportions;
+    MMMap local_weights;
+    MMMap remote_weights;
+    MMMap reception_times;
+    MMMap local_processing_times;
+    MMMap remote_processing_times;
 };
 
 class Configuration {
-    using MGMap = std::unordered_map<smail::Message, GtkWidget*>;
+    using MEMap = std::unordered_map<smail::Message, GtkEntry*>;
     using MSMap = std::unordered_map<smail::Message, std::string>;
  public:
     enum class Instance { UNIQUE };
@@ -29,20 +40,23 @@ class Configuration {
     RawConfig extract() const;
  private:
     GtkWidget* dialog;
-    GtkWidget* seed;
-    GtkWidget* sim_time;
-    GtkWidget* timeout;
 
-    std::array<GtkWidget*, 2> center_sizes;
-    std::array<GtkWidget*, 2> generations;
-    std::array<GtkWidget*, 2> local_proportions;
-    std::array<GtkWidget*, 2> remote_proportions;
-    MGMap local_weights;
-    MGMap remote_weights;
-    MGMap reception_times;
-    MGMap local_processing_times;
-    MGMap remote_processing_times;
+    GtkEntry* seed;
+    GtkEntry* sim_time;
+    GtkEntry* timeout;
+    std::array<GtkEntry*, 2> center_sizes;
+    std::array<GtkEntry*, 2> generations;
+    std::array<GtkEntry*, 2> local_proportions;
+    std::array<GtkEntry*, 2> remote_proportions;
+    MEMap local_weights;
+    MEMap remote_weights;
+    MEMap reception_times;
+    MEMap local_processing_times;
+    MEMap remote_processing_times;
 
+    std::string seed_str;
+    std::string sim_time_str;
+    std::string timeout_str;
     std::array<std::string, 2> center_sizes_str;
     std::array<std::string, 2> generations_str;
     std::array<std::string, 2> local_proportions_str;
@@ -68,7 +82,6 @@ class Configuration {
     static const smail::Message rrfm;
     static const smail::Message rrpm;
 
-    // void set_defaults();
     void backup_strings();
     void restore_strings();
     bool validate_input();

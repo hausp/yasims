@@ -2,16 +2,15 @@
 template<typename Fn, typename T>
 template<typename... Args>
 constexpr dist::Function<Fn,T>::Function(Args... args):
- function{std::forward<Args>(args)...} { }
+ function{std::forward<Args>(args)...}, gen{Global::SEED} { }
+
 
 template<typename Fn, typename T>
-template<typename... Args>
-constexpr dist::Function<Fn,T>::Function(unsigned seed, Args... args):
- function{std::forward<Args>(args)...},
- gen{seed} { }
-
-template<typename Fn, typename T>
-T dist::Function<Fn,T>::operator()() {
+T dist::Function<Fn,T>::operator()(bool update) {
+    if (update) {
+        gen = std::mt19937_64{Global::SEED};
+        return T();
+    }
     return function(gen);
 }
 
@@ -21,15 +20,14 @@ constexpr dist::disc<T>::Function():
 
 template<typename T>
 constexpr dist::disc<T>::Function(VList vs, WList ws):
-    function{std::move(vs), std::move(ws)} { }
+    function{std::move(vs), std::move(ws)}, gen{Global::SEED} { }
 
 template<typename T>
-constexpr dist::disc<T>::Function(unsigned seed, VList vs, WList ws):
-    function{std::move(vs), std::move(ws)},
-    gen{seed} { }
-
-template<typename T>
-T dist::disc<T>::operator()() {
+T dist::disc<T>::operator()(bool update) {
+    if (update) {
+        gen = std::mt19937_64{Global::SEED};
+        return T();
+    }
     return function(gen);
 }
 
@@ -38,6 +36,6 @@ constexpr dist::cons<T>::Function(T value):
     function{value} { }
 
 template<typename T>
-constexpr T dist::cons<T>::operator()() {
+constexpr T dist::cons<T>::operator()(bool) {
     return function.value;
 }

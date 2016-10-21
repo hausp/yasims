@@ -8,7 +8,7 @@ smail::ProcessingCenter::ProcessingCenter(MFMap times, size_t capacity):
  processing_times{times} { }
 
 smail::Event smail::ProcessingCenter::receive(Message msg) {
-    auto processing_time = processing_times.at(msg)();
+    auto processing_time = processing_times.at(msg)(false);
     if (allocated.size() < capacity) {
         msg.current_time += processing_time;
         msg.in_system_time += processing_time;

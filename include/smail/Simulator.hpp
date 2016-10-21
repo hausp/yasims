@@ -9,6 +9,7 @@
 #include <mutex>
 
 #include "animation/Animation.hpp"
+#include "Config.hpp"
 #include "Event.hpp"
 #include "MessageClassifier.hpp"
 #include "MessageConsumer.hpp"
@@ -29,6 +30,7 @@ namespace smail {
         void pause();
         void stop();
      private:
+        Config config;
         EventQueue events;
         Animation animation;
         std::array<MessageProducer, 2> spawners;
@@ -36,7 +38,7 @@ namespace smail {
         ProcessingCenter reception;
         std::array<ProcessingCenter, 2> centers;
         MessageConsumer consumer;
-        double message_timeout = Default::TIME_OUT;
+        // double message_timeout = Default::TIME_OUT;
         double clock = 0;
         unsigned msgs_in_system = 0;
         unsigned max_msgs_in_system = 0;

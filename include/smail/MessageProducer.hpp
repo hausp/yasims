@@ -38,10 +38,10 @@ namespace smail {
     }
 
     inline Event MessageProducer::produce(double time) {
-        auto inbound_time = time + arrival_time();
+        auto inbound_time = time + arrival_time(false);
         incoming_messages.emplace(Message{
             from,
-            destination(),
+            destination(false),
             Status::UNDEFINED,
             inbound_time
         });

@@ -1,5 +1,6 @@
 
 #include "interface/Configuration.hpp"
+#include <iostream>
 
 const smail::Message Configuration::llsm = {
     smail::Address::LOCAL, smail::Address::LOCAL, smail::Status::SUCCESS};
@@ -31,119 +32,117 @@ Configuration::Configuration(GtkBuilder* builder) {
     using namespace smail;
     dialog = GTK_WIDGET(gtk_builder_get_object(builder, "config-dialog"));
     // First tab attributes
-    seed = GTK_WIDGET(gtk_builder_get_object(builder, "seed-entry"));
+    seed = GTK_ENTRY(gtk_builder_get_object(builder, "seed-entry"));
     
-    sim_time = GTK_WIDGET(gtk_builder_get_object(builder, "sim-time-entry"));
-    timeout = GTK_WIDGET(gtk_builder_get_object(builder, "timeout-entry"));
+    sim_time = GTK_ENTRY(gtk_builder_get_object(builder, "sim-time-entry"));
+    timeout = GTK_ENTRY(gtk_builder_get_object(builder, "timeout-entry"));
     
     center_sizes = {
-        GTK_WIDGET(gtk_builder_get_object(builder, "num-servers-lc-entry")),
-        GTK_WIDGET(gtk_builder_get_object(builder, "num-servers-rc-entry"))
+        GTK_ENTRY(gtk_builder_get_object(builder, "num-servers-lc-entry")),
+        GTK_ENTRY(gtk_builder_get_object(builder, "num-servers-rc-entry"))
     };
     // Second tab attributes
     generations = {
-        GTK_WIDGET(gtk_builder_get_object(builder, "local-gen-entry")),
-        GTK_WIDGET(gtk_builder_get_object(builder, "remote-gen-entry"))
+        GTK_ENTRY(gtk_builder_get_object(builder, "local-gen-entry")),
+        GTK_ENTRY(gtk_builder_get_object(builder, "remote-gen-entry"))
     };
     
     local_proportions = {
-        GTK_WIDGET(gtk_builder_get_object(builder, "ll-percent-entry")),
-        GTK_WIDGET(gtk_builder_get_object(builder, "lr-percent-entry"))
+        GTK_ENTRY(gtk_builder_get_object(builder, "ll-percent-entry")),
+        GTK_ENTRY(gtk_builder_get_object(builder, "lr-percent-entry"))
     };
         
     remote_proportions = {
-        GTK_WIDGET(gtk_builder_get_object(builder, "rl-percent-entry")),
-        GTK_WIDGET(gtk_builder_get_object(builder, "rr-percent-entry"))
+        GTK_ENTRY(gtk_builder_get_object(builder, "rl-percent-entry")),
+        GTK_ENTRY(gtk_builder_get_object(builder, "rr-percent-entry"))
     };
 
     local_weights = {
         {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lls-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "lls-entry"))},
         {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "llf-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "llf-entry"))},
         {{Address::LOCAL, Address::LOCAL, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "llp-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "llp-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrs-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "lrs-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrf-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "lrf-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrp-entry"))}
+          GTK_ENTRY(gtk_builder_get_object(builder, "lrp-entry"))}
     };
 
     remote_weights = {
         {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rls-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rls-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rlf-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rlf-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rlp-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rlp-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrs-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rrs-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrf-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rrf-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrp-entry"))}
+          GTK_ENTRY(gtk_builder_get_object(builder, "rrp-entry"))}
     };
     // Third tab attributes
     reception_times = {
         {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lls-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "lls-rt-entry"))},
         {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "llf-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "llf-rt-entry"))},
         {{Address::LOCAL, Address::LOCAL, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "llp-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "llp-rt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrs-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "lrs-rt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrf-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "lrf-rt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrp-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "lrp-rt-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rls-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rls-rt-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rlf-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rlf-rt-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rlp-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rlp-rt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrs-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rrs-rt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrf-rt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rrf-rt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrp-rt-entry"))}
+          GTK_ENTRY(gtk_builder_get_object(builder, "rrp-rt-entry"))}
     };
 
     local_processing_times = {
         {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lls-pt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "lls-pt-entry"))},
         {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "llf-pt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "llf-pt-entry"))},
         {{Address::LOCAL, Address::LOCAL, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "llp-pt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "llp-pt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrs-pt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "lrs-pt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrf-pt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "lrf-pt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrp-pt-entry"))}
+          GTK_ENTRY(gtk_builder_get_object(builder, "lrp-pt-entry"))}
     };
 
     remote_processing_times = {
         {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rls-pt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rls-pt-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rlf-pt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rlf-pt-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rlp-pt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rlp-pt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrs-pt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rrs-pt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrf-pt-entry"))},
+          GTK_ENTRY(gtk_builder_get_object(builder, "rrf-pt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrp-pt-entry"))}
+          GTK_ENTRY(gtk_builder_get_object(builder, "rrp-pt-entry"))}
     };
-
-    // set_defaults();
 }
 
 int Configuration::run() {
@@ -156,101 +155,181 @@ int Configuration::run() {
     // Response: 0 = cancel, 1 = ok
     auto response = 0;
     while(dumb_user_thinking) {
-        response = gtk_dialog_run(GTK_DIALOG(dialog));
-        dumb_user_thinking = response;
-        if (!response) {
-            restore_strings();
-            dumb_user_thinking = false;
-        } else {
-            dumb_user_thinking = validate_input();
+        response = std::max(gtk_dialog_run(GTK_DIALOG(dialog)), 0);
+        dumb_user_thinking = response && !validate_input();
+        if (dumb_user_thinking) {
+            if (response) {
+                std::cout << "ERROU BURRÃO" << std::endl;
+            } else {
+                restore_strings();                
+            }
         }
     }
     gtk_widget_hide(dialog);
     return response;
 }
 
-void Configuration::backup_strings() {
-    for (auto i = 0; i < 2; i++) {
-        center_sizes_str[i] = gtk_entry_get_text(GTK_ENTRY(center_sizes[i]));
-        generations_str[i] = gtk_entry_get_text(GTK_ENTRY(generations[i]));    
-        local_proportions_str[i] = gtk_entry_get_text(
-            GTK_ENTRY(local_proportions[i]));
-        remote_proportions_str[i] = gtk_entry_get_text(
-            GTK_ENTRY(remote_proportions[i]));
+bool Configuration::validate_input() {
+    auto match = parser::Match{};
+    auto valid = false;
+
+    std::cout << "mark 0" << std::endl;
+    
+    std::tie(match, valid) = parser::s_match(
+        gtk_entry_get_text(seed), "random");
+    if (!valid || match.type != dist::Type::CONS) return false;
+    last_config.seed = std::move(match);
+
+    std::cout << "mark 1" << std::endl;
+    
+    std::tie(match, valid) = parser::s_match(
+        gtk_entry_get_text(sim_time), "infinite");
+    if (!valid || match.type != dist::Type::CONS) return false;
+    last_config.sim_time = std::move(match);
+
+    std::cout << "mark 2" << std::endl;
+
+    std::tie(match, valid) = parser::match(gtk_entry_get_text(timeout));
+    if (!valid || match.type != dist::Type::CONS) return false;
+    last_config.timeout = std::move(match);
+
+    std::cout << "mark 3" << std::endl;
+
+    for (size_t i = 0; i < center_sizes.size(); i++) {
+        std::cout << "mark 3.1" << i << std::endl;
+        std::tie(match, valid) = 
+            parser::match(gtk_entry_get_text(center_sizes[i]));
+        if (!valid) return false;
+        last_config.center_sizes[i] = std::move(match);
+        std::cout << "mark 3.2" << i << std::endl;
+        std::tie(match, valid) = 
+            parser::match(gtk_entry_get_text(generations[i]));
+        if (!valid) return false;
+        last_config.generations[i] = std::move(match);
+        std::cout << "mark 3.3" << i << std::endl;
+        std::tie(match, valid) = 
+            parser::match(gtk_entry_get_text(local_proportions[i]));
+        if (!valid) return false;
+        last_config.local_proportions[i] = std::move(match);
+        std::cout << "mark 3.4" << i << std::endl;
+        std::tie(match, valid) = 
+            parser::match(gtk_entry_get_text(remote_proportions[i]));
+        if (!valid) return false;
+        last_config.remote_proportions[i] = std::move(match);
     }
+
+    std::cout << "mark 4" << std::endl;
 
     for (auto pair : local_weights) {
-        local_weights_str[pair.first] =
-            gtk_entry_get_text(GTK_ENTRY(pair.second));
+        std::tie(match, valid) = 
+            parser::match(gtk_entry_get_text(pair.second));
+        if (!valid) return false;
+        last_config.local_weights[pair.first] = std::move(match);
     }
+
+    std::cout << "mark 5" << std::endl;
 
     for (auto pair : remote_weights) {
-        remote_weights_str[pair.first] =
-            gtk_entry_get_text(GTK_ENTRY(pair.second));
+        std::tie(match, valid) = 
+            parser::match(gtk_entry_get_text(pair.second));
+        if (!valid) return false;
+        last_config.remote_weights[pair.first] = std::move(match);
     }
+
+    std::cout << "mark 6" << std::endl;
 
     for (auto pair : reception_times) {
-        reception_times_str[pair.first] =
-            gtk_entry_get_text(GTK_ENTRY(pair.second));
+        std::tie(match, valid) = 
+            parser::match(gtk_entry_get_text(pair.second));
+        if (!valid) return false;
+        last_config.reception_times[pair.first] = std::move(match);
     }
+
+    std::cout << "mark 7" << std::endl;
 
     for (auto pair : local_processing_times) {
-        local_processing_times_str[pair.first] =
-            gtk_entry_get_text(GTK_ENTRY(pair.second));
+        std::tie(match, valid) = 
+            parser::match(gtk_entry_get_text(pair.second));
+        if (!valid) return false;
+        last_config.local_processing_times[pair.first] = std::move(match);
     }
+
+    std::cout << "mark 8" << std::endl;
 
     for (auto pair : remote_processing_times) {
-        remote_processing_times_str[pair.first] =
-            gtk_entry_get_text(GTK_ENTRY(pair.second));
+        std::tie(match, valid) = 
+            parser::match(gtk_entry_get_text(pair.second));
+        if (!valid) return false;
+        last_config.remote_processing_times[pair.first] = std::move(match);
     }
-}
 
-bool Configuration::validate_input() {
+    std::cout << "mark 9" << std::endl;
 
     return true;
 }
 
-void Configuration::restore_strings() {
-    for (auto i = 0; i < 2; i++) {
-        gtk_entry_set_text(
-            GTK_ENTRY(center_sizes[i]), center_sizes_str[i].c_str());
-        gtk_entry_set_text(
-            GTK_ENTRY(generations[i]), generations_str[i].c_str());
-        gtk_entry_set_text(
-            GTK_ENTRY(local_proportions[i]),
-            local_proportions_str[i].c_str());
-        gtk_entry_set_text(
-            GTK_ENTRY(remote_proportions[i]),
-            remote_proportions_str[i].c_str());
+void Configuration::backup_strings() {
+    seed_str = gtk_entry_get_text(seed);
+    sim_time_str = gtk_entry_get_text(sim_time);
+    timeout_str = gtk_entry_get_text(timeout);
+
+    for (size_t i = 0; i < 2; i++) {
+        center_sizes_str[i] = gtk_entry_get_text(center_sizes[i]);
+        generations_str[i] = gtk_entry_get_text(generations[i]);    
+        local_proportions_str[i] = gtk_entry_get_text(local_proportions[i]);
+        remote_proportions_str[i] = gtk_entry_get_text(remote_proportions[i]);
     }
 
     for (auto pair : local_weights) {
-        gtk_entry_set_text(
-            GTK_ENTRY(pair.second),
-            local_weights_str[pair.first].c_str());
+        local_weights_str[pair.first] = gtk_entry_get_text(pair.second);
     }
 
     for (auto pair : remote_weights) {
-        gtk_entry_set_text(
-            GTK_ENTRY(pair.second),
-            remote_weights_str[pair.first].c_str());
+        remote_weights_str[pair.first] = gtk_entry_get_text(pair.second);
     }
 
     for (auto pair : reception_times) {
-        gtk_entry_set_text(
-            GTK_ENTRY(pair.second),
-            reception_times_str[pair.first].c_str());
+        reception_times_str[pair.first] = gtk_entry_get_text(pair.second);
     }
 
     for (auto pair : local_processing_times) {
-        gtk_entry_set_text(
-            GTK_ENTRY(pair.second),
-            local_processing_times_str[pair.first].c_str());
+        local_processing_times_str[pair.first] = gtk_entry_get_text(pair.second);
     }
 
     for (auto pair : remote_processing_times) {
-        gtk_entry_set_text(
-            GTK_ENTRY(pair.second),
-            remote_processing_times_str[pair.first].c_str());
+        remote_processing_times_str[pair.first] = gtk_entry_get_text(pair.second);
+    }
+}
+
+void Configuration::restore_strings() {
+    gtk_entry_set_text(seed, seed_str.c_str());
+    gtk_entry_set_text(sim_time, sim_time_str.c_str());
+    gtk_entry_set_text(timeout, timeout_str.c_str());
+
+    for (size_t i = 0; i < center_sizes.size(); i++) {
+        gtk_entry_set_text(center_sizes[i], center_sizes_str[i].c_str());
+        gtk_entry_set_text(generations[i], generations_str[i].c_str());
+        gtk_entry_set_text(local_proportions[i], local_proportions_str[i].c_str());
+        gtk_entry_set_text(remote_proportions[i], remote_proportions_str[i].c_str());
+    }
+
+    for (auto pair : local_weights) {
+        gtk_entry_set_text(pair.second, local_weights_str[pair.first].c_str());
+    }
+
+    for (auto pair : remote_weights) {
+        gtk_entry_set_text(pair.second, remote_weights_str[pair.first].c_str());
+    }
+
+    for (auto pair : reception_times) {
+        gtk_entry_set_text(pair.second, reception_times_str[pair.first].c_str());
+    }
+
+    for (auto pair : local_processing_times) {
+        gtk_entry_set_text(pair.second, local_processing_times_str[pair.first].c_str());
+    }
+
+    for (auto pair : remote_processing_times) {
+        gtk_entry_set_text(pair.second, remote_processing_times_str[pair.first].c_str());
     }
 }

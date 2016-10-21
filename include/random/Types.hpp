@@ -8,6 +8,11 @@
 #include "Distribution.hpp"
 
 namespace dist {
+    struct Global {
+        static std::random_device RD;
+        static size_t SEED;
+    };
+
     template<typename, typename = double>
     class Function;
 
@@ -42,7 +47,7 @@ namespace dist {
 
     // std::function encapsulation alias
     template<typename T = double>
-    using funct = std::function<T()>;
+    using funct = std::function<T(bool)>;
 
     /// Struct ByType
     // Translates dist::Type specifications to its std equivalents
