@@ -143,9 +143,7 @@ namespace parser {
         auto sim_time = config.sim_time.values[0];
         auto timeout = config.sim_time.values[0];
 
-        // parser::Match seed;
-        // parser::Match sim_time;
-        // parser::Match timeout;
+
         // std::array<parser::Match, 2> center_sizes;
         // std::array<parser::Match, 2> generations;
         // std::array<parser::Match, 2> local_proportions;
@@ -156,7 +154,11 @@ namespace parser {
         // MMMap local_processing_times;
         // MMMap remote_processing_times;
 
-        return smail::Config{};
+        return smail::Config{
+            use_random_seed,
+            sim_time,
+            timeout
+        };
     }
 }
 

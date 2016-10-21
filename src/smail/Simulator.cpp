@@ -111,7 +111,8 @@ void smail::Simulator::simulate() {
     }
     // Update execute control variable
     stopped = events.empty();
-    execute = execute && !stopped;
+    execute = execute && !stopped
+        && (config.infinite_simulation || clock >= config.sim_time);
 }
 
 void smail::Simulator::update(double new_time) {
