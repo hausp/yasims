@@ -55,16 +55,16 @@ void smail::Simulator::start(bool anima) {
     execute = true;
     animate = anima;  
 
-    if (animate) {
-        animation.start();
-        // g_timeout_add_full(
+    // if (animate) {
+    //     // animation.start();
+    //     // g_timeout_add_full(
 
-        // );
+    //     // );
 
-    } else {
+    // } else {
         std::lock_guard<std::mutex> guard{mutex};        
         cv.notify_all();
-    }
+    // }
 }
 
 void smail::Simulator::step() {
@@ -80,7 +80,7 @@ void smail::Simulator::step() {
 void smail::Simulator::pause() {
     if (!execute) return;
 
-    if (animate) animation.pause();
+    // if (animate) animation.pause();
     
     execute = false;
 }
@@ -89,7 +89,7 @@ void smail::Simulator::stop() {
     // If not executing, nothing to be done
     if (!execute) return;
     // Stop animation, if any
-    if (animate) animation.stop();
+    // if (animate) animation.stop();
     // Sinalize to stop executing
     execute = false;
     stopped = true;

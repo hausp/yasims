@@ -31,8 +31,8 @@ void GTKInterface::activate() {
     builder = gtk_builder_new_from_file("../res/view_simpl.ui");
     window = GTK_WIDGET(gtk_builder_get_object(builder, "main-window"));
     configuration = Configuration{builder};
-    auto raw_canvas = gtk_builder_get_object(builder, "animation_area");
-    auto canvas = GTK_DRAWING_AREA(raw_canvas);
+    // auto raw_canvas = gtk_builder_get_object(builder, "animation_area");
+    // auto canvas = GTK_DRAWING_AREA(raw_canvas);
 
     gtk_application_add_window(application, GTK_WINDOW(window));
 
@@ -45,13 +45,13 @@ void GTKInterface::activate() {
     
     connect_buttons();
     
-    g_signal_connect(
-        canvas,
-        "configure-event",
-        (GCallback)(SigCairo<bool, GtkWidget*, GdkEventConfigure*, gpointer>
-            ::callback<&Cairo::update>),
-        nullptr
-    );
+    // g_signal_connect(
+    //     canvas,
+    //     "configure-event",
+    //     (GCallback)(SigCairo<bool, GtkWidget*, GdkEventConfigure*, gpointer>
+    //         ::callback<&Cairo::update>),
+    //     nullptr
+    // );
 
     g_signal_connect(
         application,
