@@ -11,7 +11,7 @@ V dist::discrete_distribution<V>::operator()(Generator& gen) {
 template<typename T>
 template<typename Generator>
 T dist::triangular_distribution<T>::operator()(Generator& gen) const {
-    T r = gen();
+    T r = gen()/gen.max();
     if (r > (b - a)/(c - a) ) {
         r = c - std::sqrt((1 - r)*(c - b)*(c - a));
     } else {

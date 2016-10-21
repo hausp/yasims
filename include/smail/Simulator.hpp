@@ -38,6 +38,7 @@ namespace smail {
         MessageConsumer consumer;
         double message_timeout = Default::TIME_OUT;
         double clock = 0;
+        unsigned msgs_in_system = 0;
 
         // Statistics
         std::unordered_map<unsigned, double> system_occupation;

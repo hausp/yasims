@@ -94,6 +94,8 @@ void smail::Simulator::stop() {
     execute = false;
     stopped = true;
     consumer.reveal_info();
+    std::cout << "There are still: " << msgs_in_system 
+        << " messages in the system\n";
 }
 
 void smail::Simulator::run() {
@@ -160,6 +162,7 @@ void smail::Simulator::reset() {
     reception.reset();
     classifier.reset();
     consumer.reset();
+    msgs_in_system = 0;
 
     for (auto& spawner : spawners) {
         spawner.reset();
@@ -192,6 +195,8 @@ void smail::Simulator::arrival_event(size_t index) {
 
 void smail::Simulator::reception_event(Message msg) {
     std::cout << "Reception event" << std::endl;
+    // Increment #msgs in system
+    msgs_in_system++;
     // Send message to reception and get ready event
     auto event = reception.receive(std::move(msg));
     // Set ready event action
@@ -256,5 +261,8 @@ void smail::Simulator::postpone_event(Message msg) {
 
 void smail::Simulator::exit_event(Message msg) {
     std::cout << "Exit event" << std::endl;
+    // Decrement #msgs in system
+    msgs_in_system--;
+    // Process dispatched msg data
     consumer.consume(msg);
 }
