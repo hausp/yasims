@@ -10,12 +10,12 @@
 
 #include "animation/Animation.hpp"
 #include "Config.hpp"
+#include "Default.hpp"
 #include "Event.hpp"
 #include "MessageClassifier.hpp"
 #include "MessageConsumer.hpp"
 #include "MessageProducer.hpp"
 #include "ProcessingCenter.hpp"
-#include "Default.hpp"
 
 namespace smail {
     class Simulator {

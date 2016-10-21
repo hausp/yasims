@@ -17,12 +17,14 @@ template<typename R, typename... Args>
 using SigGTKInterface = aw::Signal<GTKInterface>::function<R(Args...)>;
 
 GTKInterface::GTKInterface()
-: application(gtk_application_new("ufsc.yasims", G_APPLICATION_FLAGS_NONE)) {
+: application{
+    gtk_application_new("ufsc.yasims", G_APPLICATION_FLAGS_NONE)} {
     aw::Signal<GTKInterface>::set_receiver(*this);
     g_signal_connect(
         application,
         "activate",
-        G_CALLBACK(SigGTKInterface<void>::callback<&GTKInterface::activate>),
+        G_CALLBACK(SigGTKInterface<void>
+            ::callback<&GTKInterface::activate>),
         nullptr
     );
 }
@@ -31,8 +33,6 @@ void GTKInterface::activate() {
     builder = gtk_builder_new_from_file("../res/view_simpl.ui");
     window = GTK_WIDGET(gtk_builder_get_object(builder, "main-window"));
     configuration = Configuration{builder};
-    // auto raw_canvas = gtk_builder_get_object(builder, "animation_area");
-    // auto canvas = GTK_DRAWING_AREA(raw_canvas);
 
     gtk_application_add_window(application, GTK_WINDOW(window));
 
@@ -44,19 +44,12 @@ void GTKInterface::activate() {
     );
     
     connect_buttons();
-    
-    // g_signal_connect(
-    //     canvas,
-    //     "configure-event",
-    //     (GCallback)(SigCairo<bool, GtkWidget*, GdkEventConfigure*, gpointer>
-    //         ::callback<&Cairo::update>),
-    //     nullptr
-    // );
 
     g_signal_connect(
         application,
         "activate",
-        G_CALLBACK(SigGTKInterface<void>::callback<&GTKInterface::activate>),
+        G_CALLBACK(SigGTKInterface<void>
+            ::callback<&GTKInterface::activate>),
         nullptr
     );
 
@@ -148,13 +141,17 @@ int GTKInterface::show_configuration_dialog() {
     return configuration.run();
 }
 
+RawConfig GTKInterface::raw_config() {
+    return configuration.extract();
+}
+
 void GTKInterface::error_message(GtkWidget* parent) {
     show_message(
         parent,
         GTK_MESSAGE_ERROR,
         GTK_BUTTONS_OK,
         "Erro!",
-        "Expressão/valor desconhecido encontrado",
+        "Valor desconhecido encontrado",
         "Por favor, verifique os campos preenchidos."
     );
 }

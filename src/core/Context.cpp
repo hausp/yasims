@@ -14,7 +14,9 @@ int Context::run(int argc, char** argv) {
 }
 
 void Context::configure() {
-    gui.show_configuration_dialog();
+    if (gui.show_configuration_dialog()) {
+        auto raw = gui.raw_config();
+    }
 }
 
 void Context::summary() {
