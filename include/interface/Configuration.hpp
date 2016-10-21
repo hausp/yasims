@@ -18,6 +18,7 @@ struct RawConfig {
 
 class Configuration {
     using MGMap = std::unordered_map<smail::Message, GtkWidget*>;
+    using MSMap = std::unordered_map<smail::Message, std::string>;
  public:
     enum class Instance { UNIQUE };
 
@@ -31,6 +32,7 @@ class Configuration {
     GtkWidget* seed;
     GtkWidget* sim_time;
     GtkWidget* timeout;
+
     std::array<GtkWidget*, 2> center_sizes;
     std::array<GtkWidget*, 2> generations;
     std::array<GtkWidget*, 2> local_proportions;
@@ -41,9 +43,35 @@ class Configuration {
     MGMap local_processing_times;
     MGMap remote_processing_times;
 
+    std::array<std::string, 2> center_sizes_str;
+    std::array<std::string, 2> generations_str;
+    std::array<std::string, 2> local_proportions_str;
+    std::array<std::string, 2> remote_proportions_str;
+    MSMap local_weights_str;
+    MSMap remote_weights_str;
+    MSMap reception_times_str;
+    MSMap local_processing_times_str;
+    MSMap remote_processing_times_str;
+
     RawConfig last_config;
 
-    void set_defaults();
+    static const smail::Message llsm;
+    static const smail::Message llfm;
+    static const smail::Message llpm;
+    static const smail::Message lrsm;
+    static const smail::Message lrfm;
+    static const smail::Message lrpm;
+    static const smail::Message rlsm;
+    static const smail::Message rlfm;
+    static const smail::Message rlpm;
+    static const smail::Message rrsm;
+    static const smail::Message rrfm;
+    static const smail::Message rrpm;
+
+    // void set_defaults();
+    void backup_strings();
+    void restore_strings();
+    bool validate_input();
 };
 
 inline RawConfig Configuration::extract() const {

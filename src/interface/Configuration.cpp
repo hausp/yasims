@@ -1,6 +1,32 @@
 
 #include "interface/Configuration.hpp"
 
+const smail::Message Configuration::llsm = {
+    smail::Address::LOCAL, smail::Address::LOCAL, smail::Status::SUCCESS};
+const smail::Message Configuration::llfm = {
+    smail::Address::LOCAL, smail::Address::LOCAL, smail::Status::FAILURE};
+const smail::Message Configuration::llpm = {
+    smail::Address::LOCAL, smail::Address::LOCAL, smail::Status::POSTPONED};
+const smail::Message Configuration::lrsm = {
+    smail::Address::LOCAL, smail::Address::REMOTE, smail::Status::SUCCESS};
+const smail::Message Configuration::lrfm = {
+    smail::Address::LOCAL, smail::Address::REMOTE, smail::Status::FAILURE};
+const smail::Message Configuration::lrpm = {
+    smail::Address::LOCAL, smail::Address::REMOTE, smail::Status::POSTPONED};
+const smail::Message Configuration::rlsm = {
+    smail::Address::REMOTE, smail::Address::LOCAL, smail::Status::SUCCESS};
+const smail::Message Configuration::rlfm = {
+    smail::Address::REMOTE, smail::Address::LOCAL, smail::Status::FAILURE};
+const smail::Message Configuration::rlpm = {
+    smail::Address::REMOTE, smail::Address::LOCAL, smail::Status::POSTPONED};
+const smail::Message Configuration::rrsm = {
+    smail::Address::REMOTE, smail::Address::REMOTE, smail::Status::SUCCESS};
+const smail::Message Configuration::rrfm = {
+    smail::Address::REMOTE, smail::Address::REMOTE, smail::Status::FAILURE};
+const smail::Message Configuration::rrpm = {
+    smail::Address::REMOTE, smail::Address::REMOTE, smail::Status::POSTPONED};
+
+
 Configuration::Configuration(GtkBuilder* builder) {
     using namespace smail;
     dialog = GTK_WIDGET(gtk_builder_get_object(builder, "config-dialog"));
@@ -62,126 +88,169 @@ Configuration::Configuration(GtkBuilder* builder) {
     // Third tab attributes
     reception_times = {
         {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lls-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "lls-rt-entry"))},
         {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "llf-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "llf-rt-entry"))},
         {{Address::LOCAL, Address::LOCAL, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "llp-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "llp-rt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrs-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "lrs-rt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrf-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "lrf-rt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrp-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "lrp-rt-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rls-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "rls-rt-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rlf-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "rlf-rt-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rlp-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "rlp-rt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrs-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "rrs-rt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrf-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "rrf-rt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrp-entry"))}
+          GTK_WIDGET(gtk_builder_get_object(builder, "rrp-rt-entry"))}
     };
 
     local_processing_times = {
         {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lls-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "lls-pt-entry"))},
         {{Address::LOCAL, Address::LOCAL, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "llf-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "llf-pt-entry"))},
         {{Address::LOCAL, Address::LOCAL, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "llp-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "llp-pt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrs-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "lrs-pt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrf-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "lrf-pt-entry"))},
         {{Address::LOCAL, Address::REMOTE, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "lrp-entry"))}
+          GTK_WIDGET(gtk_builder_get_object(builder, "lrp-pt-entry"))}
     };
 
-    local_processing_times = {
+    remote_processing_times = {
         {{Address::REMOTE, Address::LOCAL, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rls-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "rls-pt-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rlf-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "rlf-pt-entry"))},
         {{Address::REMOTE, Address::LOCAL, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rlp-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "rlp-pt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::SUCCESS},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrs-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "rrs-pt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::FAILURE},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrf-entry"))},
+          GTK_WIDGET(gtk_builder_get_object(builder, "rrf-pt-entry"))},
         {{Address::REMOTE, Address::REMOTE, Status::POSTPONED},
-          GTK_WIDGET(gtk_builder_get_object(builder, "rrp-entry"))}
+          GTK_WIDGET(gtk_builder_get_object(builder, "rrp-pt-entry"))}
     };
 
-    set_defaults();
+    // set_defaults();
 }
 
 int Configuration::run() {
+    // Backup strings in case the user do shit
+    backup_strings();
+    // Show the treasure
     gtk_widget_show_all(dialog);
-    auto response = gtk_dialog_run(GTK_DIALOG(dialog));
+    // While he things and do shit, stay still
+    auto dumb_user_thinking = true;
+    // Response: 0 = cancel, 1 = ok
+    auto response = 0;
+    while(dumb_user_thinking) {
+        response = gtk_dialog_run(GTK_DIALOG(dialog));
+        dumb_user_thinking = response;
+        if (!response) {
+            restore_strings();
+            dumb_user_thinking = false;
+        } else {
+            dumb_user_thinking = validate_input();
+        }
+    }
     gtk_widget_hide(dialog);
     return response;
 }
 
-void Configuration::set_defaults() {
-    using namespace smail;
-    const auto llsm = Message{Address::LOCAL, Address::LOCAL, Status::SUCCESS};
-    const auto llfm = Message{Address::LOCAL, Address::LOCAL, Status::FAILURE};
-    const auto llpm = Message{Address::LOCAL, Address::LOCAL, Status::POSTPONED};
-    const auto lrsm = Message{Address::LOCAL, Address::REMOTE, Status::SUCCESS};
-    const auto lrfm = Message{Address::LOCAL, Address::REMOTE, Status::FAILURE};
-    const auto lrpm = Message{Address::LOCAL, Address::REMOTE, Status::POSTPONED};
-    const auto rlsm = Message{Address::REMOTE, Address::LOCAL, Status::SUCCESS};
-    const auto rlfm = Message{Address::REMOTE, Address::LOCAL, Status::FAILURE};
-    const auto rlpm = Message{Address::REMOTE, Address::LOCAL, Status::POSTPONED};
-    const auto rrsm = Message{Address::REMOTE, Address::REMOTE, Status::SUCCESS};
-    const auto rrfm = Message{Address::REMOTE, Address::REMOTE, Status::FAILURE};
-    const auto rrpm = Message{Address::REMOTE, Address::REMOTE, Status::POSTPONED};
+void Configuration::backup_strings() {
+    for (auto i = 0; i < 2; i++) {
+        center_sizes_str[i] = gtk_entry_get_text(GTK_ENTRY(center_sizes[i]));
+        generations_str[i] = gtk_entry_get_text(GTK_ENTRY(generations[i]));    
+        local_proportions_str[i] = gtk_entry_get_text(
+            GTK_ENTRY(local_proportions[i]));
+        remote_proportions_str[i] = gtk_entry_get_text(
+            GTK_ENTRY(remote_proportions[i]));
+    }
 
-    gtk_entry_set_text(GTK_ENTRY(seed), "random");
-    gtk_entry_set_text(GTK_ENTRY(sim_time), "infinite");
-    gtk_entry_set_text(GTK_ENTRY(timeout), "0.3");
+    for (auto pair : local_weights) {
+        local_weights_str[pair.first] =
+            gtk_entry_get_text(GTK_ENTRY(pair.second));
+    }
 
-    gtk_entry_set_text(GTK_ENTRY(center_sizes[0]), "20");
-    gtk_entry_set_text(GTK_ENTRY(center_sizes[1]), "20");
-    
-    gtk_entry_set_text(GTK_ENTRY(generations[0]), "EXPO(0.5)");
-    gtk_entry_set_text(GTK_ENTRY(generations[1]), "EXPO(0.6)");
-    
-    gtk_entry_set_text(GTK_ENTRY(local_proportions[0]), "0.667");
-    gtk_entry_set_text(GTK_ENTRY(local_proportions[1]), "0.333");
-    gtk_entry_set_text(GTK_ENTRY(remote_proportions[0]), "0.60");
-    gtk_entry_set_text(GTK_ENTRY(remote_proportions[1]), "0.40");
+    for (auto pair : remote_weights) {
+        remote_weights_str[pair.first] =
+            gtk_entry_get_text(GTK_ENTRY(pair.second));
+    }
 
+    for (auto pair : reception_times) {
+        reception_times_str[pair.first] =
+            gtk_entry_get_text(GTK_ENTRY(pair.second));
+    }
 
-    gtk_entry_set_text(GTK_ENTRY(local_weights[llsm]), "0.87");
-    gtk_entry_set_text(GTK_ENTRY(local_weights[llfm]), "0.005");
-    gtk_entry_set_text(GTK_ENTRY(local_weights[llpm]), "0.125");
-    gtk_entry_set_text(GTK_ENTRY(local_weights[lrsm]), "0.96");
-    gtk_entry_set_text(GTK_ENTRY(local_weights[lrfm]), "0.015");
-    gtk_entry_set_text(GTK_ENTRY(local_weights[lrpm]), "0.025");
+    for (auto pair : local_processing_times) {
+        local_processing_times_str[pair.first] =
+            gtk_entry_get_text(GTK_ENTRY(pair.second));
+    }
 
-    gtk_entry_set_text(GTK_ENTRY(remote_weights[rlsm]), "0.96");
-    gtk_entry_set_text(GTK_ENTRY(remote_weights[rlfm]), "0.03");
-    gtk_entry_set_text(GTK_ENTRY(remote_weights[rlpm]), "0.01");
-    gtk_entry_set_text(GTK_ENTRY(remote_weights[rrsm]), "0.90");
-    gtk_entry_set_text(GTK_ENTRY(remote_weights[rrfm]), "0.01");
-    gtk_entry_set_text(GTK_ENTRY(remote_weights[rrpm]), "0.09");
+    for (auto pair : remote_processing_times) {
+        remote_processing_times_str[pair.first] =
+            gtk_entry_get_text(GTK_ENTRY(pair.second));
+    }
+}
 
-    gtk_entry_set_text(GTK_ENTRY(reception_times[llsm]), "0.12");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[llfm]), "0.14");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[llpm]), "0.11");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[lrsm]), "0.12");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[lrfm]), "0.13");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[lrpm]), "0.15");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[rlsm]), "0.12");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[rlfm]), "0.14");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[rlpm]), "0.11");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[rrsm]), "0.16");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[rrfm]), "0.13");
-    gtk_entry_set_text(GTK_ENTRY(reception_times[rrpm]), "0.16");
+bool Configuration::validate_input() {
+
+    return true;
+}
+
+void Configuration::restore_strings() {
+    for (auto i = 0; i < 2; i++) {
+        gtk_entry_set_text(
+            GTK_ENTRY(center_sizes[i]), center_sizes_str[i].c_str());
+        gtk_entry_set_text(
+            GTK_ENTRY(generations[i]), generations_str[i].c_str());
+        gtk_entry_set_text(
+            GTK_ENTRY(local_proportions[i]),
+            local_proportions_str[i].c_str());
+        gtk_entry_set_text(
+            GTK_ENTRY(remote_proportions[i]),
+            remote_proportions_str[i].c_str());
+    }
+
+    for (auto pair : local_weights) {
+        gtk_entry_set_text(
+            GTK_ENTRY(pair.second),
+            local_weights_str[pair.first].c_str());
+    }
+
+    for (auto pair : remote_weights) {
+        gtk_entry_set_text(
+            GTK_ENTRY(pair.second),
+            remote_weights_str[pair.first].c_str());
+    }
+
+    for (auto pair : reception_times) {
+        gtk_entry_set_text(
+            GTK_ENTRY(pair.second),
+            reception_times_str[pair.first].c_str());
+    }
+
+    for (auto pair : local_processing_times) {
+        gtk_entry_set_text(
+            GTK_ENTRY(pair.second),
+            local_processing_times_str[pair.first].c_str());
+    }
+
+    for (auto pair : remote_processing_times) {
+        gtk_entry_set_text(
+            GTK_ENTRY(pair.second),
+            remote_processing_times_str[pair.first].c_str());
+    }
 }

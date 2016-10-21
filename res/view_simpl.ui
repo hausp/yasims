@@ -1377,6 +1377,7 @@
                       <object class="GtkEntry" id="seed-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">random</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1426,6 +1427,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="sim-time-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">infinite</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1436,6 +1438,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="timeout-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.3</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1459,6 +1462,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="num-servers-lc-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">20</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1482,6 +1486,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="num-servers-rc-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">20</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1558,6 +1563,7 @@ para mensagens (segundos)</property>
                         <property name="can_focus">True</property>
                         <property name="max_length">6</property>
                         <property name="width_chars">6</property>
+                        <property name="text">0.667</property>
                         <property name="input_purpose">digits</property>
                       </object>
                       <packing>
@@ -1601,6 +1607,7 @@ para mensagens (segundos)</property>
                         <property name="can_focus">True</property>
                         <property name="max_length">6</property>
                         <property name="width_chars">6</property>
+                        <property name="text" translatable="yes">0.333</property>
                         <property name="input_purpose">digits</property>
                       </object>
                       <packing>
@@ -1616,6 +1623,7 @@ para mensagens (segundos)</property>
                         <property name="can_focus">True</property>
                         <property name="max_length">6</property>
                         <property name="width_chars">6</property>
+                        <property name="text">0.60</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1644,6 +1652,7 @@ para mensagens (segundos)</property>
                         <property name="can_focus">True</property>
                         <property name="max_length">6</property>
                         <property name="width_chars">6</property>
+                        <property name="text">0.40</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1707,6 +1716,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="local-gen-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">EXPO(0.5)</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -1734,6 +1744,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="remote-gen-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">EXPO(0.6)</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -1857,6 +1868,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="lls-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.87</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1868,6 +1880,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="lrs-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.96</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1879,6 +1892,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="rls-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.96</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1890,6 +1904,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="rrs-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.90</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1901,6 +1916,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="llf-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.005</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -1912,6 +1928,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="lrf-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.015</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -1923,6 +1940,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="rlf-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.03</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -1934,6 +1952,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="rrf-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.01</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -1945,6 +1964,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="llp-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.125</property>
                       </object>
                       <packing>
                         <property name="left_attach">6</property>
@@ -1956,6 +1976,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="lrp-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.025</property>
                       </object>
                       <packing>
                         <property name="left_attach">6</property>
@@ -1967,6 +1988,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="rlp-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.01</property>
                       </object>
                       <packing>
                         <property name="left_attach">6</property>
@@ -1978,6 +2000,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="rrp-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="text">0.09</property>
                       </object>
                       <packing>
                         <property name="left_attach">6</property>
@@ -2196,6 +2219,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="lls-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.12</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2206,6 +2230,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="llf-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.14</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2216,6 +2241,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="llp-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.11</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2226,6 +2252,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="lrs-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.12</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2236,6 +2263,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="lrf-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.13</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2246,6 +2274,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="lrp-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.15</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2256,6 +2285,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rls-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.12</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2266,6 +2296,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rlf-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.14</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2276,6 +2307,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rlp-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.11</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2286,6 +2318,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rrs-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.16</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2296,6 +2329,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rrf-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.13</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2306,6 +2340,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rrp-rt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">0.16</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2316,6 +2351,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="llf-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">TRIA(0.02, 0.05, 0.12)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2326,6 +2362,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="lls-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">NORM(0.55, 0.05)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2336,6 +2373,8 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="llp-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="width_chars">45</property>
+                                <property name="text">UNIF(0.06, 0.15)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2346,6 +2385,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="lrs-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">NORM(0.65, 0.04)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2356,6 +2396,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="lrf-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">UNIF(0.16, 0.25)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2366,6 +2407,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="lrp-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">TRIA(0.05, 0.07, 0.10)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2376,6 +2418,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rls-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">UNIF(0.03, 0.11)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2386,6 +2429,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rlf-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">NORM(0.46, 0.05)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2396,6 +2440,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rlp-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">NORM(0.72, 0.09)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2406,6 +2451,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rrs-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">UNIF(0.09, 0.18)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2416,6 +2462,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rrf-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">TRIA(0.08, 0.15, 0.22)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -2426,6 +2473,7 @@ para mensagens (segundos)</property>
                               <object class="GtkEntry" id="rrp-pt-entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="text">NORM(0.63, 0.04)</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
