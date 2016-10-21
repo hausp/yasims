@@ -5,12 +5,13 @@
 #include "Message.hpp"
 #include <limits>
 #include <map>
+#include <sstream>
 
 namespace smail {
     class MessageConsumer {
      public:
         void consume(const Message&);
-        void reveal_info() const;
+        std::stringstream reveal_info();
         void reset();
      private:
         double avg_system_time = 0;

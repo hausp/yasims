@@ -6,6 +6,10 @@
 #include <queue>
 #include <deque>
 #include <thread>
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include <mutex>
 
 #include "animation/Animation.hpp"
@@ -81,10 +85,11 @@ namespace smail {
         void exit_event(Message);
         void launch_gtk_function();
         void update_messages();
-        void reveal_messages_info();
-        void avg_occupation(size_t);
         void update_input_info(const Message&);
-        void reveal_input_info();
+        std::stringstream avg_occupation(size_t);
+        std::stringstream reveal_input_info();
+        std::stringstream reveal_messages_info();
+        void generate_output(const std::string&);
     };
 }
 

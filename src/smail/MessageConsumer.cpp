@@ -13,20 +13,21 @@ void smail::MessageConsumer::consume(const Message& msg) {
     }
 }
 
-void smail::MessageConsumer::reveal_info() const {
-    std::cout << "--- End of Execution Report ---\n";
-    std::cout << "The total amount of exited messages was: " 
+std::stringstream smail::MessageConsumer::reveal_info() {
+    std::stringstream out;
+    out << "O total de mensagens despachadas foi: " 
               << total_exited << std::endl;
-    std::cout << "The message that spent less time spent: "
-              << faster_msg_time << "s in system\n";
-    std::cout << "The message that spent the most time spent: "
-              << slower_msg_time << "s in system\n";
-    std::cout << "The average time spent by each message was: "
-              << avg_system_time << "s in system\n"; 
-    std::cout << "Total amount of messages by type: \n";
+    out << "A mensagem que passou menos tempo no sistema foi "
+        << "despachada em: " << faster_msg_time << " segundos" << std::endl;
+    out << "A mensagem que passou mais tempo no sistema foi"
+        << "despachada em: " << slower_msg_time << " segundos" << std::endl;
+    out << "O tempo médio das mensagens no sistema foi de: "
+              << avg_system_time << " segundos" << std::endl; 
+    out << "Total de mensagens despachadas por tipo: " << std::endl;
     for (auto pair : exited_messages) {
-        std::cout << pair.first << ": " << pair.second << std::endl;
+        out << pair.first << ": " << pair.second << std::endl;
     }
+    return out;
 }
 
 void smail::MessageConsumer::reset() {
