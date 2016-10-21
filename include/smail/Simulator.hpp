@@ -39,6 +39,8 @@ namespace smail {
         double message_timeout = Default::TIME_OUT;
         double clock = 0;
         unsigned msgs_in_system = 0;
+        unsigned max_msgs_in_system = 0;
+        unsigned min_msgs_in_system = 10;
 
         // Statistics
         std::unordered_map<unsigned, double> system_occupation;
@@ -67,6 +69,9 @@ namespace smail {
         void processing_event(Message);
         void postpone_event(Message);
         void exit_event(Message);
+        void update_messages();
+        void reveal_messages_info();
+        double avg_occupation();
     };
 }
 

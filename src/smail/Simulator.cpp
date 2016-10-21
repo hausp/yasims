@@ -94,8 +94,7 @@ void smail::Simulator::stop() {
     execute = false;
     stopped = true;
     consumer.reveal_info();
-    std::cout << "There are still: " << msgs_in_system 
-        << " messages in the system\n";
+    reveal_messages_info();
 }
 
 void smail::Simulator::run() {
@@ -141,6 +140,7 @@ void smail::Simulator::update(double new_time) {
     if (!system_occupation.count(occupation)) {
         system_occupation[occupation] = 0;    
     }
+    update_messages();
     system_occupation[occupation] += (new_time - clock);
     clock = new_time;
 }
@@ -163,6 +163,8 @@ void smail::Simulator::reset() {
     classifier.reset();
     consumer.reset();
     msgs_in_system = 0;
+    max_msgs_in_system = 0;
+    min_msgs_in_system = 10;
 
     for (auto& spawner : spawners) {
         spawner.reset();
@@ -265,4 +267,22 @@ void smail::Simulator::exit_event(Message msg) {
     msgs_in_system--;
     // Process dispatched msg data
     consumer.consume(msg);
+}
+
+void smail::Simulator::update_messages() {
+    if (msgs_in_system > max_msgs_in_system) {
+        max_msgs_in_system = msgs_in_system;
+    }
+    if (msgs_in_system < min_msgs_in_system) {
+        min_msgs_in_system = msgs_in_system;
+    }
+}
+
+void smail::Simulator::reveal_messages_info() {
+    std::cout << "There are still: " << msgs_in_system 
+        << " messages in the system\n";
+    std::cout << "The most messages in the system was: "
+        << max_msgs_in_system << "\n";
+    std::cout << "The least messages in the system was: "
+        << min_msgs_in_system << ""
 }
