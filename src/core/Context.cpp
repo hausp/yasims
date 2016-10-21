@@ -14,7 +14,7 @@ int Context::run(int argc, char** argv) {
 }
 
 void Context::configure() {
-    // TODO
+    gui.show_configuration_dialog();
 }
 
 void Context::summary() {
@@ -23,10 +23,12 @@ void Context::summary() {
 
 void Context::start() {
     sim.start(true);
+    gui.update_active_buttons(true);
 }
 
 void Context::fast_forward() {
     sim.start(false);
+    gui.update_active_buttons(true);
 }
 
 void Context::step() {
@@ -35,10 +37,12 @@ void Context::step() {
 
 void Context::pause() {
     sim.pause();
+    gui.update_active_buttons(false);
 }
 
 void Context::stop() {
     sim.stop();
+    gui.update_active_buttons(false);
 }
 
 void Context::close() {

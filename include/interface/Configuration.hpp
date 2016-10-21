@@ -16,8 +16,10 @@ struct RawConfig {
 
 class Configuration {
  public:
+    enum class Instance { UNIQUE };
+
     Configuration() = default;
-    Configuration(GtkWidget*);
+    Configuration(GtkBuilder*);
 
     int run();
     RawConfig extract() const;

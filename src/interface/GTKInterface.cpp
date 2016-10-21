@@ -30,9 +30,7 @@ GTKInterface::GTKInterface()
 void GTKInterface::activate() {
     builder = gtk_builder_new_from_file("../res/view_simpl.ui");
     window = GTK_WIDGET(gtk_builder_get_object(builder, "main-window"));
-    config = Configuration{
-        GTK_WIDGET(gtk_builder_get_object(builder, "config-window"))
-    };
+    configuration = Configuration{builder};
     auto raw_canvas = gtk_builder_get_object(builder, "animation_area");
     auto canvas = GTK_DRAWING_AREA(raw_canvas);
 
@@ -65,14 +63,28 @@ void GTKInterface::activate() {
     gtk_widget_show_all(window);
 }
 
+void GTKInterface::update_active_buttons(bool running) {
+    gtk_widget_set_sensitive(start, !running);
+    gtk_widget_set_sensitive(fast, !running);
+    gtk_widget_set_sensitive(step, !running);
+    gtk_widget_set_sensitive(stop, running);
+    gtk_widget_set_sensitive(pause, running);
+
+    gtk_widget_set_sensitive(config, !running);
+    gtk_widget_set_sensitive(summary, !running);
+}
+
 void GTKInterface::connect_buttons() {
-    auto config = GTK_BUTTON(gtk_builder_get_object(builder, "configure-button"));
-    auto summary = GTK_BUTTON(gtk_builder_get_object(builder, "summary-button"));
-    auto start = GTK_BUTTON(gtk_builder_get_object(builder, "start-button"));
-    auto fast = GTK_BUTTON(gtk_builder_get_object(builder, "fast-forward-button"));
-    auto step = GTK_BUTTON(gtk_builder_get_object(builder, "step-button"));
-    auto stop = GTK_BUTTON(gtk_builder_get_object(builder, "stop-button"));
-    auto pause = GTK_BUTTON(gtk_builder_get_object(builder, "pause-button"));
+    config = GTK_WIDGET(gtk_builder_get_object(builder, "configure-button"));
+    summary = GTK_WIDGET(gtk_builder_get_object(builder, "summary-button"));
+    start = GTK_WIDGET(gtk_builder_get_object(builder, "start-button"));
+    fast = GTK_WIDGET(gtk_builder_get_object(builder, "fast-forward-button"));
+    step = GTK_WIDGET(gtk_builder_get_object(builder, "step-button"));
+    stop = GTK_WIDGET(gtk_builder_get_object(builder, "stop-button"));
+    pause = GTK_WIDGET(gtk_builder_get_object(builder, "pause-button"));
+
+    gtk_widget_set_sensitive(stop, false);
+    gtk_widget_set_sensitive(pause, false);
 
     g_signal_connect(
         config, "clicked",
@@ -124,8 +136,8 @@ void GTKInterface::destroy() {
 }
 
 
-RawConfig GTKInterface::show_configuration_window() {
-    
+RawConfig GTKInterface::show_configuration_dialog() {
+    auto a = configuration.run();
 
     return RawConfig{};
 }

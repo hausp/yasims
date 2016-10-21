@@ -19,7 +19,9 @@ class GTKInterface {
     void activate();
     void destroy();
     
-    RawConfig show_configuration_window();
+    void update_active_buttons(bool);
+
+    RawConfig show_configuration_dialog();
     void show_message(GtkMessageType, GtkButtonsType, const std::string&,
                  const std::string&, const std::string&) const;
 
@@ -28,7 +30,15 @@ class GTKInterface {
     GtkApplication* application;
     GtkBuilder* builder;
     GtkWidget* window;
-    Configuration config;
+    GtkWidget* start;
+    GtkWidget* fast;
+    GtkWidget* step;
+    GtkWidget* pause;
+    GtkWidget* stop;
+    GtkWidget* config;
+    GtkWidget* summary;
+
+    Configuration configuration;
 
     void connect_buttons();
 };

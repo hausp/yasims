@@ -284,5 +284,5 @@ void smail::Simulator::reveal_messages_info() {
     std::cout << "The most messages in the system was: "
         << max_msgs_in_system << "\n";
     std::cout << "The least messages in the system was: "
-        << min_msgs_in_system << ""
+        << min_msgs_in_system << "";
 }

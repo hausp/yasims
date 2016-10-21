@@ -12,6 +12,11 @@
     <property name="can_focus">False</property>
     <property name="pixbuf">pause.png</property>
   </object>
+  <object class="GtkSizeGroup" id="sizegroup1">
+    <widgets>
+      <widget name="configs"/>
+    </widgets>
+  </object>
   <object class="GtkAdjustment" id="speed_adjust">
     <property name="upper">100</property>
     <property name="value">30</property>
@@ -240,23 +245,24 @@
   </object>
   <object class="GtkDialog" id="config-dialog">
     <property name="can_focus">False</property>
-    <property name="modal">True</property>
-    <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
     <property name="transient_for">main-window</property>
     <property name="attached_to">main-window</property>
     <child internal-child="vbox">
-      <object class="GtkBox" id="internalbox">
+      <object class="GtkBox" id="internalbox-config-dialog">
         <property name="can_focus">False</property>
+        <property name="margin_left">10</property>
+        <property name="margin_right">10</property>
+        <property name="margin_bottom">10</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkButtonBox" id="action-area">
+          <object class="GtkButtonBox" id="actionarea-config-dialog">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="button2">
-                <property name="label" translatable="yes">Confirmar</property>
+              <object class="GtkButton" id="config-cancela-button">
+                <property name="label" translatable="yes">Cancelar</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -268,8 +274,8 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button1">
-                <property name="label" translatable="yes">Cancelar</property>
+              <object class="GtkButton" id="config-ok-button">
+                <property name="label" translatable="yes">Confirmar</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -291,6 +297,8 @@
           <object class="GtkBox" id="main_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">15</property>
+            <property name="margin_right">14</property>
             <property name="margin_top">15</property>
             <property name="margin_bottom">15</property>
             <property name="orientation">vertical</property>
@@ -311,10 +319,13 @@
               <object class="GtkNotebook" id="configs">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="margin_top">10</property>
                 <child>
                   <object class="GtkGrid" id="global-box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_left">10</property>
+                    <property name="margin_right">10</property>
                     <property name="margin_top">10</property>
                     <property name="margin_bottom">10</property>
                     <property name="row_spacing">15</property>
@@ -412,6 +423,8 @@ máximo para mensagens</property>
                   <object class="GtkGrid" id="traffic-grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_left">10</property>
+                    <property name="margin_right">10</property>
                     <property name="margin_top">10</property>
                     <property name="margin_bottom">10</property>
                     <property name="row_spacing">10</property>
@@ -916,6 +929,8 @@ máximo para mensagens</property>
                           <object class="GtkGrid" id="timing-grid">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="margin_left">10</property>
+                            <property name="margin_right">10</property>
                             <property name="margin_top">10</property>
                             <property name="margin_bottom">10</property>
                             <property name="row_spacing">5</property>
@@ -1363,13 +1378,8 @@ máximo para mensagens</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="1">button2</action-widget>
-      <action-widget response="0">button1</action-widget>
+      <action-widget response="0">config-cancela-button</action-widget>
+      <action-widget response="1">config-ok-button</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkSizeGroup" id="sizegroup1">
-    <widgets>
-      <widget name="configs"/>
-    </widgets>
   </object>
 </interface>
