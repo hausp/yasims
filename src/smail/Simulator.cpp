@@ -95,6 +95,7 @@ void smail::Simulator::stop() {
     stopped = true;
     consumer.reveal_info();
     reveal_messages_info();
+    reveal_input_info();
     avg_occupation(0); avg_occupation(1);
 }
 
@@ -205,6 +206,8 @@ void smail::Simulator::reception_event(Message msg) {
     std::cout << "Reception event" << std::endl;
     // Increment #msgs in system
     msgs_in_system++;
+    // Update info that is received by the system
+    update_input_info(msg);
     // Send message to reception and get ready event
     auto event = reception.receive(std::move(msg));
     // Set ready event action
@@ -300,4 +303,18 @@ void smail::Simulator::avg_occupation(size_t index) {
         " was: " << occupation_on_centers[index] << "\n";
     std::cout << "And the occupation on it's queue was: " 
         << occupation_on_queues[index] << "\n";
+}
+
+void smail::Simulator::update_input_info(const Message& msg) {
+    if (!input_info.count(msg)) {
+        input_info[msg] = 0;
+    }
+    input_info[msg]++;
+}
+
+void smail::Simulator::reveal_input_info() {
+    std::cout << "Total amount of messages that entered the system by type: \n";
+    for (auto pair : input_info) {
+        std::cout << pair.first << ": " << pair.second << std::endl;
+    }
 }

@@ -55,6 +55,7 @@ namespace smail {
         bool survive = true;
         std::array<double, 2> occupation_on_centers = {0, 0};
         std::array<double, 2> occupation_on_queues = {0, 0};
+        std::unordered_map<Message,size_t> input_info;
 
         // Running methods, first one with particular thread,
         // latter one with gtk's thread
@@ -74,6 +75,8 @@ namespace smail {
         void update_messages();
         void reveal_messages_info();
         void avg_occupation(size_t);
+        void update_input_info(const Message&);
+        void reveal_input_info();
     };
 }
 
