@@ -13,7 +13,7 @@ namespace smail {
     struct Default {
         static std::random_device RD;
 
-        static constexpr size_t LOCAL_CENTER_CAPACITY = 20;
+        static constexpr size_t LOCAL_CENTER_CAPACITY = 10;
         static constexpr size_t REMOTE_CENTER_CAPACITY = 20;
         static constexpr double TIME_OUT = 0.3;
 

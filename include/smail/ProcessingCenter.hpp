@@ -16,6 +16,7 @@ namespace smail {
         std::pair<Message, bool> dispatch();
         void reset();
         size_t occupation() const;
+        size_t in_queue() const;
      private:
         size_t capacity;
         MsgQueue allocated;
@@ -24,7 +25,11 @@ namespace smail {
     };
 
     inline size_t ProcessingCenter::occupation() const {
-        return allocated.size() + waiting_queue.size();
+        return allocated.size();
+    }
+
+    inline size_t ProcessingCenter::in_queue() const {
+        return waiting_queue.size();        
     }
 }
 

@@ -43,7 +43,7 @@ namespace smail {
         unsigned min_msgs_in_system = 10;
 
         // Statistics
-        std::unordered_map<unsigned, double> system_occupation;
+        double system_occupation = 0;
 
         // Thread related attributes
         std::mutex mutex;
@@ -53,6 +53,8 @@ namespace smail {
         bool execute = false;
         bool stopped = false;
         bool survive = true;
+        std::array<double, 2> occupation_on_centers = {0, 0};
+        std::array<double, 2> occupation_on_queues = {0, 0};
 
         // Running methods, first one with particular thread,
         // latter one with gtk's thread
@@ -71,7 +73,7 @@ namespace smail {
         void exit_event(Message);
         void update_messages();
         void reveal_messages_info();
-        double avg_occupation();
+        void avg_occupation(size_t);
     };
 }
 

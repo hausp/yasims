@@ -95,6 +95,7 @@ void smail::Simulator::stop() {
     stopped = true;
     consumer.reveal_info();
     reveal_messages_info();
+    avg_occupation(0); avg_occupation(1);
 }
 
 void smail::Simulator::run() {
@@ -133,15 +134,20 @@ void smail::Simulator::simulate() {
 }
 
 void smail::Simulator::update(double new_time) {
-    auto occupation = reception.occupation();
-    for (auto& center : centers) {
-        occupation += center.occupation();
+    auto occupation = reception.occupation() + reception.in_queue();
+    for (size_t i = 0; i < centers.size(); ++i) {
+        occupation += centers[i].occupation() + centers[i].in_queue();
+        occupation_on_centers[i] += (new_time - clock)*
+            (centers[i].occupation() - occupation_on_centers[i])/(new_time);
+        occupation_on_queues[i] += (new_time - clock)*
+            (centers[i].in_queue() - occupation_on_queues[i])/(new_time);
     }
-    if (!system_occupation.count(occupation)) {
-        system_occupation[occupation] = 0;    
-    }
+    // Wn = new_time
+    // wn = new_time - clock
+    // un = occupation
+    system_occupation += (new_time - clock)*
+        (occupation - system_occupation)/(new_time);
     update_messages();
-    system_occupation[occupation] += (new_time - clock);
     clock = new_time;
 }
 
@@ -284,5 +290,14 @@ void smail::Simulator::reveal_messages_info() {
     std::cout << "The most messages in the system was: "
         << max_msgs_in_system << "\n";
     std::cout << "The least messages in the system was: "
-        << min_msgs_in_system << "";
+        << min_msgs_in_system << "\n";
+    std::cout << "The average number of messages in system was: "
+        << system_occupation << "\n";
+}
+
+void smail::Simulator::avg_occupation(size_t index) {
+    std::cout << "The average occupation on center " << index+1 <<
+        " was: " << occupation_on_centers[index] << "\n";
+    std::cout << "And the occupation on it's queue was: " 
+        << occupation_on_queues[index] << "\n";
 }
