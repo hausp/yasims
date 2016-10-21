@@ -142,6 +142,9 @@ void smail::Simulator::setup() {
 }
 
 void smail::Simulator::reset() {
+    if (config.use_random_seed) {
+        dist::Global::SEED = dist::Global::RD();
+    }
     config.synchronize();
     // A brand new EventQueue to replace older one
     auto cleaner = EventQueue{};

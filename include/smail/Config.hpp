@@ -6,6 +6,7 @@
 
 namespace smail {
     struct Config {
+        bool use_random_seed = true;
         double sim_time = Default::SIM_TIME;
         double timeout = Default::TIME_OUT;
         std::array<size_t, 2> center_capacities = {

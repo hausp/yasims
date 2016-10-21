@@ -133,6 +133,28 @@ namespace parser {
     }
 
     inline smail::Config lapidate(RawConfig config) {
+        auto seed = config.seed.values[0];
+        auto use_random_seed = false;
+        if (seed == -1) {
+            use_random_seed = true;
+        } else {
+            dist::Global::SEED = seed;
+        }
+        auto sim_time = config.sim_time.values[0];
+        auto timeout = config.sim_time.values[0];
+
+        // parser::Match seed;
+        // parser::Match sim_time;
+        // parser::Match timeout;
+        // std::array<parser::Match, 2> center_sizes;
+        // std::array<parser::Match, 2> generations;
+        // std::array<parser::Match, 2> local_proportions;
+        // std::array<parser::Match, 2> remote_proportions;
+        // MMMap local_weights;
+        // MMMap remote_weights;
+        // MMMap reception_times;
+        // MMMap local_processing_times;
+        // MMMap remote_processing_times;
 
         return smail::Config{};
     }
