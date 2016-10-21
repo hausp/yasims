@@ -2,7 +2,7 @@
 #include <cassert>
 #include "smail/Simulator.hpp"
 #include "random/Function.hpp"
-
+#include "wrapper/Signal.hpp"
 #include <iostream>
 
 smail::Simulator::Simulator():
@@ -24,7 +24,9 @@ smail::Simulator::Simulator():
         config.center_capacities[1]
     },
  },
- thread{&smail::Simulator::run, this} { }
+ thread{&smail::Simulator::run, this} {
+    aw::Signal<Simulator>::set_receiver(*this);
+ }
 
 smail::Simulator::~Simulator() {
     survive = false;
@@ -35,29 +37,22 @@ smail::Simulator::~Simulator() {
     }
 }
 
-void smail::Simulator::start(bool anima) {
-    if (execute) return;
+void smail::Simulator::start(bool animate) {
     if (stopped) reset();
 
     setup();
 
     execute = true;
-    animate = anima;  
 
-    // if (animate) {
-    //     // animation.start();
-    //     // g_timeout_add_full(
-
-    //     // );
-
-    // } else {
+    if (animate) {
+        launch_gtk_function();
+    } else {
         std::lock_guard<std::mutex> guard{mutex};        
         cv.notify_all();
-    // }
+    }
 }
 
 void smail::Simulator::step() {
-    if (execute) return;
     if (stopped) reset();
     animate = true;
     
@@ -67,18 +62,10 @@ void smail::Simulator::step() {
 }
 
 void smail::Simulator::pause() {
-    if (!execute) return;
-
-    // if (animate) animation.pause();
-    
     execute = false;
 }
 
 void smail::Simulator::stop() {
-    // If not executing, nothing to be done
-    if (!execute) return;
-    // Stop animation, if any
-    // if (animate) animation.stop();
     // Sinalize to stop executing
     execute = false;
     stopped = true;
@@ -103,8 +90,9 @@ void smail::Simulator::run() {
 }
 
 // For animations, better be in gtk's thread
-void smail::Simulator::gtk_run() {
-    // TODO
+bool smail::Simulator::gtk_run() {
+    step();
+    return true;
 }
 
 void smail::Simulator::simulate() { 
@@ -305,5 +293,24 @@ void smail::Simulator::reveal_input_info() {
     std::cout << "Total amount of messages that entered the system by type: \n";
     for (auto pair : input_info) {
         std::cout << pair.first << ": " << pair.second << std::endl;
+    }
+}
+
+void smail::Simulator::launch_gtk_function() {
+    gtk_handler = g_timeout_add_full(
+        G_PRIORITY_HIGH,
+        speed,
+        (GSourceFunc)(aw::Signal<Simulator>::function<bool()>
+            ::callback<&Simulator::gtk_run>),
+        nullptr,
+        nullptr
+    );
+}
+
+void smail::Simulator::update_speed(double d) {
+    speed = (Default::SPEED_NUMERATOR + 1) / (d + 1);
+    if (execute) {
+        g_source_remove(gtk_handler);
+        launch_gtk_function();
     }
 }

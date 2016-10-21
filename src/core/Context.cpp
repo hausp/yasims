@@ -48,3 +48,7 @@ void Context::stop() {
 void Context::close() {
     gui.destroy();
 }
+
+void Context::change_speed(GtkRange* range, GtkScrollType, gdouble, gpointer) {
+    sim.update_speed(gtk_range_get_value(range));
+}

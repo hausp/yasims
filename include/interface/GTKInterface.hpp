@@ -21,9 +21,11 @@ class GTKInterface {
     
     void update_active_buttons(bool);
 
-    RawConfig show_configuration_dialog();
-    void show_message(GtkMessageType, GtkButtonsType, const std::string&,
-                 const std::string&, const std::string&) const;
+    int show_configuration_dialog();
+    void error_message(GtkWidget* parent);
+    void show_message(GtkWidget*, GtkMessageType,
+                      GtkButtonsType, const std::string&,
+                      const std::string&, const std::string&) const;
 
     GApplication* operator()();
  private:

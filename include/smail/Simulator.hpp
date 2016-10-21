@@ -22,6 +22,8 @@ namespace smail {
         using EventQueue = std::priority_queue<Event,
             std::deque<Event>, std::greater<Event>>;
      public:
+        enum class Instance { UNIQUE };
+
         Simulator();
         ~Simulator();
 
@@ -29,6 +31,8 @@ namespace smail {
         void step();
         void pause();
         void stop();
+
+        void update_speed(double);
      private:
         Config config;
         EventQueue events;
@@ -38,31 +42,32 @@ namespace smail {
         ProcessingCenter reception;
         std::array<ProcessingCenter, 2> centers;
         MessageConsumer consumer;
-        // double message_timeout = Default::TIME_OUT;
         double clock = 0;
+        double speed = Default::SPEED_NUMERATOR/Default::SPEED_DENOMINATOR;
+
+        // Statistics
         unsigned msgs_in_system = 0;
         unsigned max_msgs_in_system = 0;
         unsigned min_msgs_in_system = 10;
-
-        // Statistics
         double system_occupation = 0;
+        std::array<double, 2> occupation_on_centers = {0, 0};
+        std::array<double, 2> occupation_on_queues = {0, 0};
+        std::unordered_map<Message,size_t> input_info;
 
         // Thread related attributes
         std::mutex mutex;
         std::condition_variable cv;
         std::thread thread;
+        unsigned gtk_handler;
         bool animate = false;
         bool execute = false;
         bool stopped = false;
-        bool survive = true;
-        std::array<double, 2> occupation_on_centers = {0, 0};
-        std::array<double, 2> occupation_on_queues = {0, 0};
-        std::unordered_map<Message,size_t> input_info;
+        bool survive = true;        
 
         // Running methods, first one with particular thread,
         // latter one with gtk's thread
         void run();
-        void gtk_run();
+        bool gtk_run();
 
         // Auxiliar methods
         void setup();
@@ -74,6 +79,7 @@ namespace smail {
         void processing_event(Message);
         void postpone_event(Message);
         void exit_event(Message);
+        void launch_gtk_function();
         void update_messages();
         void reveal_messages_info();
         void avg_occupation(size_t);

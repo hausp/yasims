@@ -82,6 +82,7 @@ void GTKInterface::connect_buttons() {
     step = GTK_WIDGET(gtk_builder_get_object(builder, "step-button"));
     stop = GTK_WIDGET(gtk_builder_get_object(builder, "stop-button"));
     pause = GTK_WIDGET(gtk_builder_get_object(builder, "pause-button"));
+    auto speed = GTK_WIDGET(gtk_builder_get_object(builder, "speed-scale"));
 
     gtk_widget_set_sensitive(stop, false);
     gtk_widget_set_sensitive(pause, false);
@@ -127,6 +128,13 @@ void GTKInterface::connect_buttons() {
         G_CALLBACK(SigContext<void>::callback<&Context::stop>),
         nullptr
     );
+
+    g_signal_connect(
+        speed, "value-changed",
+        (GCallback)(SigContext<void, GtkRange*, GtkScrollType, gdouble, gpointer>
+            ::callback<&Context::change_speed>),
+        nullptr
+    );
 }
 
 void GTKInterface::destroy() {
@@ -136,16 +144,28 @@ void GTKInterface::destroy() {
 }
 
 
-RawConfig GTKInterface::show_configuration_dialog() {
-    auto a = configuration.run();
-
-    return RawConfig{};
+int GTKInterface::show_configuration_dialog() {
+    return configuration.run();
 }
 
-void GTKInterface::show_message(GtkMessageType type, GtkButtonsType buttons,
-                             const std::string& title, const std::string& message,
-                             const std::string& submessage) const {
-    auto dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+void GTKInterface::error_message(GtkWidget* parent) {
+    show_message(
+        parent,
+        GTK_MESSAGE_ERROR,
+        GTK_BUTTONS_OK,
+        "Erro!",
+        "Expressão/valor desconhecido encontrado",
+        "Por favor, verifique os campos preenchidos."
+    );
+}
+
+void GTKInterface::show_message(GtkWidget* parent,
+                                GtkMessageType type,
+                                GtkButtonsType buttons,
+                                const std::string& title,
+                                const std::string& message,
+                                const std::string& submessage) const {
+    auto dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
         GTK_DIALOG_DESTROY_WITH_PARENT, type, buttons, message.c_str());
     
     gtk_window_set_title(GTK_WINDOW(dialog), title.c_str());

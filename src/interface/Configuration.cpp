@@ -1,6 +1,7 @@
 
 #include "interface/Configuration.hpp"
-#include <iostream>
+#include "interface/GTKInterface.hpp"
+#include "wrapper/Signal.hpp"
 
 const smail::Message Configuration::llsm = {
     smail::Address::LOCAL, smail::Address::LOCAL, smail::Status::SUCCESS};
@@ -146,20 +147,17 @@ Configuration::Configuration(GtkBuilder* builder) {
 }
 
 int Configuration::run() {
-    // Backup strings in case the user do shit
     backup_strings();
-    // Show the treasure
     gtk_widget_show_all(dialog);
-    // While he things and do shit, stay still
-    auto dumb_user_thinking = true;
-    // Response: 0 = cancel, 1 = ok
+    auto thinking = true;
     auto response = 0;
-    while(dumb_user_thinking) {
+    while(thinking) {
         response = std::max(gtk_dialog_run(GTK_DIALOG(dialog)), 0);
-        dumb_user_thinking = response && !validate_input();
-        if (dumb_user_thinking) {
+        thinking = response && !validate_input();
+        if (thinking) {
             if (response) {
-                std::cout << "ERROU BURRÃO" << std::endl;
+                aw::Signal<GTKInterface>::function<void(GtkWidget*)>
+                    ::callback<&GTKInterface::error_message>(dialog);
             } else {
                 restore_strings();                
             }
@@ -172,53 +170,39 @@ int Configuration::run() {
 bool Configuration::validate_input() {
     auto match = parser::Match{};
     auto valid = false;
-
-    std::cout << "mark 0" << std::endl;
     
     std::tie(match, valid) = parser::s_match(
         gtk_entry_get_text(seed), "random");
     if (!valid || match.type != dist::Type::CONS) return false;
     last_config.seed = std::move(match);
-
-    std::cout << "mark 1" << std::endl;
     
     std::tie(match, valid) = parser::s_match(
         gtk_entry_get_text(sim_time), "infinite");
     if (!valid || match.type != dist::Type::CONS) return false;
     last_config.sim_time = std::move(match);
 
-    std::cout << "mark 2" << std::endl;
-
     std::tie(match, valid) = parser::match(gtk_entry_get_text(timeout));
     if (!valid || match.type != dist::Type::CONS) return false;
     last_config.timeout = std::move(match);
 
-    std::cout << "mark 3" << std::endl;
-
     for (size_t i = 0; i < center_sizes.size(); i++) {
-        std::cout << "mark 3.1" << i << std::endl;
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(center_sizes[i]));
         if (!valid) return false;
         last_config.center_sizes[i] = std::move(match);
-        std::cout << "mark 3.2" << i << std::endl;
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(generations[i]));
         if (!valid) return false;
         last_config.generations[i] = std::move(match);
-        std::cout << "mark 3.3" << i << std::endl;
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(local_proportions[i]));
         if (!valid) return false;
         last_config.local_proportions[i] = std::move(match);
-        std::cout << "mark 3.4" << i << std::endl;
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(remote_proportions[i]));
         if (!valid) return false;
         last_config.remote_proportions[i] = std::move(match);
     }
-
-    std::cout << "mark 4" << std::endl;
 
     for (auto pair : local_weights) {
         std::tie(match, valid) = 
@@ -227,16 +211,12 @@ bool Configuration::validate_input() {
         last_config.local_weights[pair.first] = std::move(match);
     }
 
-    std::cout << "mark 5" << std::endl;
-
     for (auto pair : remote_weights) {
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(pair.second));
         if (!valid) return false;
         last_config.remote_weights[pair.first] = std::move(match);
     }
-
-    std::cout << "mark 6" << std::endl;
 
     for (auto pair : reception_times) {
         std::tie(match, valid) = 
@@ -245,8 +225,6 @@ bool Configuration::validate_input() {
         last_config.reception_times[pair.first] = std::move(match);
     }
 
-    std::cout << "mark 7" << std::endl;
-
     for (auto pair : local_processing_times) {
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(pair.second));
@@ -254,16 +232,12 @@ bool Configuration::validate_input() {
         last_config.local_processing_times[pair.first] = std::move(match);
     }
 
-    std::cout << "mark 8" << std::endl;
-
     for (auto pair : remote_processing_times) {
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(pair.second));
         if (!valid) return false;
         last_config.remote_processing_times[pair.first] = std::move(match);
     }
-
-    std::cout << "mark 9" << std::endl;
 
     return true;
 }
