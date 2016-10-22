@@ -7,6 +7,32 @@
     <property name="can_focus">False</property>
     <property name="pixbuf">fast_forward.png</property>
   </object>
+  <object class="GtkImage" id="pause-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pause.png</property>
+  </object>
+  <object class="GtkAdjustment" id="speed_adjust">
+    <property name="upper">100</property>
+    <property name="value">30</property>
+    <property name="step_increment">5</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkImage" id="start-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">start.png</property>
+  </object>
+  <object class="GtkImage" id="step-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">step.png</property>
+  </object>
+  <object class="GtkImage" id="stop-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">stop.png</property>
+  </object>
   <object class="GtkWindow" id="main-window">
     <property name="name">window</property>
     <property name="width_request">1024</property>
@@ -208,6 +234,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="clock-label">
+                            <property name="width_request">100</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">0.0</property>
@@ -241,6 +268,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="sys-occupation-label">
+                            <property name="width_request">100</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">0</property>
@@ -274,6 +302,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="min-occupation-label">
+                            <property name="width_request">100</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">0</property>
@@ -307,6 +336,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="max-occupation-label">
+                            <property name="width_request">100</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">0</property>
@@ -351,6 +381,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="mean-occupation-label">
+                            <property name="width_request">100</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">0</property>
@@ -418,6 +449,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="ll-count-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -451,6 +483,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="lr-count-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -523,6 +556,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="rl-count-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -556,6 +590,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="rr-count-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -659,6 +694,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="lls-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -692,6 +728,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="llf-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -725,6 +762,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="llp-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -758,6 +796,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="lrs-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -791,6 +830,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="lrf-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -824,6 +864,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="lrp-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -871,6 +912,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="rls-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -904,6 +946,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="rlf-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -937,6 +980,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="rlp-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -970,6 +1014,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="rrs-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -1003,6 +1048,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="rrf-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -1036,6 +1082,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="rrp-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -1100,6 +1147,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="q-size-count-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1111,6 +1159,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="q-avg-count-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1240,6 +1289,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="lproc-q-count-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1251,6 +1301,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="lproc-q-avg-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1262,6 +1313,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="lproc-count-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1273,6 +1325,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="lproc-avg-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1411,6 +1464,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="rproc-q-count-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1422,6 +1476,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="rproc-q-avg-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1433,6 +1488,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="rproc-count-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1444,6 +1500,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="rproc-avg-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1547,7 +1604,6 @@
                   <object class="GtkBox" id="output-main">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="halign">center</property>
                     <property name="spacing">30</property>
                     <child>
                       <object class="GtkBox" id="output-upper">
@@ -1601,6 +1657,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="lls-count-label1">
+                                        <property name="width_request">100</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">0</property>
@@ -1634,6 +1691,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="llf-count-label1">
+                                        <property name="width_request">100</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">0</property>
@@ -1667,6 +1725,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="lrs-count-label1">
+                                        <property name="width_request">100</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">0</property>
@@ -1700,6 +1759,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="lrf-count-label1">
+                                        <property name="width_request">100</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">0</property>
@@ -1747,6 +1807,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="rls-count-label1">
+                                        <property name="width_request">100</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">0</property>
@@ -1780,6 +1841,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="rlf-count-label1">
+                                        <property name="width_request">100</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">0</property>
@@ -1813,6 +1875,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="rrs-count-label1">
+                                        <property name="width_request">100</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">0</property>
@@ -1846,6 +1909,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="rrf-count-label1">
+                                        <property name="width_request">100</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">0</property>
@@ -1899,6 +1963,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="total-exited-count-label">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
@@ -1935,7 +2000,7 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
@@ -2034,6 +2099,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="min-msg-time-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -2045,6 +2111,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="max-msg-time-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -2056,6 +2123,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="avg-msg-time-label">
+                                <property name="width_request">100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -2278,7 +2346,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="num-servers-lc-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="text">20</property>
+                        <property name="text">10</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -3341,31 +3409,5 @@ para mensagens (segundos)</property>
     <widgets>
       <widget name="configs"/>
     </widgets>
-  </object>
-  <object class="GtkImage" id="pause-image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">pause.png</property>
-  </object>
-  <object class="GtkAdjustment" id="speed_adjust">
-    <property name="upper">100</property>
-    <property name="value">30</property>
-    <property name="step_increment">5</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkImage" id="start-image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">start.png</property>
-  </object>
-  <object class="GtkImage" id="step-image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">step.png</property>
-  </object>
-  <object class="GtkImage" id="stop-image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">stop.png</property>
   </object>
 </interface>

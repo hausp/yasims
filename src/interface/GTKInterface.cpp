@@ -58,15 +58,32 @@ void GTKInterface::activate() {
     gtk_widget_show_all(window);
 }
 
-void GTKInterface::update_active_buttons(bool running) {
-    gtk_widget_set_sensitive(start, !running);
-    gtk_widget_set_sensitive(fast, !running);
-    gtk_widget_set_sensitive(step, !running);
-    gtk_widget_set_sensitive(stop, running);
-    gtk_widget_set_sensitive(pause, running);
+void GTKInterface::set_active_start(bool active) {
+    gtk_widget_set_sensitive(start, active);
+}
 
-    gtk_widget_set_sensitive(config, !running);
-    gtk_widget_set_sensitive(summary, !running);
+void GTKInterface::set_active_fast_forward(bool active) {
+    gtk_widget_set_sensitive(fast, active);
+}
+
+void GTKInterface::set_active_step(bool active) {
+    gtk_widget_set_sensitive(step, active);
+}
+
+void GTKInterface::set_active_pause(bool active) {
+    gtk_widget_set_sensitive(pause, active);
+}
+
+void GTKInterface::set_active_stop(bool active) {
+    gtk_widget_set_sensitive(stop, active);
+}
+
+void GTKInterface::set_active_configuration(bool active) {
+    gtk_widget_set_sensitive(config, active);
+}
+
+void GTKInterface::set_active_summary(bool active) {
+    gtk_widget_set_sensitive(summary, active);
 }
 
 void GTKInterface::init_statistics_entries() {
