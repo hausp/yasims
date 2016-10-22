@@ -28,6 +28,7 @@ class Context {
     void pause();
     void stop();
 
+    void stop_gui_behaviour();
     void change_speed(GtkRange*, GtkScrollType, gdouble, gpointer);
  private:
     smail::Simulator sim;

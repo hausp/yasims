@@ -66,6 +66,10 @@ void Context::pause() {
 
 void Context::stop() {
     sim.stop();
+    stop_gui_behaviour();
+}
+
+void Context::stop_gui_behaviour() {
     gui.set_active_start(true);
     gui.set_active_fast_forward(true);
     gui.set_active_step(true);

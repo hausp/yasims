@@ -4,6 +4,7 @@
 #include "smail/Simulator.hpp"
 #include "random/Function.hpp"
 #include "wrapper/Signal.hpp"
+#include "core/Context.hpp"
 #include <iostream>
 
 smail::Simulator::Simulator():
@@ -42,7 +43,6 @@ smail::Simulator::~Simulator() {
 void smail::Simulator::start(bool animate) {
     if (execute) return;
     if (stopped) {
-        std::cout << "fuck you" << std::endl;
         stopped = false;
         reset();
     }
@@ -81,7 +81,6 @@ void smail::Simulator::pause() {
 }
 
 void smail::Simulator::stop() {
-    if (!execute) return;
     if (!animated) {
         std::lock_guard<std::mutex> guard{mutex_aux};
     }
@@ -131,9 +130,22 @@ void smail::Simulator::simulate() {
         events.pop();
     }
     // Update execute control variable
-    stopped = stopped || events.empty();
-    execute = execute && !stopped
-        && (config.infinite_simulation || clock >= config.sim_time);
+    auto terminated = events.empty();
+    if (!config.infinite_simulation) {
+        terminated = terminated || clock >= config.sim_time;
+    }
+    if (terminated) {
+        g_timeout_add_full(
+            G_PRIORITY_HIGH,
+            1,
+            (GSourceFunc)
+            (aw::Signal<Context>::function<void()>::callback<&Context::stop>),
+            nullptr,
+            nullptr
+        );
+    }
+    stopped = stopped || terminated;
+    execute = execute && !stopped;
 }
 
 void smail::Simulator::update(double new_time) {
@@ -166,7 +178,6 @@ void smail::Simulator::setup() {
 }
 
 void smail::Simulator::reset() {
-    std::cout << "hello, mothafucka" << std::endl;
     clock = 0;
     
     if (config.use_random_seed) {
@@ -278,7 +289,6 @@ void smail::Simulator::postpone_event(Message msg) {
 }
 
 void smail::Simulator::exit_event(Message msg) {
-    std::cout << "Exit event" << std::endl;
     // Decrement #msgs in system
     msgs_in_system--;
     // Process dispatched msg data
