@@ -63,7 +63,10 @@ void smail::Simulator::start(bool animate) {
 
 void smail::Simulator::step() {
     if (execute) return;
-    if (stopped) reset();
+    if (stopped) {
+        stopped = false;
+        reset();
+    }
 
     setup();
     simulate();
