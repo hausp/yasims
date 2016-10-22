@@ -8,13 +8,13 @@ smail::ProcessingCenter::ProcessingCenter(MFMap times, size_t capacity):
  processing_times{times} { }
 
 smail::Event smail::ProcessingCenter::receive(Message msg) {
-    auto processing_time = processing_times.at(msg)(false);
+    double processing_time = processing_times.at(msg)(false);
     if (allocated.size() < capacity) {
         msg.current_time += processing_time;
         msg.in_system_time += processing_time;
         allocated.emplace(std::move(msg));   
     } else {
-        auto new_time = msg.current_time;
+        double new_time = msg.current_time;
         if (waiting_queue.empty()) {
             // Get nearest to end message
             auto a = allocated.top();
@@ -25,7 +25,7 @@ smail::Event smail::ProcessingCenter::receive(Message msg) {
             new_time = last.current_time;
         }
         new_time += processing_time;
-        auto diff = new_time - msg.current_time;
+        double diff = new_time - msg.current_time;
         msg.current_time = new_time;
         msg.in_system_time += diff;
         waiting_queue.push(std::move(msg));

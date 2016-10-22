@@ -28,7 +28,7 @@ class GTKInterface {
     void set_active_configuration(bool);
     void set_active_summary(bool);
 
-    void show_statistics(std::array<std::string, 43>);
+    void show_statistics(std::array<std::string, 44>);
     int show_configuration_dialog();
     void error_message(GtkWidget* parent);
     void show_message(GtkWidget*, GtkMessageType,
@@ -47,7 +47,7 @@ class GTKInterface {
     GtkWidget* stop;
     GtkWidget* config;
     GtkWidget* summary;
-    std::array<GtkLabel*, 43> statistics_entries;
+    std::array<GtkLabel*, 44> statistics_entries;
 
     Configuration configuration;
 

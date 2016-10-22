@@ -93,6 +93,7 @@ void GTKInterface::init_statistics_entries() {
         GTK_LABEL(gtk_builder_get_object(builder, "min-occupation-label")),
         GTK_LABEL(gtk_builder_get_object(builder, "max-occupation-label")),
         GTK_LABEL(gtk_builder_get_object(builder, "mean-occupation-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "total-msg-arrived-label")),
         GTK_LABEL(gtk_builder_get_object(builder, "ll-count-label")),
         GTK_LABEL(gtk_builder_get_object(builder, "lr-count-label")),
         GTK_LABEL(gtk_builder_get_object(builder, "rl-count-label")),
@@ -212,7 +213,7 @@ parser::RawConfig GTKInterface::raw_config() {
     return std::move(configuration.extract());
 }
 
-void GTKInterface::show_statistics(std::array<std::string, 43> statistics) {
+void GTKInterface::show_statistics(std::array<std::string, 44> statistics) {
     for (auto i = 0; i < 43; i++) {
         auto text = statistics[i].c_str();
         gtk_label_set_text(statistics_entries[i], text);

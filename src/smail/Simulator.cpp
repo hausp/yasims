@@ -380,16 +380,22 @@ void smail::Simulator::show_statistics() {
     } else {
         faster_guy = std::to_string(faster_guy_speed);
     }
-    auto statistics = std::array<std::string, 43> {
+    auto llcount = get_input_info(Address::LOCAL, Address::LOCAL);
+    auto lrcount = get_input_info(Address::LOCAL, Address::REMOTE);
+    auto rlcount = get_input_info(Address::REMOTE, Address::LOCAL);
+    auto rrcount = get_input_info(Address::REMOTE, Address::REMOTE);
+
+    auto statistics = std::array<std::string, 44> {
         std::to_string(clock),
         std::to_string(msgs_in_system),
         std::to_string(min_msgs_in_system),
         std::to_string(max_msgs_in_system),
         std::to_string(system_occupation),
-        std::to_string(get_input_info(Address::LOCAL, Address::LOCAL)),
-        std::to_string(get_input_info(Address::LOCAL, Address::REMOTE)),
-        std::to_string(get_input_info(Address::REMOTE, Address::LOCAL)),
-        std::to_string(get_input_info(Address::REMOTE, Address::REMOTE)),
+        std::to_string(llcount + lrcount + rlcount + rrcount),
+        std::to_string(llcount),
+        std::to_string(lrcount),
+        std::to_string(rlcount),
+        std::to_string(rrcount),
         std::to_string(input_info[(Message{Address::LOCAL, Address::LOCAL, Status::SUCCESS})]),
         std::to_string(input_info[(Message{Address::LOCAL, Address::LOCAL, Status::FAILURE})]),
         std::to_string(input_info[(Message{Address::LOCAL, Address::LOCAL, Status::POSTPONED})]),
@@ -426,7 +432,7 @@ void smail::Simulator::show_statistics() {
         std::to_string(consumer.get_slower()),
         std::to_string(consumer.get_avg_sys_time())
     };
-    aw::Signal<GTKInterface>::function<void(std::array<std::string, 43>)>
+    aw::Signal<GTKInterface>::function<void(std::array<std::string, 44>)>
         ::callback<&GTKInterface::show_statistics>(std::move(statistics));
 }
 
