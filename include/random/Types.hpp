@@ -109,6 +109,23 @@ namespace dist {
                 return cons<T>(std::forward<Args>(args)...);
         }
     }
+
+    template<typename T = double>
+    funct<T> type_to_function(const Type& type, std::vector<double> values) {
+        switch(type) {
+            case Type::NORM:
+                return norm<T>(values[0], values[1]);
+            case Type::UNIF:
+                return unif<T>(values[0], values[1]);
+            case Type::TRIA:
+                return tria<T>(values[0], values[1], values[2]);
+            case Type::EXPO:
+                return expo<T>(values[0]);
+            case Type::CONS:
+                return cons<T>(values[0]);
+            default: return funct<T>();
+        }
+    }
 }
 
 namespace std {

@@ -1,5 +1,6 @@
 
 #include <cassert>
+#include "interface/GTKInterface.hpp"
 #include "smail/Simulator.hpp"
 #include "random/Function.hpp"
 #include "wrapper/Signal.hpp"
@@ -71,10 +72,10 @@ void smail::Simulator::stop() {
     // Sinalize to stop executing
     execute = false;
     stopped = true;
-    consumer.reveal_info();
-    reveal_messages_info();
-    reveal_input_info();
-    avg_occupation(0); avg_occupation(1);
+    // consumer.reveal_info();
+    // reveal_messages_info();
+    // reveal_input_info();
+    // avg_occupation(0); avg_occupation(1);
 }
 
 void smail::Simulator::run() {
@@ -124,9 +125,7 @@ void smail::Simulator::update(double new_time) {
         occupation_on_queues[i] += (new_time - clock)*
             (centers[i].in_queue() - occupation_on_queues[i])/(new_time);
     }
-    // Wn = new_time
-    // wn = new_time - clock
-    // un = occupation
+
     system_occupation += (new_time - clock)*
         (occupation - system_occupation)/(new_time);
     update_messages();
@@ -146,13 +145,12 @@ void smail::Simulator::reset() {
     if (config.use_random_seed) {
         dist::Global::SEED = dist::Global::RD();
     }
-    config.synchronize();
     // A brand new EventQueue to replace older one
     auto cleaner = EventQueue{};
     events.swap(cleaner);
-    // TODO: animation
-    reception.reset();
+
     classifier.reset();
+    reception.reset();
     consumer.reset();
     msgs_in_system = 0;
     max_msgs_in_system = 0;
@@ -299,56 +297,135 @@ void smail::Simulator::update_speed(double d) {
 }
 
 void smail::Simulator::update_config(Config c) {
+    reset();
     config = std::move(c);
-    config.synchronize();
+     spawners = {
+        MessageProducer{
+            Address::LOCAL, config.arrival_times[0],
+            config.destinations[0]
+        },
+        MessageProducer{
+            Address::REMOTE, config.arrival_times[0],
+            config.destinations[1]
+        }
+     };
+     classifier = {
+        config.status_weights[0],
+        config.status_weights[1]
+    };
+    
+    reception = {config.reception_times};
+    
+    centers = {
+        ProcessingCenter{
+            config.processing_times[0],
+            config.center_capacities[0]
+        },
+        ProcessingCenter{
+            config.processing_times[1],
+            config.center_capacities[1]
+        },
+    };
 }
 
-std::stringstream smail::Simulator::reveal_messages_info() {
-    std::stringstream out;
-    out << "Mensagens restantes nos sistema: " << msgs_in_system 
-        << " mensagens" << std::endl;;
-    out << "Máximo de mensagens no sistema: "
-        << max_msgs_in_system << " mensagens" << std::endl;;
-    out << "Mínimo de mensagens no sistema: "
-        << min_msgs_in_system << " mensagens" << std::endl;;
-    out << "Número médio de mensagens no sistema: "
-        << system_occupation << "" << std::endl;;
-    return out;
+void smail::Simulator::show_statistics() {
+    auto statistics = std::array<std::string, 36> {
+        std::to_string(clock),
+        // system occupation
+        // min messages
+        // max messages
+        // average messages in system
+        // local input: local counting
+        // local input: remote counting
+        // remote input: local counting
+        // remote input: remote counting
+        // L/L/S counting
+        // L/L/F counting
+        // L/L/P counting
+        // L/R/S counting
+        // L/R/F counting
+        // L/R/P counting
+        // R/L/S counting
+        // R/L/F counting
+        // R/L/P counting
+        // R/R/S counting
+        // R/R/F counting
+        // R/R/P counting
+        // Reception center: current queue size
+        // Reception center: average queue size
+        // Local center(1): current queue size
+        // Local center(1): average queue size
+        // Local center(1): current occupation
+        // Local center(1): average occupation
+        // remote center(2): current queue size
+        // remote center(2): average queue size
+        // remote center(2): current occupation
+        // remote center(2): average occupation
+        // output: L/L/S counting
+        // output: L/L/F counting
+        // output: L/R/S counting
+        // output: L/R/F counting
+        // output: R/L/S counting
+        // output: R/L/F counting
+        // output: R/R/S counting
+        // output: R/R/F counting
+        // Total dispatched messages counting
+    };
+
+    aw::Signal<GTKInterface>::function<void(std::array<std::string, 36>)>
+        ::callback<&GTKInterface::show_statistics>(std::move(statistics));
 }
 
-std::stringstream smail::Simulator::avg_occupation(size_t index) {
-    std::stringstream out;
-    out << "A ocupação média no centro " << index+1 <<
-        " foi: " << occupation_on_centers[index] << "" << std::endl;;
-    out << "E o tamanho médio da fila foi: " 
-        << occupation_on_queues[index] << "" << std::endl;;
-    return out;
-}
+// std::stringstream smail::Simulator::reveal_messages_info() {
+//     std::stringstream out;
+//     out << "Mensagens restantes nos sistema: " << msgs_in_system 
+//         << " mensagens" << std::endl;;
+//     out << "Máximo de mensagens no sistema: "
+//         << max_msgs_in_system << " mensagens" << std::endl;;
+//     out << "Mínimo de mensagens no sistema: "
+//         << min_msgs_in_system << " mensagens" << std::endl;;
+//     out << "Número médio de mensagens no sistema: "
+//         << system_occupation << "" << std::endl;;
+//     return out;
+// }
 
-std::stringstream smail::Simulator::reveal_input_info() {
-    std::stringstream out;
-    out << "Total de mensagens no sistema por tipo: " << std::endl;;
-    for (auto pair : input_info) {
-        out << pair.first << ": " << pair.second << std::endl;
-    }
-    return out;
-}
-void smail::Simulator::generate_output(const std::string& filename = "output.txt") {
-    std::stringstream out;
-    out << "-- Arquivo de saída gerado por YASIMS (Marleson Graf e Vinicius Freitas [2016])   --" << std::endl
-        << "------------------------------------------------------------------------------------" << std::endl
-        << "Esse é um relatório de uma simulação rodada com as seguintes especificações:" << std::endl
-        //<< system_specs()
-        << "------------------------------------------------------------------------------------" << std::endl
-        << "Esses são os resultados requeridos por esta implementação: " << std::endl
-        << "Tempo total de simulação: " << clock << " segundos" << std::endl
-       // << "Número de mensagens no sistema no fim da execução: " << msgs_in_system << " mensagens " << std::endl;
-       // << "Mínimo de mensagens no sistema: " << min_msgs_in_system << " mensagens" << std::endl;
-       // << "Máximo de mensagens no sistema: " << max_msgs_in_system << " mensagens" << std::endl;
-        << reveal_input_info(); << avg_occupation(0) << avg_occupation(1) << reveal_messages_info()
-        << consumer.reveal_info()
-        << "-------------------------------- Fim do Relatório -----------------------------------" << std::endl;
-    std::ofstream done;
-    done.open(filename);
-    done << out;
-}
+// std::stringstream smail::Simulator::avg_occupation(size_t index) {
+//     std::stringstream out;
+//     out << "A ocupação média no centro " << index+1 <<
+//         " foi: " << occupation_on_centers[index] << "" << std::endl;
+//     out << "E o tamanho médio da fila foi: " 
+//         << occupation_on_queues[index] << "" << std::endl;
+//     return out;
+// }
+
+// std::stringstream smail::Simulator::reveal_input_info() {
+//     std::stringstream out;
+//     out << "Total de mensagens no sistema por tipo: " << std::endl;;
+//     for (auto pair : input_info) {
+//         out << pair.first << ": " << pair.second << std::endl;
+//     }
+//     return out;
+// }
+
+// void smail::Simulator::generate_output(const std::string& filename = "output.txt") {
+//     std::stringstream ss;
+//     std::ofstream done;
+//     ss << "-- Arquivo de saída gerado por YASIMS (Marleson Graf e Vinicius Freitas [2016])   --" << "\n";
+//     ss << "------------------------------------------------------------------------------------" << "\n";
+//     ss << "Esse é um relatório de uma simulação rodada com as seguintes especificações:" << "\n";
+//     //<< system_specs()
+//     ss << "------------------------------------------------------------------------------------" << "\n";
+//     ss << "Esses são os resultados requeridos por esta implementação: " << "\n";
+//     ss << "Tempo total de simulação: " << clock << " segundos" << "\n";
+//        // << "Número de mensagens no sistema no fim da execução: " << msgs_in_system << " mensagens " << "\n";
+//        // << "Mínimo de mensagens no sistema: " << min_msgs_in_system << " mensagens" << "\n";
+//        // << "Máximo de mensagens no sistema: " << max_msgs_in_system << " mensagens" << "\n";
+//     ss << reveal_input_info();
+//     ss << avg_occupation(0);
+//     ss << avg_occupation(1);
+//     ss << reveal_messages_info();
+//     ss << consumer.reveal_info();
+//     ss << "-------------------------------- Fim do Relatório -----------------------------------" << "\n";
+//     done.open(filename);
+//     done << out.rdbuf();
+// }

@@ -84,6 +84,7 @@ namespace smail {
         void postpone_event(Message);
         void exit_event(Message);
         void launch_gtk_function();
+        void show_statistics();
         void update_messages();
         void update_input_info(const Message&);
         std::stringstream avg_occupation(size_t);

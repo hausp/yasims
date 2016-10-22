@@ -31,8 +31,6 @@ namespace smail {
             Default::L_PROCESSING_TIMES,
             Default::R_PROCESSING_TIMES
         };
-
-        void synchronize();
     };
 }
 

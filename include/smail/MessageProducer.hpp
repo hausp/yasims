@@ -51,6 +51,8 @@ namespace smail {
     inline void MessageProducer::reset() {
         auto cleaner = MsgQueue{};
         incoming_messages.swap(cleaner);
+        arrival_time(true);
+        destination(true);
     }
 }
 

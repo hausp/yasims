@@ -54,4 +54,8 @@ void smail::ProcessingCenter::reset() {
     auto acleaner = MsgQueue{};
     waiting_queue.swap(wcleaner);
     allocated.swap(acleaner);
+
+    for (auto& pair : processing_times) {
+        pair.second(true);
+    }
 }

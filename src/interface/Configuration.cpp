@@ -204,18 +204,23 @@ bool Configuration::validate_input() {
         last_config.remote_proportions[i] = std::move(match);
     }
 
+    auto i = 0;
     for (auto pair : local_weights) {
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(pair.second));
         if (!valid) return false;
-        last_config.local_weights[pair.first] = std::move(match);
+        auto t = static_cast<size_t>(pair.first.to);
+        last_config.local_weights[t][i] = std::move(match);
+        i = (i + 1) % 3;
     }
 
     for (auto pair : remote_weights) {
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(pair.second));
         if (!valid) return false;
-        last_config.remote_weights[pair.first] = std::move(match);
+        auto t = static_cast<size_t>(pair.first.to);
+        last_config.remote_weights[t][i] = std::move(match);
+        i = (i + 1) % 3;
     }
 
     for (auto pair : reception_times) {

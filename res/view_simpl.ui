@@ -35,6 +35,8 @@
   </object>
   <object class="GtkWindow" id="main-window">
     <property name="name">window</property>
+    <property name="width_request">900</property>
+    <property name="height_request">700</property>
     <property name="can_focus">False</property>
     <property name="has_focus">True</property>
     <property name="receives_default">True</property>
@@ -47,7 +49,7 @@
         <property name="can_focus">False</property>
         <property name="margin_left">15</property>
         <property name="margin_right">15</property>
-        <property name="margin_top">15</property>
+        <property name="margin_top">5</property>
         <property name="margin_bottom">15</property>
         <property name="orientation">vertical</property>
         <child>
@@ -56,7 +58,7 @@
             <property name="can_focus">False</property>
             <property name="margin_top">5</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">15</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkBox" id="spacing-box">
                 <property name="visible">True</property>
@@ -204,7 +206,6 @@
               <object class="GtkFrame" id="global-statistics-frame">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">center</property>
                 <property name="label_xalign">0.5</property>
                 <property name="shadow_type">in</property>
                 <child>
@@ -435,39 +436,6 @@
                             <property name="row_spacing">3</property>
                             <property name="column_spacing">10</property>
                             <child>
-                              <object class="GtkLabel" id="local-remote-name-label">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Destino remoto:</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="local-remote-count-label">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">0</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="message-name">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">mensagens</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkLabel" id="local-local-name-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -475,7 +443,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
+                                <property name="top_attach">0</property>
                               </packing>
                             </child>
                             <child>
@@ -486,11 +454,44 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">1</property>
+                                <property name="top_attach">0</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkLabel" id="message-name1">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">mensagens</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="local-remote-name-label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Destino remoto:</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="local-remote-count-label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">0</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="message-name">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">mensagens</property>
@@ -542,39 +543,6 @@
                             <property name="row_spacing">3</property>
                             <property name="column_spacing">10</property>
                             <child>
-                              <object class="GtkLabel" id="remote-remote-name-label">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Destino remoto:</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="remote-remote-count-label">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">0</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="message-name2">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">mensagens</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkLabel" id="remote-local-name-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -582,7 +550,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
+                                <property name="top_attach">0</property>
                               </packing>
                             </child>
                             <child>
@@ -593,11 +561,44 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">1</property>
+                                <property name="top_attach">0</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkLabel" id="message-name3">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">mensagens</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="remote-remote-name-label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Destino remoto:</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="remote-remote-count-label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">0</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="message-name2">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">mensagens</property>
@@ -638,7 +639,6 @@
               <object class="GtkFrame" id="reception-frame">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">center</property>
                 <property name="label_xalign">0.5</property>
                 <property name="shadow_type">in</property>
                 <child>
@@ -653,6 +653,7 @@
                       <object class="GtkBox" id="box1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">15</property>
                         <child>
@@ -1553,7 +1554,6 @@
               <object class="GtkFrame" id="output-frame">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">center</property>
                 <property name="label_xalign">0.5</property>
                 <property name="shadow_type">in</property>
                 <child>
@@ -1568,6 +1568,7 @@
                       <object class="GtkBox" id="output-main">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">15</property>
                         <child>

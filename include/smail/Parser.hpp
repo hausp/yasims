@@ -2,6 +2,7 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
+#include <array>
 #include <regex>
 #include <string>
 #include "Config.hpp"
@@ -17,7 +18,8 @@ namespace parser {
     using Result = std::pair<Match, bool>;
 
     struct RawConfig {
-        using MMMap = std::unordered_map<smail::Message, parser::Match>;
+        using MMMap = std::unordered_map<smail::Message, Match>;
+        using AAMMap = std::array<std::array<Match, 3>, 2>;
 
         parser::Match seed;
         parser::Match sim_time;
@@ -26,8 +28,8 @@ namespace parser {
         std::array<parser::Match, 2> generations;
         std::array<parser::Match, 2> local_proportions;
         std::array<parser::Match, 2> remote_proportions;
-        MMMap local_weights;
-        MMMap remote_weights;
+        AAMMap local_weights;
+        AAMMap remote_weights;
         MMMap reception_times;
         MMMap local_processing_times;
         MMMap remote_processing_times;
@@ -141,23 +143,93 @@ namespace parser {
             dist::Global::SEED = seed;
         }
         auto sim_time = config.sim_time.values[0];
+        auto infinite_simulation = sim_time == -1;
         auto timeout = config.sim_time.values[0];
+        auto center_capacities = std::array<size_t, 2>{
+            static_cast<size_t>(config.center_sizes[0].values[0]),
+            static_cast<size_t>(config.center_sizes[1].values[0])
+        };
+        auto arrival_times = std::array<dist::funct<>,2> {
+            dist::type_to_function(
+                config.generations[0].type,
+                config.generations[0].values
+            ),
+            dist::type_to_function(
+                config.generations[0].type,
+                config.generations[1].values
+            )
+        };
 
+        auto destinations = std::array<dist::disc<smail::Address>, 2> {
+            dist::disc<smail::Address>{
+                {smail::Address::LOCAL, smail::Address::REMOTE},
+                {config.local_proportions[0].values[0],
+                 config.local_proportions[1].values[0]}
+            },
+            dist::disc<smail::Address>{
+                {smail::Address::LOCAL, smail::Address::REMOTE},
+                {config.remote_proportions[0].values[0],
+                 config.remote_proportions[1].values[0]}
+            }
+        };
 
-        // std::array<parser::Match, 2> center_sizes;
-        // std::array<parser::Match, 2> generations;
-        // std::array<parser::Match, 2> local_proportions;
-        // std::array<parser::Match, 2> remote_proportions;
-        // MMMap local_weights;
-        // MMMap remote_weights;
-        // MMMap reception_times;
-        // MMMap local_processing_times;
-        // MMMap remote_processing_times;
+        auto status_weights = std::array<smail::AWMap, 2> {
+            smail::AWMap{
+                {smail::Address::LOCAL,
+                 {config.local_weights[0][0].values[0],
+                  config.local_weights[0][1].values[0],
+                  config.local_weights[0][2].values[0]}},
+                {smail::Address::REMOTE,
+                 {config.local_weights[1][0].values[0],
+                  config.local_weights[1][1].values[0],
+                  config.local_weights[1][2].values[0]}},
+            },
+            smail::AWMap{
+                {smail::Address::LOCAL,
+                 {config.remote_weights[0][0].values[0],
+                  config.remote_weights[0][1].values[0],
+                  config.remote_weights[0][2].values[0]}},
+                {smail::Address::REMOTE,
+                 {config.remote_weights[1][0].values[0],
+                  config.remote_weights[1][1].values[0],
+                  config.remote_weights[1][2].values[0]}},
+            },
+        };
+
+        auto reception_times = smail::MFMap{};
+        for (auto& pair : config.reception_times) {
+            reception_times[pair.first] = dist::type_to_function(
+                pair.second.type,
+                pair.second.values
+            );
+        }
+
+        auto processing_times = std::array<smail::MFMap, 2>{};
+        for (auto& pair : config.local_processing_times) {
+            processing_times[0][pair.first] = dist::type_to_function(
+                pair.second.type,
+                pair.second.values
+            );
+        }
+
+        for (auto& pair : config.remote_processing_times) {
+            processing_times[1][pair.first] = dist::type_to_function(
+                pair.second.type,
+                pair.second.values
+            );
+        }
 
         return smail::Config{
             use_random_seed,
+            infinite_simulation,
             sim_time,
-            timeout
+            timeout,
+            center_capacities,
+            std::move(arrival_times),
+            std::move(destinations),
+            std::move(status_weights),
+            std::move(reception_times),
+            std::move(processing_times)
         };
     }
 }

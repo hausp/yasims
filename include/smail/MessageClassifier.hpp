@@ -10,7 +10,6 @@ namespace smail {
      public:
         MessageClassifier(AWMap, AWMap);
 
-        void set_weights(Address, Address, Weights);
         void classify(Message&);
         void reset();
      private:
@@ -43,20 +42,14 @@ namespace smail {
         }
     } { }
 
-
-    inline void MessageClassifier::set_weights(Address f, Address t, Weights ws) {
-        status_disc[to_index(f, t)] = {
-            {Status::SUCCESS, Status::FAILURE, Status::POSTPONED},
-            std::move(ws)
-        };
-    }
-
     inline void MessageClassifier::classify(Message& msg) { 
         msg.status = status_disc[to_index(msg.from, msg.to)](false);
     }
 
     inline void MessageClassifier::reset() {
-
+        for (auto& fn : status_disc) {
+            fn(true);
+        }
     }
 }
 
