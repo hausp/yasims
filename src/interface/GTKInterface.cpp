@@ -34,7 +34,7 @@ void GTKInterface::activate() {
     window = GTK_WIDGET(gtk_builder_get_object(builder, "main-window"));
     configuration = Configuration{builder};
 
-    gtk_window_set_resizable(GTK_WINDOW(window), false);
+    // gtk_window_set_resizable(GTK_WINDOW(window), false);
     gtk_application_add_window(application, GTK_WINDOW(window));
 
     g_signal_connect(

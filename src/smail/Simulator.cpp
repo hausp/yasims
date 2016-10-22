@@ -27,6 +27,7 @@ smail::Simulator::Simulator():
  },
  thread{&smail::Simulator::run, this} {
     aw::Signal<Simulator>::set_receiver(*this);
+    initialize_input_info();
  }
 
 smail::Simulator::~Simulator() {
@@ -40,16 +41,22 @@ smail::Simulator::~Simulator() {
 
 void smail::Simulator::start(bool animate) {
     if (execute) return;
-    if (stopped) reset();
+    if (stopped) {
+        std::cout << "fuck you" << std::endl;
+        stopped = false;
+        reset();
+    }
 
     setup();
 
+    animated = animate;
     execute = true;
 
     if (animate) {
         launch_gtk_function();
     } else {
-        std::lock_guard<std::mutex> guard{mutex};        
+        // launch_gtk_function_faster();
+        std::lock_guard<std::mutex> guard{mutex};
         cv.notify_all();
     }
 }
@@ -59,23 +66,30 @@ void smail::Simulator::step() {
     if (stopped) reset();
 
     setup();
-
     simulate();
+    show_statistics();
 }
 
 void smail::Simulator::pause() {
+    if (!animated) {
+        std::lock_guard<std::mutex> guard{mutex_aux};
+    }
+
     execute = false;
+
+    show_statistics();
 }
 
 void smail::Simulator::stop() {
     if (!execute) return;
-    // Sinalize to stop executing
+    if (!animated) {
+        std::lock_guard<std::mutex> guard{mutex_aux};
+    }
+
     execute = false;
     stopped = true;
-    // consumer.reveal_info();
-    // reveal_messages_info();
-    // reveal_input_info();
-    // avg_occupation(0); avg_occupation(1);
+
+    show_statistics();
 }
 
 void smail::Simulator::run() {
@@ -87,8 +101,12 @@ void smail::Simulator::run() {
         permission.unlock();
         // execution loop
         while (execute && survive) {
+            auto lock = std::unique_lock<std::mutex>{mutex_aux};
+            lock.unlock();
+            // std::this_thread::sleep_for(std::chrono::milliseconds(30));
             simulate();
         }
+
     }
 }
 
@@ -96,7 +114,9 @@ void smail::Simulator::run() {
 bool smail::Simulator::gtk_run() {
     simulate();
     // TODO: update screen
-    show_statistics();
+    if (animated) {
+        show_statistics();
+    }
     return execute;
 }
 
@@ -111,7 +131,7 @@ void smail::Simulator::simulate() {
         events.pop();
     }
     // Update execute control variable
-    stopped = events.empty();
+    stopped = stopped || events.empty();
     execute = execute && !stopped
         && (config.infinite_simulation || clock >= config.sim_time);
 }
@@ -146,6 +166,9 @@ void smail::Simulator::setup() {
 }
 
 void smail::Simulator::reset() {
+    std::cout << "hello, mothafucka" << std::endl;
+    clock = 0;
+    
     if (config.use_random_seed) {
         dist::Global::SEED = dist::Global::RD();
     }
@@ -167,6 +190,8 @@ void smail::Simulator::reset() {
     for (auto& center : centers) {
         center.reset();
     }
+
+    initialize_input_info();
 }
 
 void smail::Simulator::arrival_event(size_t index) {
@@ -287,6 +312,17 @@ void smail::Simulator::launch_gtk_function() {
     );
 }
 
+void smail::Simulator::launch_gtk_function_faster() {
+    gtk_handler = g_timeout_add_full(
+        G_PRIORITY_HIGH,
+        1,
+        (GSourceFunc)(aw::Signal<Simulator>::function<bool()>
+            ::callback<&Simulator::gtk_run>),
+        nullptr,
+        nullptr
+    );
+}
+
 void smail::Simulator::update_speed(double d) {
     speed = (Default::SPEED_NUMERATOR + 1) / (d + 1);
     if (execute) {
@@ -328,6 +364,13 @@ void smail::Simulator::update_config(Config c) {
 }
 
 void smail::Simulator::show_statistics() {
+    auto faster_guy = std::string{};
+    auto faster_guy_speed = consumer.get_faster();
+    if (faster_guy_speed == std::numeric_limits<double>::max()) {
+        faster_guy = "infinite";
+    } else {
+        faster_guy = std::to_string(faster_guy_speed);
+    }
     auto statistics = std::array<std::string, 43> {
         std::to_string(clock),
         std::to_string(msgs_in_system),
@@ -370,12 +413,27 @@ void smail::Simulator::show_statistics() {
         std::to_string(consumer.see_exited(Message{Address::REMOTE, Address::REMOTE, Status::FAILURE})),
         std::to_string(consumer.see_total()),
         //transito
-        std::to_string(consumer.get_faster()),
+        faster_guy,
         std::to_string(consumer.get_slower()),
         std::to_string(consumer.get_avg_sys_time())
     };
     aw::Signal<GTKInterface>::function<void(std::array<std::string, 43>)>
         ::callback<&GTKInterface::show_statistics>(std::move(statistics));
+}
+
+void smail::Simulator::initialize_input_info() {
+    input_info[(Message{Address::LOCAL, Address::LOCAL, Status::SUCCESS})] = 0;
+    input_info[(Message{Address::LOCAL, Address::LOCAL, Status::FAILURE})] = 0;
+    input_info[(Message{Address::LOCAL, Address::LOCAL, Status::POSTPONED})] = 0;
+    input_info[(Message{Address::LOCAL, Address::REMOTE, Status::SUCCESS})] = 0;
+    input_info[(Message{Address::LOCAL, Address::REMOTE, Status::FAILURE})] = 0;
+    input_info[(Message{Address::LOCAL, Address::REMOTE, Status::POSTPONED})] = 0;
+    input_info[(Message{Address::REMOTE, Address::LOCAL, Status::SUCCESS})] = 0;
+    input_info[(Message{Address::REMOTE, Address::LOCAL, Status::FAILURE})] = 0;
+    input_info[(Message{Address::REMOTE, Address::LOCAL, Status::POSTPONED})] = 0;
+    input_info[(Message{Address::REMOTE, Address::REMOTE, Status::SUCCESS})] = 0;
+    input_info[(Message{Address::REMOTE, Address::REMOTE, Status::FAILURE})] = 0;
+    input_info[(Message{Address::REMOTE, Address::REMOTE, Status::POSTPONED})] = 0;
 }
 
 std::string smail::Simulator::reveal_messages_info() {

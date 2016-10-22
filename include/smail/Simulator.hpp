@@ -64,12 +64,14 @@ namespace smail {
 
         // Thread related attributes
         std::mutex mutex;
+        std::mutex mutex_aux;
         std::condition_variable cv;
         std::thread thread;
         unsigned gtk_handler;
         bool execute = false;
         bool stopped = false;
-        bool survive = true;       
+        bool survive = true;
+        bool animated = false;
 
         // Running methods, first one with particular thread,
         // latter one with gtk's thread
@@ -87,7 +89,9 @@ namespace smail {
         void postpone_event(Message);
         void exit_event(Message);
         void launch_gtk_function();
+        void launch_gtk_function_faster();
         void show_statistics();
+        void initialize_input_info();
         void update_messages();
         void update_input_info(const Message&);
         std::string avg_occupation(size_t);
