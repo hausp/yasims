@@ -118,6 +118,10 @@ void smail::Simulator::simulate() {
 
 void smail::Simulator::update(double new_time) {
     auto occupation = reception.occupation() + reception.in_queue();
+    reception_occupation += (new_time - clock)*
+            (reception.occupation() - reception_occupation)/(new_time);
+    reception_queue_occu += (new_time - clock)*
+            (reception.in_queue() - reception_queue_occu)/(new_time);        
     for (size_t i = 0; i < centers.size(); ++i) {
         occupation += centers[i].occupation() + centers[i].in_queue();
         occupation_on_centers[i] += (new_time - clock)*
@@ -329,47 +333,47 @@ void smail::Simulator::update_config(Config c) {
 }
 
 void smail::Simulator::show_statistics() {
-    auto statistics = std::array<std::string, 36> {
+    auto statistics = std::array<std::string, 40> {
         std::to_string(clock),
-        // system occupation
-        // min messages
-        // max messages
-        // average messages in system
-        // local input: local counting
-        // local input: remote counting
-        // remote input: local counting
-        // remote input: remote counting
-        // L/L/S counting
-        // L/L/F counting
-        // L/L/P counting
-        // L/R/S counting
-        // L/R/F counting
-        // L/R/P counting
-        // R/L/S counting
-        // R/L/F counting
-        // R/L/P counting
-        // R/R/S counting
-        // R/R/F counting
-        // R/R/P counting
-        // Reception center: current queue size
-        // Reception center: average queue size
-        // Local center(1): current queue size
-        // Local center(1): average queue size
-        // Local center(1): current occupation
-        // Local center(1): average occupation
-        // remote center(2): current queue size
-        // remote center(2): average queue size
-        // remote center(2): current occupation
-        // remote center(2): average occupation
-        // output: L/L/S counting
-        // output: L/L/F counting
-        // output: L/R/S counting
-        // output: L/R/F counting
-        // output: R/L/S counting
-        // output: R/L/F counting
-        // output: R/R/S counting
-        // output: R/R/F counting
-        // Total dispatched messages counting
+        std::to_string(msgs_in_system),
+        std::to_string(min_msgs_in_system),
+        std::to_string(max_msgs_in_system),
+        std::to_string(system_occupation),
+        std::to_string(get_input_info(Address::LOCAL, Address::LOCAL)),
+        std::to_string(get_input_info(Address::LOCAL, Address::REMOTE)),
+        std::to_string(get_input_info(Address::REMOTE, Address::LOCAL)),
+        std::to_string(get_input_info(Address::REMOTE, Address::REMOTE)),
+        std::to_string(input_info.at(Message{Address::LOCAL, Address::LOCAL, Status::SUCCESS})),
+        std::to_string(input_info.at(Message{Address::LOCAL, Address::LOCAL, Status::FAILURE})),
+        std::to_string(input_info.at(Message{Address::LOCAL, Address::LOCAL, Status::POSTPONED})),
+        std::to_string(input_info.at(Message{Address::LOCAL, Address::REMOTE, Status::SUCCESS})),
+        std::to_string(input_info.at(Message{Address::LOCAL, Address::REMOTE, Status::FAILURE})),
+        std::to_string(input_info.at(Message{Address::LOCAL, Address::REMOTE, Status::POSTPONED})),
+        std::to_string(input_info.at(Message{Address::REMOTE, Address::LOCAL, Status::SUCCESS})),
+        std::to_string(input_info.at(Message{Address::REMOTE, Address::LOCAL, Status::FAILURE})),
+        std::to_string(input_info.at(Message{Address::REMOTE, Address::LOCAL, Status::POSTPONED})),
+        std::to_string(input_info.at(Message{Address::REMOTE, Address::REMOTE, Status::SUCCESS})),
+        std::to_string(input_info.at(Message{Address::REMOTE, Address::REMOTE, Status::FAILURE})),
+        std::to_string(input_info.at(Message{Address::REMOTE, Address::REMOTE, Status::POSTPONED})),
+        std::to_string(reception.in_queue()),
+        std::to_string(reception_queue_occu),
+        std::to_string(centers[0].in_queue()),
+        std::to_string(occupation_on_queues[0]),
+        std::to_string(centers[0].occupation()),
+        std::to_string(occupation_on_centers[0]),
+        std::to_string(centers[1].in_queue()),
+        std::to_string(occupation_on_queues[1]),
+        std::to_string(centers[1].occupation()),
+        std::to_string(occupation_on_centers[1]),
+        std::to_string(consumer.see_exited(Message{Address::LOCAL, Address::LOCAL, Status::SUCCESS})),
+        std::to_string(consumer.see_exited(Message{Address::LOCAL, Address::LOCAL, Status::FAILURE})),
+        std::to_string(consumer.see_exited(Message{Address::LOCAL, Address::REMOTE, Status::SUCCESS})),
+        std::to_string(consumer.see_exited(Message{Address::LOCAL, Address::REMOTE, Status::FAILURE})),
+        std::to_string(consumer.see_exited(Message{Address::REMOTE, Address::LOCAL, Status::SUCCESS})),
+        std::to_string(consumer.see_exited(Message{Address::REMOTE, Address::LOCAL, Status::FAILURE})),
+        std::to_string(consumer.see_exited(Message{Address::REMOTE, Address::REMOTE, Status::SUCCESS})),
+        std::to_string(consumer.see_exited(Message{Address::REMOTE, Address::REMOTE, Status::FAILURE})),
+        std::to_string(consumer.see_total())
     };
 
     aw::Signal<GTKInterface>::function<void(std::array<std::string, 36>)>
@@ -429,3 +433,13 @@ void smail::Simulator::show_statistics() {
 //     done.open(filename);
 //     done << out.rdbuf();
 // }
+
+size_t smail::Simulator::get_input_info(Address from, Address to) {
+    size_t r = 0;
+    for (auto pair : input_info) {
+        if (pair.first.from == from && pair.first.to == to) {
+            r += pair.second;
+        }
+    }
+    return r;
+}
