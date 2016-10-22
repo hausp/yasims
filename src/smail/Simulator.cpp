@@ -512,7 +512,7 @@ void smail::Simulator::generate_output(const std::string& filename = "output.txt
     ss += reveal_messages_info();
     ss += consumer.reveal_info();
     ss += "-------------------------------- Fim do Relatório -----------------------------------\n";
-    done.open(filename);
+    done.open(filename, std::fstream::out);
     done << ss;
 }
 
