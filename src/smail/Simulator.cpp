@@ -491,7 +491,7 @@ std::string smail::Simulator::reveal_input_info() {
     return out;
 }
 
-void smail::Simulator::generate_output(const std::string& filename = "output.txt") {
+void smail::Simulator::generate_output(const std::string& filename) {
     std::string ss = "";
     std::ofstream done;
     ss += "-- Arquivo de saída gerado por YASIMS (Marleson Graf e Vinicius Freitas [2016])   --\n";
@@ -512,7 +512,7 @@ void smail::Simulator::generate_output(const std::string& filename = "output.txt
     ss += reveal_messages_info();
     ss += consumer.reveal_info();
     ss += "-------------------------------- Fim do Relatório -----------------------------------\n";
-    done.open(filename, std::fstream::out);
+    done.open(filename, std::fstream::in | std::fstream::out | std::fstream::trunc);
     done << ss;
 }
 

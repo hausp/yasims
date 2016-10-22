@@ -98,7 +98,7 @@ namespace smail {
         std::string reveal_input_info();
         std::string reveal_messages_info();
         size_t get_input_info(Address, Address);
-        void generate_output(const std::string&);
+        void generate_output(const std::string& = "../output.txt");
     };
 }
 
