@@ -96,6 +96,7 @@ void smail::Simulator::run() {
 bool smail::Simulator::gtk_run() {
     simulate();
     // TODO: update screen
+    show_statistics();
     return execute;
 }
 
@@ -373,7 +374,11 @@ void smail::Simulator::show_statistics() {
         std::to_string(consumer.see_exited(Message{Address::REMOTE, Address::LOCAL, Status::FAILURE})),
         std::to_string(consumer.see_exited(Message{Address::REMOTE, Address::REMOTE, Status::SUCCESS})),
         std::to_string(consumer.see_exited(Message{Address::REMOTE, Address::REMOTE, Status::FAILURE})),
-        std::to_string(consumer.see_total())
+        std::to_string(consumer.see_total()),
+        //transito
+        std::to_string(consumer.get_faster()),
+        std::to_string(consumer.get_slower()),
+        std::to_string(consumer.get_avg_sys_time())
     };
 
     aw::Signal<GTKInterface>::function<void(std::array<std::string, 43>)>

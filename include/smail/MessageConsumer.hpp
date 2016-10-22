@@ -15,6 +15,9 @@ namespace smail {
         void reset();
         size_t see_exited(const Message& m) const { return exited_messages.at(m); }
         size_t see_total() { return total_exited; }
+        double get_avg_sys_time() { return avg_system_time; }
+        double get_faster() { return faster_msg_time; }
+        double get_slower() { return slower_msg_time; }
      private:
         double avg_system_time = 0;
         double faster_msg_time = std::numeric_limits<double>::max();
