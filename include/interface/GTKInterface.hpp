@@ -20,7 +20,13 @@ class GTKInterface {
     void destroy();
 
     parser::RawConfig raw_config();    
-    void update_active_buttons(bool);
+    void set_active_start(bool);
+    void set_active_fast_forward(bool);
+    void set_active_step(bool);
+    void set_active_pause(bool);
+    void set_active_stop(bool);
+    void set_active_configuration(bool);
+    void set_active_summary(bool);
 
     void show_statistics(std::array<std::string, 43>);
     int show_configuration_dialog();
