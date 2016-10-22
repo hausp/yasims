@@ -43,6 +43,7 @@ void GTKInterface::activate() {
         nullptr
     );
     
+    init_statistics_entries();
     connect_buttons();
 
     g_signal_connect(
@@ -194,9 +195,14 @@ parser::RawConfig GTKInterface::raw_config() {
 }
 
 void GTKInterface::show_statistics(std::array<std::string, 43> statistics) {
-    for (auto i = 0; i < 40; i++) {
-        gtk_label_set_text(statistics_entries[i], statistics[i].c_str());
+    std::cout << "hello" << std::endl;
+    for (auto i = 0; i < 43; i++) {
+        auto text = statistics[i].c_str();
+        std::cout << "mark 1" << std::endl;
+        gtk_label_set_text(statistics_entries[i], text);
+        std::cout << "mark 2" << std::endl;
     }
+    std::cout << "bye" << std::endl;
 }
 
 void GTKInterface::error_message(GtkWidget* parent) {

@@ -334,6 +334,7 @@ void smail::Simulator::update_config(Config c) {
 }
 
 void smail::Simulator::show_statistics() {
+    std::cout << "show_statistics" << std::endl;
     auto statistics = std::array<std::string, 43> {
         std::to_string(clock),
         std::to_string(msgs_in_system),
@@ -344,18 +345,18 @@ void smail::Simulator::show_statistics() {
         std::to_string(get_input_info(Address::LOCAL, Address::REMOTE)),
         std::to_string(get_input_info(Address::REMOTE, Address::LOCAL)),
         std::to_string(get_input_info(Address::REMOTE, Address::REMOTE)),
-        std::to_string(input_info.at(Message{Address::LOCAL, Address::LOCAL, Status::SUCCESS})),
-        std::to_string(input_info.at(Message{Address::LOCAL, Address::LOCAL, Status::FAILURE})),
-        std::to_string(input_info.at(Message{Address::LOCAL, Address::LOCAL, Status::POSTPONED})),
-        std::to_string(input_info.at(Message{Address::LOCAL, Address::REMOTE, Status::SUCCESS})),
-        std::to_string(input_info.at(Message{Address::LOCAL, Address::REMOTE, Status::FAILURE})),
-        std::to_string(input_info.at(Message{Address::LOCAL, Address::REMOTE, Status::POSTPONED})),
-        std::to_string(input_info.at(Message{Address::REMOTE, Address::LOCAL, Status::SUCCESS})),
-        std::to_string(input_info.at(Message{Address::REMOTE, Address::LOCAL, Status::FAILURE})),
-        std::to_string(input_info.at(Message{Address::REMOTE, Address::LOCAL, Status::POSTPONED})),
-        std::to_string(input_info.at(Message{Address::REMOTE, Address::REMOTE, Status::SUCCESS})),
-        std::to_string(input_info.at(Message{Address::REMOTE, Address::REMOTE, Status::FAILURE})),
-        std::to_string(input_info.at(Message{Address::REMOTE, Address::REMOTE, Status::POSTPONED})),
+        std::to_string(input_info[(Message{Address::LOCAL, Address::LOCAL, Status::SUCCESS})]),
+        std::to_string(input_info[(Message{Address::LOCAL, Address::LOCAL, Status::FAILURE})]),
+        std::to_string(input_info[(Message{Address::LOCAL, Address::LOCAL, Status::POSTPONED})]),
+        std::to_string(input_info[(Message{Address::LOCAL, Address::REMOTE, Status::SUCCESS})]),
+        std::to_string(input_info[(Message{Address::LOCAL, Address::REMOTE, Status::FAILURE})]),
+        std::to_string(input_info[(Message{Address::LOCAL, Address::REMOTE, Status::POSTPONED})]),
+        std::to_string(input_info[(Message{Address::REMOTE, Address::LOCAL, Status::SUCCESS})]),
+        std::to_string(input_info[(Message{Address::REMOTE, Address::LOCAL, Status::FAILURE})]),
+        std::to_string(input_info[(Message{Address::REMOTE, Address::LOCAL, Status::POSTPONED})]),
+        std::to_string(input_info[(Message{Address::REMOTE, Address::REMOTE, Status::SUCCESS})]),
+        std::to_string(input_info[(Message{Address::REMOTE, Address::REMOTE, Status::FAILURE})]),
+        std::to_string(input_info[(Message{Address::REMOTE, Address::REMOTE, Status::POSTPONED})]),
         std::to_string(reception.in_queue()),
         std::to_string(reception_queue_occu),
         std::to_string(centers[0].in_queue()),
@@ -380,7 +381,7 @@ void smail::Simulator::show_statistics() {
         std::to_string(consumer.get_slower()),
         std::to_string(consumer.get_avg_sys_time())
     };
-
+    std::cout << "show_statistics end" << std::endl;
     aw::Signal<GTKInterface>::function<void(std::array<std::string, 43>)>
         ::callback<&GTKInterface::show_statistics>(std::move(statistics));
 }
