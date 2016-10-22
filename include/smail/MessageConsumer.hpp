@@ -11,7 +11,7 @@ namespace smail {
     class MessageConsumer {
      public:
         void consume(const Message&);
-        std::stringstream reveal_info();
+        std::string reveal_info();
         void reset();
         size_t see_exited(const Message& m) {
             if (!exited_messages.count(m)) {

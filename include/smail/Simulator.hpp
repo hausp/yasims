@@ -90,9 +90,9 @@ namespace smail {
         void show_statistics();
         void update_messages();
         void update_input_info(const Message&);
-        std::stringstream avg_occupation(size_t);
-        std::stringstream reveal_input_info();
-        std::stringstream reveal_messages_info();
+        std::string avg_occupation(size_t);
+        std::string reveal_input_info();
+        std::string reveal_messages_info();
         size_t get_input_info(Address, Address);
         void generate_output(const std::string&);
     };
