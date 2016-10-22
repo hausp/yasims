@@ -105,7 +105,8 @@ void smail::Simulator::run() {
         while (execute && survive) {
             auto lock = std::unique_lock<std::mutex>{mutex_aux};
             lock.unlock();
-            // std::this_thread::sleep_for(std::chrono::milliseconds(30));
+            // std::this_thread::sleep_for(std::chrono::nanoseconds(50));
+            std::this_thread::yield();
             simulate();
         }
 
@@ -138,10 +139,11 @@ void smail::Simulator::simulate() {
     }
     if (terminated) {
         g_timeout_add_full(
-            G_PRIORITY_HIGH,
-            1,
+            G_PRIORITY_DEFAULT + 10,
+            100,
             (GSourceFunc)
-            (aw::Signal<Context>::function<void()>::callback<&Context::stop>),
+            (aw::Signal<Context>::function<bool()>
+                ::callback<&Context::stop_gui_behaviour>),
             nullptr,
             nullptr
         );
