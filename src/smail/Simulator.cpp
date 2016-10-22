@@ -112,7 +112,6 @@ void smail::Simulator::run() {
 // For animations, better be in gtk's thread
 bool smail::Simulator::gtk_run() {
     simulate();
-    // TODO: update screen
     if (animated) {
         show_statistics();
     }
@@ -123,7 +122,7 @@ void smail::Simulator::simulate() {
     // Get next event
     auto e = events.top();
     // Update simulation clock and statistics
-    update(e.time); // NOTICE: if e.action() fails this will pass equal times
+    update(e.time);
     // Execute event action and check if successful
     if (e.action()) {
         // Successful events are removed
@@ -218,7 +217,6 @@ void smail::Simulator::arrival_event(size_t index) {
         classifier.classify(msg);
         // Send message to reception
         reception_event(std::move(msg));
-        // TODO
         return true;
     };
     events.push(std::move(event));
@@ -241,7 +239,6 @@ void smail::Simulator::reception_event(Message msg) {
         assert(dispatched);
         // Send message to processing centers
         processing_event(std::move(msg));
-        // TODO
         return true;
     };
     events.push(std::move(event));
@@ -268,7 +265,6 @@ void smail::Simulator::processing_event(Message msg) {
             // Otherwise, send to postpone treatment
             postpone_event(std::move(msg));
         }
-        // TODO
         return true;
     };
     events.push(std::move(event));
