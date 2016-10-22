@@ -38,6 +38,7 @@ namespace smail {
 
         void update_speed(double);
         void update_config(Config);
+        void generate_output(const std::string& = "../output.txt");
      private:
         Config config;
         EventQueue events;
@@ -98,7 +99,6 @@ namespace smail {
         std::string reveal_input_info();
         std::string reveal_messages_info();
         size_t get_input_info(Address, Address);
-        void generate_output(const std::string& = "../output.txt");
     };
 }
 

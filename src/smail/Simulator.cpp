@@ -468,13 +468,13 @@ std::string smail::Simulator::reveal_messages_info() {
     out += "Mensagens restantes nos sistema: ";
     out += std::to_string(msgs_in_system);
     out += " mensagens\n";
-    out += "Máximo de mensagens no sistema: ";
+    out += "Maximo de mensagens no sistema: ";
     out += std::to_string(max_msgs_in_system);
     out += " mensagens\n";
-    out += "Mínimo de mensagens no sistema: ";
+    out += "Minimo de mensagens no sistema: ";
     out += std::to_string(min_msgs_in_system);
     out += " mensagens\n";
-    out += "Número médio de mensagens no sistema: ";
+    out += "Numero medio de mensagens no sistema: ";
     out += std::to_string(system_occupation);
     out += "\n";
     return out;
@@ -482,12 +482,12 @@ std::string smail::Simulator::reveal_messages_info() {
 
 std::string smail::Simulator::avg_occupation(size_t index) {
     std::string out = "";
-    out += "A ocupação média no centro ";
+    out += "A ocupacao media no centro ";
     out += std::to_string(index+1) ;
     out += " foi: "; 
     out += std::to_string(occupation_on_centers[index]);
     out += "\n";
-    out += "E o tamanho médio da fila foi: "; 
+    out += "E o tamanho medio da fila foi: "; 
     out += std::to_string(occupation_on_queues[index]);
     out += "\n";
     return out;
@@ -503,7 +503,7 @@ std::string smail::Simulator::reveal_input_info() {
         out += ": ";
         out += to_string(pair.first.status);
         out += ": ";
-        out += pair.second;
+        out += std::to_string(pair.second);
         out += "\n";
     }
     return out;
@@ -512,24 +512,24 @@ std::string smail::Simulator::reveal_input_info() {
 void smail::Simulator::generate_output(const std::string& filename) {
     std::string ss = "";
     std::ofstream done;
-    ss += "-- Arquivo de saída gerado por YASIMS (Marleson Graf e Vinicius Freitas [2016])   --\n";
+    ss += "-- Arquivo de saida gerado por YASIMS (Marleson Graf e Vinicius Freitas [2016])   --\n";
     ss += "------------------------------------------------------------------------------------\n";
-    //ss += "Esse é um relatório de uma simulação rodada com as seguintes especificações:\n";
+    //ss += "Esse e um relatorio de uma simulacao rodada com as seguintes especificacões:\n";
     //<< system_specs()
     ss += "------------------------------------------------------------------------------------\n";
-    ss += "Esses são os resultados requeridos por esta implementação: \n";
-    ss += "Tempo total de simulação: ";
+    ss += "Esses sao os resultados requeridos por esta implementacao: \n";
+    ss += "Tempo total de simulacao: ";
     ss += std::to_string(clock);
     ss += " segundos\n";
-      //  << "Número de mensagens no sistema no fim da execução: " << msgs_in_system << " mensagens " << "\n";
-        //<< "Mínimo de mensagens no sistema: " << min_msgs_in_system << " mensagens" << "\n";
-       // << "Máximo de mensagens no sistema: " << max_msgs_in_system << " mensagens" << "\n";
+      //  << "Numero de mensagens no sistema no fim da execucao: " << msgs_in_system << " mensagens " << "\n";
+        //<< "Minimo de mensagens no sistema: " << min_msgs_in_system << " mensagens" << "\n";
+       // << "Maximo de mensagens no sistema: " << max_msgs_in_system << " mensagens" << "\n";
     ss += reveal_input_info();
     ss += avg_occupation(0);
     ss += avg_occupation(1);
     ss += reveal_messages_info();
     ss += consumer.reveal_info();
-    ss += "-------------------------------- Fim do Relatório -----------------------------------\n";
+    ss += "-------------------------------- Fim do Relatorio -----------------------------------\n";
     done.open(filename, std::fstream::in | std::fstream::out | std::fstream::trunc);
     done << ss;
 }

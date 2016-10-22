@@ -168,19 +168,6 @@
                     <property name="position">0</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkButton" id="summary-button">
-                    <property name="label" translatable="yes">Estatísticas</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2202,6 +2189,9 @@
         </child>
       </object>
     </child>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkDialog" id="config-dialog">
     <property name="can_focus">False</property>
@@ -3438,6 +3428,9 @@ para mensagens (segundos)</property>
       <action-widget response="0">config-cancela-button</action-widget>
       <action-widget response="1">config-ok-button</action-widget>
     </action-widgets>
+    <child>
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkSizeGroup" id="sizegroup1">
     <widgets>

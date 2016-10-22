@@ -137,7 +137,7 @@ void GTKInterface::init_statistics_entries() {
 
 void GTKInterface::connect_buttons() {
     config = GTK_WIDGET(gtk_builder_get_object(builder, "configure-button"));
-    summary = GTK_WIDGET(gtk_builder_get_object(builder, "summary-button"));
+    // summary = GTK_WIDGET(gtk_builder_get_object(builder, "summary-button"));
     start = GTK_WIDGET(gtk_builder_get_object(builder, "start-button"));
     fast = GTK_WIDGET(gtk_builder_get_object(builder, "fast-forward-button"));
     step = GTK_WIDGET(gtk_builder_get_object(builder, "step-button"));
@@ -154,11 +154,11 @@ void GTKInterface::connect_buttons() {
         nullptr
     );
 
-    g_signal_connect(
-        summary, "clicked",
-        G_CALLBACK(SigContext<void>::callback<&Context::summary>),
-        nullptr
-    );
+    // g_signal_connect(
+    //     summary, "clicked",
+    //     G_CALLBACK(SigContext<void>::callback<&Context::summary>),
+    //     nullptr
+    // );
 
     g_signal_connect(
         start, "clicked",

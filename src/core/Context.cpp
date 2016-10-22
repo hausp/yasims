@@ -21,7 +21,7 @@ void Context::configure() {
 }
 
 void Context::summary() {
-    // TODO
+    sim.generate_output("../output.txt");
 }
 
 void Context::start() {
