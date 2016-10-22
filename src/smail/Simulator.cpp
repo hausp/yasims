@@ -211,6 +211,11 @@ void smail::Simulator::reset() {
         center.reset();
     }
 
+    execute = false;
+    stopped = false;
+    survive = true;
+    animated = false;
+
     initialize_input_info();
 }
 
