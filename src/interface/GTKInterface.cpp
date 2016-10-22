@@ -195,14 +195,10 @@ parser::RawConfig GTKInterface::raw_config() {
 }
 
 void GTKInterface::show_statistics(std::array<std::string, 43> statistics) {
-    std::cout << "hello" << std::endl;
     for (auto i = 0; i < 43; i++) {
         auto text = statistics[i].c_str();
-        std::cout << "mark 1" << std::endl;
         gtk_label_set_text(statistics_entries[i], text);
-        std::cout << "mark 2" << std::endl;
     }
-    std::cout << "bye" << std::endl;
 }
 
 void GTKInterface::error_message(GtkWidget* parent) {

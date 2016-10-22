@@ -101,7 +101,6 @@ bool smail::Simulator::gtk_run() {
 }
 
 void smail::Simulator::simulate() { 
-    std::cout << "------------------------------------" << std::endl;
     // Get next event
     auto e = events.top();
     // Update simulation clock and statistics
@@ -171,7 +170,6 @@ void smail::Simulator::reset() {
 }
 
 void smail::Simulator::arrival_event(size_t index) {
-    std::cout << "Arrival event" << std::endl;
     // Produce message and its arrival event
     auto event = spawners[index].produce(clock);
     // Set arrival event action
@@ -191,7 +189,6 @@ void smail::Simulator::arrival_event(size_t index) {
 }
 
 void smail::Simulator::reception_event(Message msg) {
-    std::cout << "Reception event" << std::endl;
     // Increment #msgs in system
     msgs_in_system++;
     // Update info that is received by the system
@@ -215,10 +212,8 @@ void smail::Simulator::reception_event(Message msg) {
 }
 
 void smail::Simulator::processing_event(Message msg) {
-    std::cout << "Processing event" << std::endl;
     // Get index for the corresponding center
     auto index = static_cast<size_t>(msg.from);
-    std::cout << "index: " << index << std::endl;
     // Send message to center and get ready event
     auto event = centers[index].receive(std::move(msg));
     // Set ready event action
@@ -244,7 +239,6 @@ void smail::Simulator::processing_event(Message msg) {
 }
 
 void smail::Simulator::postpone_event(Message msg) {
-    std::cout << "Postpone event" << std::endl;
     if (msg.in_system_time >= config.timeout) {
         // Timeout = FAILURE
         msg.status = Status::FAILURE;
@@ -334,7 +328,6 @@ void smail::Simulator::update_config(Config c) {
 }
 
 void smail::Simulator::show_statistics() {
-    std::cout << "show_statistics" << std::endl;
     auto statistics = std::array<std::string, 43> {
         std::to_string(clock),
         std::to_string(msgs_in_system),
@@ -381,7 +374,6 @@ void smail::Simulator::show_statistics() {
         std::to_string(consumer.get_slower()),
         std::to_string(consumer.get_avg_sys_time())
     };
-    std::cout << "show_statistics end" << std::endl;
     aw::Signal<GTKInterface>::function<void(std::array<std::string, 43>)>
         ::callback<&GTKInterface::show_statistics>(std::move(statistics));
 }
