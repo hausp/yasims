@@ -1454,7 +1454,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="rq-proc-avg-label">
+                                  <object class="GtkLabel" id="rproc-q-avg-label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">0</property>
