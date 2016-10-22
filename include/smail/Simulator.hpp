@@ -55,9 +55,12 @@ namespace smail {
         unsigned max_msgs_in_system = 0;
         unsigned min_msgs_in_system = 10;
         double system_occupation = 0;
+        double reception_occupation = 0;
+        double reception_queue_occu = 0;
         std::array<double, 2> occupation_on_centers = {0, 0};
         std::array<double, 2> occupation_on_queues = {0, 0};
         std::unordered_map<Message,size_t> input_info;
+
 
         // Thread related attributes
         std::mutex mutex;
@@ -90,6 +93,7 @@ namespace smail {
         std::stringstream avg_occupation(size_t);
         std::stringstream reveal_input_info();
         std::stringstream reveal_messages_info();
+        size_t get_input_info(Address, Address);
         void generate_output(const std::string&);
     };
 }

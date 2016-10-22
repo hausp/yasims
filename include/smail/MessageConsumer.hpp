@@ -13,6 +13,8 @@ namespace smail {
         void consume(const Message&);
         std::stringstream reveal_info();
         void reset();
+        size_t see_exited(const Message& m) const { return exited_messages.at(m); }
+        size_t see_total() { return total_exited; }
      private:
         double avg_system_time = 0;
         double faster_msg_time = std::numeric_limits<double>::max();
