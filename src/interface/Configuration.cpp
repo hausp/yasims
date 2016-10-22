@@ -38,25 +38,25 @@ Configuration::Configuration(GtkBuilder* builder) {
     sim_time = GTK_ENTRY(gtk_builder_get_object(builder, "sim-time-entry"));
     timeout = GTK_ENTRY(gtk_builder_get_object(builder, "timeout-entry"));
     
-    center_sizes = {
+    center_sizes = {{
         GTK_ENTRY(gtk_builder_get_object(builder, "num-servers-lc-entry")),
         GTK_ENTRY(gtk_builder_get_object(builder, "num-servers-rc-entry"))
-    };
+    }};
     // Second tab attributes
-    generations = {
+    generations = {{
         GTK_ENTRY(gtk_builder_get_object(builder, "local-gen-entry")),
         GTK_ENTRY(gtk_builder_get_object(builder, "remote-gen-entry"))
-    };
+    }};
     
-    local_proportions = {
+    local_proportions = {{
         GTK_ENTRY(gtk_builder_get_object(builder, "ll-percent-entry")),
         GTK_ENTRY(gtk_builder_get_object(builder, "lr-percent-entry"))
-    };
+    }};
         
-    remote_proportions = {
+    remote_proportions = {{
         GTK_ENTRY(gtk_builder_get_object(builder, "rl-percent-entry")),
         GTK_ENTRY(gtk_builder_get_object(builder, "rr-percent-entry"))
-    };
+    }};
 
     local_weights = {
         {{Address::LOCAL, Address::LOCAL, Status::SUCCESS},
@@ -175,16 +175,13 @@ bool Configuration::validate_input() {
         gtk_entry_get_text(seed), "random");
     if (!valid || match.type != dist::Type::CONS) return false;
     last_config.seed = std::move(match);
-    
     std::tie(match, valid) = parser::s_match(
         gtk_entry_get_text(sim_time), "infinite");
     if (!valid || match.type != dist::Type::CONS) return false;
     last_config.sim_time = std::move(match);
-
     std::tie(match, valid) = parser::match(gtk_entry_get_text(timeout));
     if (!valid || match.type != dist::Type::CONS) return false;
     last_config.timeout = std::move(match);
-
     for (size_t i = 0; i < center_sizes.size(); i++) {
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(center_sizes[i]));
@@ -203,7 +200,6 @@ bool Configuration::validate_input() {
         if (!valid) return false;
         last_config.remote_proportions[i] = std::move(match);
     }
-
     auto i = 0;
     for (auto pair : local_weights) {
         std::tie(match, valid) = 
@@ -213,7 +209,6 @@ bool Configuration::validate_input() {
         last_config.local_weights[t][i] = std::move(match);
         i = (i + 1) % 3;
     }
-
     for (auto pair : remote_weights) {
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(pair.second));
@@ -222,28 +217,24 @@ bool Configuration::validate_input() {
         last_config.remote_weights[t][i] = std::move(match);
         i = (i + 1) % 3;
     }
-
     for (auto pair : reception_times) {
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(pair.second));
         if (!valid) return false;
         last_config.reception_times[pair.first] = std::move(match);
     }
-
     for (auto pair : local_processing_times) {
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(pair.second));
         if (!valid) return false;
         last_config.local_processing_times[pair.first] = std::move(match);
     }
-
     for (auto pair : remote_processing_times) {
         std::tie(match, valid) = 
             parser::match(gtk_entry_get_text(pair.second));
         if (!valid) return false;
         last_config.remote_processing_times[pair.first] = std::move(match);
     }
-
     return true;
 }
 

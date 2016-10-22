@@ -23,7 +23,7 @@ namespace smail {
     };
 
     inline MessageClassifier::MessageClassifier(AWMap lweights, AWMap rweights):
-     status_disc {
+     status_disc {{
         dist::disc<Status>{
             {Status::SUCCESS, Status::FAILURE, Status::POSTPONED},
             std::move(lweights[Address::LOCAL])
@@ -40,7 +40,7 @@ namespace smail {
             {Status::SUCCESS, Status::FAILURE, Status::POSTPONED},
             std::move(rweights[Address::REMOTE])
         }
-    } { }
+    }} { }
 
     inline void MessageClassifier::classify(Message& msg) { 
         msg.status = status_disc[to_index(msg.from, msg.to)](false);

@@ -87,7 +87,7 @@ void GTKInterface::set_active_summary(bool active) {
 }
 
 void GTKInterface::init_statistics_entries() {
-    statistics_entries = {
+    statistics_entries = {{
         GTK_LABEL(gtk_builder_get_object(builder, "clock-label")),
         GTK_LABEL(gtk_builder_get_object(builder, "sys-occupation-label")),
         GTK_LABEL(gtk_builder_get_object(builder, "min-occupation-label")),
@@ -132,7 +132,7 @@ void GTKInterface::init_statistics_entries() {
         GTK_LABEL(gtk_builder_get_object(builder, "min-msg-time-label")),
         GTK_LABEL(gtk_builder_get_object(builder, "max-msg-time-label")),
         GTK_LABEL(gtk_builder_get_object(builder, "avg-msg-time-label"))
-    };
+    }};
 }
 
 void GTKInterface::connect_buttons() {
@@ -210,7 +210,7 @@ int GTKInterface::show_configuration_dialog() {
 }
 
 parser::RawConfig GTKInterface::raw_config() {
-    return std::move(configuration.extract());
+    return configuration.extract();
 }
 
 void GTKInterface::show_statistics(std::array<std::string, 44> statistics) {

@@ -8,15 +8,15 @@
 #include <iostream>
 
 smail::Simulator::Simulator():
- spawners{
+ spawners{{
     MessageProducer{Address::LOCAL, config.arrival_times[0],
         config.destinations[0]},
     MessageProducer{Address::REMOTE, config.arrival_times[0],
         config.destinations[1]}
- },
+ }},
  classifier{config.status_weights[0], config.status_weights[1]},
  reception{config.reception_times},
- centers {
+ centers {{
     ProcessingCenter{
         config.processing_times[0],
         config.center_capacities[0]
@@ -25,7 +25,7 @@ smail::Simulator::Simulator():
         config.processing_times[1],
         config.center_capacities[1]
     },
- },
+ }},
  thread{&smail::Simulator::run, this} {
     aw::Signal<Simulator>::set_receiver(*this);
     initialize_input_info();
@@ -355,7 +355,7 @@ void smail::Simulator::update_speed(double d) {
 void smail::Simulator::update_config(Config c) {
     config = std::move(c);
     reset();
-     spawners = {
+     spawners = {{
         MessageProducer{
             Address::LOCAL, config.arrival_times[0],
             config.destinations[0]
@@ -364,7 +364,7 @@ void smail::Simulator::update_config(Config c) {
             Address::REMOTE, config.arrival_times[0],
             config.destinations[1]
         }
-     };
+     }};
      classifier = {
         config.status_weights[0],
         config.status_weights[1]
@@ -372,7 +372,7 @@ void smail::Simulator::update_config(Config c) {
     
     reception = {config.reception_times};
     
-    centers = {
+    centers = {{
         ProcessingCenter{
             config.processing_times[0],
             config.center_capacities[0]
@@ -381,7 +381,7 @@ void smail::Simulator::update_config(Config c) {
             config.processing_times[1],
             config.center_capacities[1]
         },
-    };
+    }};
 }
 
 void smail::Simulator::show_statistics() {
@@ -397,7 +397,7 @@ void smail::Simulator::show_statistics() {
     auto rlcount = get_input_info(Address::REMOTE, Address::LOCAL);
     auto rrcount = get_input_info(Address::REMOTE, Address::REMOTE);
 
-    auto statistics = std::array<std::string, 44> {
+    auto statistics = std::array<std::string, 44> {{
         std::to_string(clock),
         std::to_string(msgs_in_system),
         std::to_string(min_msgs_in_system),
@@ -443,7 +443,7 @@ void smail::Simulator::show_statistics() {
         faster_guy,
         std::to_string(consumer.get_slower()),
         std::to_string(consumer.get_avg_sys_time())
-    };
+    }};
     aw::Signal<GTKInterface>::function<void(std::array<std::string, 44>)>
         ::callback<&GTKInterface::show_statistics>(std::move(statistics));
 }

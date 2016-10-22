@@ -8,7 +8,7 @@ constexpr dist::Function<Fn,T>::Function(Args... args):
 template<typename Fn, typename T>
 T dist::Function<Fn,T>::operator()(bool update) {
     if (update) {
-        gen = std::mt19937_64{Global::SEED};
+        gen.seed(Global::SEED);
         return T();
     }
     return function(gen);
@@ -25,7 +25,7 @@ constexpr dist::disc<T>::Function(VList vs, WList ws):
 template<typename T>
 T dist::disc<T>::operator()(bool update) {
     if (update) {
-        gen = std::mt19937_64{Global::SEED};
+        gen.seed(Global::SEED);
         return T();
     }
     return function(gen);

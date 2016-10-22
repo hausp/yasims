@@ -14,7 +14,7 @@ namespace dist {
     };
 
     template<typename, typename = double>
-    class Function;
+    struct Function;
 
     // Types of random distribution functions
     enum class Type {

@@ -35,4 +35,4 @@ win_pack:
 #@cp /usr/x86_64-w64-mingw32/bin/*.dll $(new_dir)/bin/
 #@cp external/libraries/windows/* $(new_dir)/bin/
 export: win_pack
-	@cp -r $(new_dir) $(EXPDIR)/$(new_dir)2
+	@cp -r $(new_dir) $(EXPDIR)/$(new_dir)
