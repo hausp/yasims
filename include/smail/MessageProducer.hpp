@@ -24,7 +24,7 @@ namespace smail {
     inline MessageProducer::MessageProducer(Address from, dist::funct<> arrival,
                                             dist::disc<Address> dest):
      from{from},
-     arrival_time {std::move(arrival)},
+     arrival_time{std::move(arrival)},
      destination{std::move(dest)} { }
 
     inline void MessageProducer::set_arrival_time(dist::funct<> fn) {

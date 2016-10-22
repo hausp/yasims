@@ -341,8 +341,8 @@ void smail::Simulator::update_speed(double d) {
 }
 
 void smail::Simulator::update_config(Config c) {
-    reset();
     config = std::move(c);
+    reset();
      spawners = {
         MessageProducer{
             Address::LOCAL, config.arrival_times[0],
