@@ -22,6 +22,7 @@ class GTKInterface {
     parser::RawConfig raw_config();    
     void update_active_buttons(bool);
 
+    void show_statistics(std::array<std::string, 40>);
     int show_configuration_dialog();
     void error_message(GtkWidget* parent);
     void show_message(GtkWidget*, GtkMessageType,
@@ -40,10 +41,12 @@ class GTKInterface {
     GtkWidget* stop;
     GtkWidget* config;
     GtkWidget* summary;
+    std::array<GtkLabel*, 40> statistics_entries;
 
     Configuration configuration;
 
     void connect_buttons();
+    void init_statistics_entries();
 };
 
 inline GApplication* GTKInterface::operator()() {

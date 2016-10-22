@@ -67,6 +67,51 @@ void GTKInterface::update_active_buttons(bool running) {
     gtk_widget_set_sensitive(summary, !running);
 }
 
+void GTKInterface::init_statistics_entries() {
+    statistics_entries = {
+        GTK_LABEL(gtk_builder_get_object(builder, "clock-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "sys-occupation-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "min-occupation-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "max-occupation-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "mean-occupation-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "ll-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lr-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rl-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rr-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lls-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "llf-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "llp-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lrs-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lrf-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lrp-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rls-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rlf-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rlp-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rrs-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rrf-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rrp-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "q-size-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "q-avg-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lproc-q-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lproc-q-avg-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lproc-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lproc-avg-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rproc-q-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rproc-q-avg-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rproc-count-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lls-count-label1")),
+        GTK_LABEL(gtk_builder_get_object(builder, "llf-count-label1")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lrs-count-label1")),
+        GTK_LABEL(gtk_builder_get_object(builder, "lrf-count-label1")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rls-count-label1")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rlf-count-label1")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rrs-count-label1")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rrf-count-label1")),
+        GTK_LABEL(gtk_builder_get_object(builder, "rproc-avg-label1")),
+        GTK_LABEL(gtk_builder_get_object(builder, "total-exited-count-label"))
+    };
+}
+
 void GTKInterface::connect_buttons() {
     config = GTK_WIDGET(gtk_builder_get_object(builder, "configure-button"));
     summary = GTK_WIDGET(gtk_builder_get_object(builder, "summary-button"));
@@ -143,6 +188,12 @@ int GTKInterface::show_configuration_dialog() {
 
 parser::RawConfig GTKInterface::raw_config() {
     return std::move(configuration.extract());
+}
+
+void GTKInterface::show_statistics(std::array<std::string, 40> statistics) {
+    for (auto i = 0; i < 40; i++) {
+        gtk_label_set_text(statistics_entries[i], statistics[i].c_str());
+    }
 }
 
 void GTKInterface::error_message(GtkWidget* parent) {
