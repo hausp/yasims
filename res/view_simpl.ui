@@ -447,7 +447,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="local-local-count-label">
+                              <object class="GtkLabel" id="ll-count-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -480,7 +480,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="local-remote-count-label">
+                              <object class="GtkLabel" id="lr-count-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -554,7 +554,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="remote-local-count-label">
+                              <object class="GtkLabel" id="rl-count-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -587,7 +587,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="remote-remote-count-label">
+                              <object class="GtkLabel" id="rr-count-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1263,7 +1263,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="lq-total-count-label">
+                              <object class="GtkLabel" id="lproc-q-count-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1274,7 +1274,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="lq-proc-avg-count-label">
+                              <object class="GtkLabel" id="lproc-q-avg-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1285,7 +1285,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="lproc-msgs-count-label">
+                              <object class="GtkLabel" id="lproc-count-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1296,7 +1296,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="lproc-avg-count-label">
+                              <object class="GtkLabel" id="lproc-avg-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1436,7 +1436,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="rq-total-count-label">
+                              <object class="GtkLabel" id="rproc-q-count-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1447,7 +1447,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="rq-proc-avg-count-label">
+                              <object class="GtkLabel" id="rq-proc-avg-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1458,7 +1458,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="rproc-msgs-count-label">
+                              <object class="GtkLabel" id="rproc-count-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
@@ -1469,7 +1469,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="rproc-avg-count-label">
+                              <object class="GtkLabel" id="rproc-avg-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">0</property>
