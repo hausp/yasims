@@ -68,9 +68,11 @@ void smail::Simulator::step() {
         reset();
     }
 
+    animated = true;
     setup();
     simulate();
     show_statistics();
+    animated = false;
 }
 
 void smail::Simulator::pause() {
@@ -106,7 +108,7 @@ void smail::Simulator::run() {
             auto lock = std::unique_lock<std::mutex>{mutex_aux};
             lock.unlock();
             // std::this_thread::sleep_for(std::chrono::nanoseconds(50));
-            std::this_thread::yield();
+            // std::this_thread::yield();
             simulate();
         }
 
@@ -147,6 +149,9 @@ void smail::Simulator::simulate() {
             nullptr,
             nullptr
         );
+        if (!animated) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        }
     }
     stopped = stopped || terminated;
     execute = execute && !stopped;
