@@ -2346,7 +2346,7 @@ para mensagens (segundos)</property>
                       <object class="GtkEntry" id="num-servers-lc-entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="text">20</property>
+                        <property name="text">10</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
