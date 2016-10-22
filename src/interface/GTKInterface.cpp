@@ -108,6 +108,9 @@ void GTKInterface::init_statistics_entries() {
         GTK_LABEL(gtk_builder_get_object(builder, "rrs-count-label1")),
         GTK_LABEL(gtk_builder_get_object(builder, "rrf-count-label1")),
         GTK_LABEL(gtk_builder_get_object(builder, "rproc-avg-label1")),
+        GTK_LABEL(gtk_builder_get_object(builder, "min-msg-time-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "max-msg-time-label")),
+        GTK_LABEL(gtk_builder_get_object(builder, "avg-msg-time-label")),
         GTK_LABEL(gtk_builder_get_object(builder, "total-exited-count-label"))
     };
 }
@@ -190,7 +193,7 @@ parser::RawConfig GTKInterface::raw_config() {
     return std::move(configuration.extract());
 }
 
-void GTKInterface::show_statistics(std::array<std::string, 40> statistics) {
+void GTKInterface::show_statistics(std::array<std::string, 43> statistics) {
     for (auto i = 0; i < 40; i++) {
         gtk_label_set_text(statistics_entries[i], statistics[i].c_str());
     }

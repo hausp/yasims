@@ -333,7 +333,7 @@ void smail::Simulator::update_config(Config c) {
 }
 
 void smail::Simulator::show_statistics() {
-    auto statistics = std::array<std::string, 40> {
+    auto statistics = std::array<std::string, 43> {
         std::to_string(clock),
         std::to_string(msgs_in_system),
         std::to_string(min_msgs_in_system),
@@ -376,7 +376,7 @@ void smail::Simulator::show_statistics() {
         std::to_string(consumer.see_total())
     };
 
-    aw::Signal<GTKInterface>::function<void(std::array<std::string, 36>)>
+    aw::Signal<GTKInterface>::function<void(std::array<std::string, 43>)>
         ::callback<&GTKInterface::show_statistics>(std::move(statistics));
 }
 
